@@ -1,0 +1,90 @@
+#HeaderBannerImg {
+  /*PenPick 메인페이지 이미지 */
+  /* height: 110px; */
+  width: 1900px;
+  height: 110px;
+  margin-bottom: -30px;
+}
+
+* {
+  font-family: 'NanumSquareNeo-Variable';
+}
+/* PenPick 폰트 */
+@font-face {
+  font-family: 'NanumSquareNeo-Variable';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* PenPick 로고 이미지 */
+#HeaderPenPickImg {
+  width: 150px;
+  margin-left: 300px;
+  margin-right: 50px;
+}
+
+/* 로그인 회원가입 묶어놓은 div */
+#HeaderLogin_SignUp_Menu {
+  float: right;
+  margin-right: 30px;
+  padding-top: 10px;
+}
+
+/* 로그인 회원가입 버튼 */
+#HeaderLogin,
+#HeaderSignUp {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+}
+
+/* 로그인 버튼 */
+#HeaderLogin {
+  margin-right: 40px;
+  margin-left: 30px;
+}
+
+/* 장바구니 이미지 */
+#HeaderCartImg {
+  width: 30px;
+}
+
+/*  */
+/*PenPick 메인페이지 내 모든 a태그*/
+#HeaderMypageLink,
+#HeaderQnALink,
+#HeaderEventLink {
+  color: rgb(0, 0, 0);
+  text-decoration-line: none;
+  margin-right: 50px;
+  font-size: 16px;
+  font-weight: 300;
+}
+
+/*PenPick 배너 카테고리 링크*/
+#HeaderBannerLink {
+  padding-top: 37px;
+}
+
+#HeaderMainLink {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+
+/*PenPick 타이틀*/
+#HeaderMainLogo {
+  font-size: 30px;
+  font-weight: 900;
+  margin-right: 100px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+/*PenPick 로고이미지*/
+#Headerlogo {
+  width: 50px;
+  margin-bottom: 30px;
+  margin-left: 50px;
+}

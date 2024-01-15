@@ -1,0 +1,186 @@
+/*PenPick 메인페이지 이미지*/
+#BannerImg1 {
+  background: url('../img/메인커버사진2.jpg') center no-repeat;
+  background-size: cover;
+  height: 600px;
+  color: rgb(255, 255, 255);
+}
+
+#Login_SignUp_Menu {
+  float: right;
+  margin-right: 50px;
+  margin-top: 30px;
+}
+
+/* 로그인 회원가입 버튼 */
+#Login,
+#SignUp {
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  margin-left: 30px;
+}
+
+/* 로그인 버튼 */
+#Login {
+  margin-right: 40px;
+}
+
+/* 장바구니 이미지 */
+#CartImg {
+  width: 50px;
+}
+
+/*  */
+/*PenPick 메인페이지 내 모든 a태그*/
+#PensionListLink,
+#MypageLink,
+#QnALink,
+#CartListLink {
+  margin-bottom: 10px;
+  color: white;
+  text-decoration-line: none;
+  margin-right: 50px;
+  font-size: 18px;
+  font-weight: 500;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*PenPick 배너 카테고리 링크*/
+#BannerLink {
+  padding-top: 30px;
+}
+
+#MainLink {
+  text-decoration: none;
+  color: white;
+}
+
+/*PenPick 타이틀*/
+#MainLogo {
+  font-size: 30px;
+  font-weight: 900;
+  margin-right: 100px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+/*PenPick 로고이미지*/
+#logo {
+  width: 50px;
+  margin-bottom: 30px;
+  margin-left: 50px;
+}
+
+/* 메인페이지 멘트 감싼 박스 */
+#MainTitleBox {
+  width: 1200px;
+  margin: auto;
+  margin-top: -20px;
+}
+
+/* 메인페이지 멘트 */
+#MainTitle {
+  font-size: 30px;
+  font-weight: 700;
+  padding-top: 300px;
+}
+
+/*PenPick 이벤트이미지와 링크 묶어놓은 div*/
+#Event {
+  width: 600px;
+  margin: auto;
+}
+
+/*PenPick 이벤트이미지로 넘어가는 이미지*/
+#EventImg {
+  width: 500px;
+  margin-top: 50px;
+}
+
+/*PenPick 검색창*/
+#SearchForm {
+  background-color: white;
+  height: 150px;
+  width: 1200px;
+  margin: auto;
+  margin-top: 50px;
+  border-radius: 20px;
+  color: black;
+  border: none;
+}
+
+#form_Img_Title {
+  padding-top: 25px;
+}
+
+#formImg {
+  width: 30px;
+  margin-left: 30px;
+  padding-bottom: 10px;
+}
+
+#formTitle {
+  font-size: 20px;
+  color: rgb(0, 122, 243);
+  font-weight: 600;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+/*PenPick 검색창의 지역 input태그*/
+#input1 {
+  height: 50px;
+  width: 400px;
+  margin-left: 30px;
+  background-color: rgb(243, 241, 241);
+  border: none;
+  border-radius: 10px;
+}
+
+#input1::placeholder,
+#input2::placeholder {
+  color: rgb(184, 184, 184);
+  font-size: 17px;
+  font-weight: 500;
+}
+
+/*PenPick 검색창의 input태그*/
+#input2 {
+  height: 50px;
+  width: 300px;
+  margin-left: 10px;
+  background-color: rgb(243, 241, 241);
+  border: none;
+  border-radius: 10px;
+}
+
+/*PenPick 검색창의 날짜 input태그*/
+#input3 {
+  height: 50px;
+  width: 300px;
+  margin-left: 10px;
+  background-color: rgb(243, 241, 241);
+  border: none;
+  border-radius: 10px;
+}
+
+/*PenPick 검색창 속 파란색 막대기 신경 안써도 됨*/
+#SearchFormBar {
+  background-color: rgb(227, 227, 227);
+  width: 1150px;
+  height: 1px;
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: -5px;
+}
+
+/*PenPick 검색창의 검색버튼*/
+#SearchButton {
+  width: 120px;
+  background-color: rgb(0, 122, 243);
+  color: white;
+  margin-left: 15px;
+  font-weight: 900;
+  font-size: 16px;
+}
