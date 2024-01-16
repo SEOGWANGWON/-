@@ -4,11 +4,8 @@ import axios from 'axios';
 export default function User() {
 
     const[data, setData] = useState([]);
-    const[newUser, setNewUser] = useState({username: '', email: ''});
+    const[newUser, setNewUser] = useState({email: '', password: ''});
 
-    //fetchData라는 이름을 정의해서 try-catch문을 사용해
-    //비동기 작업 중 발생하는 에러를 잡아내고 콘솔에 메세지를 출력하는 것
-    //간접적으로 호출
     useEffect(()=>{
         const fetchData = async() => {
             try{
@@ -50,7 +47,7 @@ export default function User() {
             //변경된 데이터 값 저장
             setData((prevUser) => [...prevUser, response.data]);
             //데이터 저장 후 빈값으로 초기화 (필수x)
-            setNewUser({username: '', email:''});
+            setNewUser({email: '', password:''});
         } catch (error){
             console.error('부적합한 데이터입니다', error);
         }
@@ -62,26 +59,25 @@ export default function User() {
             <ul>
                 {data.map((user) => (
                 <li key={user.id}>
-                    {user.username} = {user.email}
+                    {user.email}
                 </li>
                 ))}
             </ul>
             <h2>Add new user</h2>
-            <form method="post" action="/user/create">
-
-                <label>user name : </label>
+            <form>
+                <label>이메일 : </label>
                 <input
-                type="text"
-                name="username"
-                value={newUser.username}
+                type="email"
+                name="email"
+                value={newUser.email}
                 onChange={handleInputChange}
                 /><br />
 
-                <label>user email : </label>
+                <label>비밀번호 : </label>
                 <input
-                type="text"
-                name="email"
-                value={newUser.email}
+                type="password"
+                name="password"
+                value={newUser.password}
                 onChange={handleInputChange}
                 />
 

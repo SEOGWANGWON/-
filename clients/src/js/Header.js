@@ -13,10 +13,10 @@ function Header() {
           <a id='HeaderCartListLink' href='/CartList'>
             <img id='HeaderCartImg' src={CartImg} alt='장바구니'></img>
           </a>
-          <a id='HeaderLogin' href='/Login'>
+          <a id='HeaderLogin' href='/login'>
             로그인
           </a>
-          <a id='HeaderSignUp' href='/SignUp'>
+          <a id='HeaderSignUp' href='/signUp'>
             회원가입
           </a>
         </div>
@@ -25,7 +25,7 @@ function Header() {
           <a href='/' id='HeaderMainLink'>
             <img id='HeaderPenPickImg' src={PenPickLogo} alt='펜픽로고'></img>
           </a>
-          <a id='HeaderMypageLink' href='/Mypage'>
+          <a id='HeaderMypageLink' href='/mypage/userInfo'>
             마이페이지
           </a>
           <a id='HeaderQnALink' href='/QnA'>

@@ -1,21 +1,18 @@
 package com.penpick.user.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.*;
 import lombok.*;
 
-@Getter @Setter
+@Getter
+@Setter
 @Entity
 public class Users {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="uses_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="users_seq")
 	@SequenceGenerator(name="users_seq", sequenceName="users_seq",allocationSize=1)
-	private Long userId; //PK
+	private Long id; //PK
 	private String email;
-	private String passwd;
+	private String password;
 	
 }
