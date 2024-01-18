@@ -1,0 +1,38 @@
+#signUpArea{
+    margin-top: 100px;
+}
+img{
+    margin-left: 280px;
+}
+#signUpMsg{
+    margin-top: 10px;
+    margin-left: 280px;
+}
+#signUpForm{
+    margin:auto; /*중앙정렬*/
+    margin-top: 30px;
+    text-align: center;
+    width: 400px;
+}
+#setEmail, #setPassword, #checkPassword, #setBirthday, #setNickname{
+    height: 45px;
+    background-color: rgb(235, 235, 235);
+    border-color: rgb(235, 235, 235);
+}
+#setEmail:focus, #setPassword:focus, #checkPassword:focus, #setBirthday:focus ,#setNickname:focus{
+    background-color: white;
+}
+#signUpButton{
+    height: 45px;
+    width: 100%;
+    border-radius: 7px;
+    border:none;
+    background-color: rgb(255, 115, 0);
+    color: white;
+}
+.dot-badge[data-v-a46ad18c] {
+    background: #f45858;
+    border-radius: 50%;
+    height: 4px;
+    width: 4px;
+}

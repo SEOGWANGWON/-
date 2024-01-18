@@ -1,0 +1,28 @@
+.main{
+    text-align: center;
+    margin-top: 100px;
+}
+#loginForm{
+    margin:auto; /*중앙정렬*/
+    margin-top: 100px;
+    text-align: center;
+    width: 400px;
+}
+#emailInput, #passwordInput{
+    height: 45px;
+    background-color: rgb(230, 230, 230);
+}
+#emailInput:focus, #passwordInput:focus{
+    background-color: white;
+}
+#loginButton{
+    height: 45px;
+    width: 100%;
+    border-radius: 7px;
+    border:none;
+    background-color: rgb(255, 115, 0);
+    color: white;
+}
+#signUpMessage{
+    margin-top: 30px;
+}
