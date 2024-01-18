@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PensionMainPage from './PensionMainPage';
-import Header from './Header';
+import Header from './HeaderEdit';
 import Login from './Login';
 import SignUp from './SignUp';
-import UserInfo from './UserInfo';
+import MyPage from './MyPage';
 
 
 function Link() {
@@ -16,7 +16,7 @@ function Link() {
         <Route path='/' element={<PensionMainPage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signUp' element={<SignUp />} />
-        <Route path='/mypage/userInfo' element={<UserInfo/>} />
+        <Route path='/mypage/userInfo' element={<MyPage/>} />
       </Routes>
     </Router>
   );

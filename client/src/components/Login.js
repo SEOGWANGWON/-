@@ -8,9 +8,9 @@ export default function SignUp() {
     
     return(
         <div className='main'>
-            <img src={logo} alt="로고" style={{width:'180px', margin:'auto'}}/>
             <form id="loginForm" method="get" action="/login">
-            <h3 style={{marginRight:"180px"}}><strong>이메일로 펜픽하기</strong></h3>
+            <img src={logo} alt="로고" style={{width:'180px', margin:'auto'}}/>
+            <p id="emailLoginTitle"><strong>이메일로 펜픽하기</strong></p>
                 <hr style={{marginBottom:"30px"}}/>
                 <input 
                     id='emailInput'
@@ -18,8 +18,6 @@ export default function SignUp() {
                     class = 'form-control'
                     placeholder='yourEmail@penpick.co.kr'
                     name= 'input_id'
-                    // value = {inputId}
-                    // onChange={handleInputId}
                 /><br />
                 <input 
                     id='passwordInput'
@@ -27,8 +25,6 @@ export default function SignUp() {
                     class = 'form-control'
                     placeholder='password'
                     name='input_pw'
-                    // value={inputPw}
-                    // onChange={handelInputPw}
                 /><br />
                 <button id='loginButton' type="button">Log In</button>
             </form>

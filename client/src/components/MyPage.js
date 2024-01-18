@@ -3,7 +3,7 @@ import '../css/UserInfo.css';
 import {Card} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function UserInfo(){
+export default function MyPage(){
 
     return(
         <div className="row">

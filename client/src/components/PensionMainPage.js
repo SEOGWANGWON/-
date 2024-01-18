@@ -1,9 +1,11 @@
 import '../css/PensionMainPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import PenPickLogo from '../img/PenPickLogo.png';
 import EventImg from '../img/EventImg1.jpg';
 import FormImg from '../img/파란집.png';
-import React, { useState } from 'react';
-//import Pagination from 'react-js-p agination';
+import React, { useState, useEffect } from 'react';
+import CartImg from '../img/장바구니.png';
+// import Pagination from 'react-js-pagination';
 import {
   Button,
   Container,
@@ -13,15 +15,30 @@ import {
   FormControl,
   Nav,
 } from 'react-bootstrap';
+// import pensionImg1 from '../img/JS애견풀빌라_2_공공3유형.jpg';
+// import pensionImg2 from '../img/꽃지화이트펜션_2_공공3유형.jpg';
+// import pensionImg3 from '../img/이른아침호숫가펜션_3_공공3유형.jpg';
+// import pensionImg4 from '../img/이른아침호숫가펜션_5_공공3유형.jpg';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+// import SearchResult from './SearchResult';
+// import PensionList from '../component/PensionList';
 
 function PensionMainPage() {
-  const [activeTab, setActiveTab] = useState('domestic');
-
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
+  const [name, SetName] = useState('');
+  const [address, setAddress] = useState('');
+  // 검색어
+  const [searchTerm, setSearchTerm] = useState('');
+  // 검색결과
+  const [searchResult, setSearchResult] = useState([]);
+  // 검색 후 페이지 이동
+  const navigate = useNavigate();
+  const handleSearch = () => {
+    navigate('/pensionsearch', { state: { searchTerm } });
   };
+
   return (
-    <div>
+    <div id='mainpageContainer'>
       <div id='BannerImg1'>
         {/* 메인 문구 */}
         <div id='MainTitleBox'>
@@ -43,112 +60,163 @@ function PensionMainPage() {
             <div id='SearchFormBar'></div>
             {/* 지역입력칸 */}
             <input
+              type='text'
               id='input1'
               className='form-control col-md-3'
-              placeholder='지역을 입력하세요'
+              placeholder='펜션을 입력하세요'
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             {/* 날짜 검색창 */}
-            <input
+            {/* <input
               id='input3'
               className='form-control col-md-3'
               type='date'
               placeholder='날짜'
-            />
+            /> */}
             {/* 인원입력칸 */}
-            <input
+            {/* <input
               id='input2'
               className='form-control col-md-3'
               placeholder='인원 입력하세요'
-            />
+            /> */}
 
             {/* 펜션 검색버튼 */}
-            <button id='SearchButton' className='btn  col-md-3'>
-              검색
+            {/*<button onClick={() => navigate('/searchResult')}>검색</button>*/}
+            <button
+              id='searchButton'
+              className='btn col-md-3'
+              onClick={(e) => {
+                {
+                  /*button search 에서 버튼 검색을 누르고
+              백엔드에서 확인하기 전에 새로고침되는 현상이 발생
+              지연시킨다음에 검색하도록 실행한 것 
+              프론트엔드에서 
+               e.preventDefault(); 문제로 페이지넘김이 안될시
+               찾아보라고 얘기할게요.
+              */
+                }
+                e.preventDefault();
+                handleSearch();
+              }}
+            >
+              search
             </button>
           </form>
         </div>
       </div>
       {/* 이벤트 배너 */}
       <div id='Event'>
+        <h5 id='EventTitle'>이벤트</h5>
         <a id='EventLink' href='/EventPage'>
-          <div>
+          <div id='EventImgBox'>
+            <img id='EventImg' src={EventImg} alt='이벤트이미지' />
+            <img id='EventImg' src={EventImg} alt='이벤트이미지' />
             <img id='EventImg' src={EventImg} alt='이벤트이미지' />
           </div>
         </a>
       </div>
+      <a href='pensionsearch'>펜션 목록</a>
 
-      <Container>
-        <Row className='mt-3'>
-          <Col>
-            <InputGroup className='mb-3'>
-              <FormControl
-                placeholder='여행지나 숙소를 검색해보세요'
-                aria-label='여행지나 숙소를 검색해보세요'
-                aria-describedby='basic-addon2'
-              />
-              <Button variant='outline-secondary' id='button-addon2'>
-                검색
-              </Button>
-            </InputGroup>
-          </Col>
-        </Row>
-        <Row className='mt-3'>
-          <Col>
-            <Nav variant='tabs'>
-              <Nav.Item>
-                <Nav.Link
-                  href='#domestic'
-                  active={activeTab === 'domestic'}
-                  onClick={() => handleTabClick('domestic')}
-                >
-                  국내 숙소
-                </Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                <Nav.Link
-                  href='#overseas'
-                  active={activeTab === 'overseas'}
-                  onClick={() => handleTabClick('overseas')}
-                >
-                  해외 숙소
-                </Nav.Link>
-              </Nav.Item>
-            </Nav>
-          </Col>
-        </Row>
-      </Container>
+      <div id='PopularPensionList'>
+        <span id='PopularPensionTitle'>인기펜션 </span>
+        <span id='description'>최근 한달 간 이용내역 기준</span>
+        <br />
+        <div id='LinkImgBox'>
+          <a href='PensionDetailLink'>
+            {/* <img id='pensionImg' src={pensionImg1} alt='pensionImg'></img> */}
+          </a>
+          <a href='PensionDetailLink'>
+            {/* <img id='pensionImg' src={pensionImg2} alt='pensionImg'></img> */}
+          </a>
+          <a href='PensionDetailLink'>
+            {/* <img id='pensionImg' src={pensionImg3} alt='pensionImg'></img> */}
+          </a>
+          <a href='PensionDetailLink'>
+            {/* <img id='pensionImg' src={pensionImg4} alt='pensionImg'></img> */}
+          </a>
+        </div>
+      </div>
 
-      <nav aria-label='Page navigation example'>
-        <ul class='pagination'>
-          <li class='page-item disabled'>
-            <a class='page-link' href='#' tabindex='-1' aria-disabled='true'>
-              Previous
-            </a>
-          </li>
-          <li class='page-item'>
-            <a class='page-link' href='/Mypage'>
-              1
-            </a>
-          </li>
-          <li class='page-item'>
-            <a class='page-link' href='/PensionList'>
-              2
-            </a>
-          </li>
-          <li class='page-item'>
-            <a class='page-link' href='/CartList'>
-              3
-            </a>
-          </li>
-          <li class='page-item disabled'>
-            <a class='page-link' href='#' tabindex='+1' aria-disabled='true'>
-              Next
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <div id='PopularLocation'>
+        <span id='PopularLocationTitle'>인기지역 </span>
+        <span id='description'>최근 한달 간 이용내역 기준</span>
+        <br />
+        <div id='LinkImgBox'>
+          <a href='PensionDetailLink'>
+            {/* <img id='pensionImg' src={pensionImg1} alt='pensionImg'></img> */}
+          </a>
+          <a href='PensionDetailLink'>
+            {/* <img id='pensionImg' src={pensionImg2} alt='pensionImg'></img> */}
+          </a>
+          <a href='PensionDetailLink'>
+            {/* <img id='pensionImg' src={pensionImg3} alt='pensionImg'></img> */}
+          </a>
+          <a href='PensionDetailLink'>
+            {/* <img id='pensionImg' src={pensionImg4} alt='pensionImg'></img> */}
+          </a>
+        </div>
+      </div>
 
-      {/* <Pagination></Pagination> */}
+      <div id='LocationList'>
+        <h5> 전체지역</h5>
+        <div className='row'>
+         
+            <a
+              className='col-md-2'
+              id='location'
+              href='PensionDetailLink'
+            >
+              경기도
+            </a>
+          <a className='col-md-2' id='location' href='PensionDetailLink'>
+            인천광역시
+          </a>
+          <a className='col-md-2' id='location' href='PensionDetailLink'>
+            강원특별자치도
+          </a>
+          <a className='col-md-2' id='location' href='PensionDetailLink'>
+            충청북도
+          </a>
+          <a className='col-md-2' id='location' href='PensionDetailLink'>
+            충청남도
+          </a>
+        </div>
+        <div className='row'>
+          <a className='col-md-3' id='location' href='PensionDetailLink'>
+            대전광역시
+          </a>
+          <a className='col-md-3' id='location' href='PensionDetailLink'>
+            전라북도
+          </a>
+          <a className='col-md-3' id='location' href='PensionDetailLink'>
+            전라남도
+          </a>
+          <a className='col-md-3' id='location' href='PensionDetailLink'>
+            광주광역시
+          </a>
+          <a className='col-md-3' id='location' href='PensionDetailLink'>
+            경상북도
+          </a>
+        </div>
+        <div className='row'>
+          <a className='col-md-3' id='location' href='PensionDetailLink'>
+            경상남도
+          </a>
+          <a className='col-md-3' id='location' href='PensionDetailLink'>
+            대구광역시
+          </a>
+          <a className='col-md-3' id='location' href='PensionDetailLink'>
+            울산광역시
+          </a>
+          <a className='col-md-3' id='location' href='PensionDetailLink'>
+            부산광역시
+          </a>
+          <a className='col-md-3' id='location' href='PensionDetailLink'>
+            제주특별자치도
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

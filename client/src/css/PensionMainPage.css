@@ -1,9 +1,25 @@
+/* 메인페이지 전체 */
+
 /*PenPick 메인페이지 이미지*/
 #BannerImg1 {
   background: url('../img/메인커버사진2.jpg') center no-repeat;
   background-size: cover;
-  height: 600px;
+  height: 500px;
   color: rgb(255, 255, 255);
+  width: 100%;
+  margin-top: 5px;
+}
+
+@font-face {
+  font-family: 'NanumSquareNeo-Variable';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'NanumSquareNeo-Variable';
 }
 
 #Login_SignUp_Menu {
@@ -76,26 +92,39 @@
 #MainTitleBox {
   width: 1200px;
   margin: auto;
-  margin-top: -20px;
+  margin-top: -16px;
 }
 
 /* 메인페이지 멘트 */
 #MainTitle {
   font-size: 30px;
   font-weight: 700;
-  padding-top: 300px;
+  padding-top: 210px;
 }
 
 /*PenPick 이벤트이미지와 링크 묶어놓은 div*/
 #Event {
-  width: 600px;
+  width: 1300px;
   margin: auto;
+  margin-top: 50px;
 }
 
 /*PenPick 이벤트이미지로 넘어가는 이미지*/
 #EventImg {
-  width: 500px;
-  margin-top: 50px;
+  width: 400px;
+  margin-top: 5px;
+  margin-right: 30px;
+  border-radius: 15px;
+}
+
+/* 이벤트 이미지 모아놓은 박스 */
+#EventImgBox {
+  text-align: center;
+}
+
+/* 이벤트 타이틀 */
+#EventTitle {
+  font-weight: 600;
 }
 
 /*PenPick 검색창*/
@@ -104,7 +133,7 @@
   height: 150px;
   width: 1200px;
   margin: auto;
-  margin-top: 50px;
+  margin-top: 30px;
   border-radius: 20px;
   color: black;
   border: none;
@@ -114,12 +143,14 @@
   padding-top: 25px;
 }
 
+/* 검색창 안의 집 이미지 */
 #formImg {
   width: 30px;
   margin-left: 30px;
   padding-bottom: 10px;
 }
 
+/* 검색창 타이틀 */
 #formTitle {
   font-size: 20px;
   color: rgb(0, 122, 243);
@@ -183,4 +214,69 @@
   margin-left: 15px;
   font-weight: 900;
   font-size: 16px;
+}
+
+/* 펜션 인기순위 */
+#PopularPensionList {
+  margin: auto;
+  width: 1300px;
+  margin-bottom: 100px;
+  margin-top: 100px;
+}
+
+/* 인기 지역 목록 */
+#PopularLocation {
+  width: 1300px;
+  margin: auto;
+}
+
+/* 모든 a태그 */
+a {
+  text-decoration: none;
+  color: black;
+}
+
+/* 펜션 이미지 예시 */
+#pensionImg {
+  width: 300px;
+  margin-right: 20px;
+  border-radius: 15px;
+}
+
+/* 지역 전체 목록 */
+#LocationList {
+  width: 1000px;
+  margin: auto;
+  text-align: center;
+  margin-top: 100px;
+  margin-bottom: 300px;
+}
+/* 펜션 사진, 지역 사진 감싼 박스 */
+#LinkImgBox {
+  text-align: center;
+  margin-top: 20px;
+}
+/* 전체 지역 링크 */
+#location {
+  background-color: lightblue;
+  width: 150px;
+  margin: auto;
+  margin-top: 50px;
+  height: 70px;
+  padding-top: 20px;
+  border-radius: 5px;
+}
+
+/* 인기 펜션 인기 지역 타이틀 */
+#PopularPensionTitle,
+#PopularLocationTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+/* 인기펜션 , 인기지역 설명 */
+#description {
+  font-size: 13px;
+  font-weight: 100;
 }
