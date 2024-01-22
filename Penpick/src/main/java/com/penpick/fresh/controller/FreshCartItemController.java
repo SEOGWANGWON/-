@@ -20,9 +20,7 @@ import com.penpick.fresh.service.FreshCartItemService;
 
 @RestController
 @RequestMapping("/freshCart")
-@CrossOrigin(origins="http://localhost:3000",
-						allowCredentials="true",
-						allowedHeaders="*")
+
 public class FreshCartItemController {
 	@Autowired
 	private FreshCartItemService freshcartitemService;

@@ -21,9 +21,7 @@ import com.penpick.fresh.service.FreshOrderItemService;
 
 @RestController
 @RequestMapping("/freshorder")
-@CrossOrigin(origins="http://localhost:3000", 
-allowCredentials="true",
-allowedHeaders="*")
+
 public class FreshOrderItemController {
 	
 	@Autowired

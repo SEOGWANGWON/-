@@ -17,9 +17,7 @@ import com.penpick.fresh.service.ProductItemService;
 
 @RestController
 @RequestMapping("/productItem")
-@CrossOrigin(origins="http://localhost:3000",
-allowCredentials="true",
-allowedHeaders="*")
+
 public class ProductItemController {
 	
 	@Autowired
