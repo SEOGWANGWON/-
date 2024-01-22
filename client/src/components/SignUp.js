@@ -1,10 +1,88 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import '../css/SignUp.css';
-import logo from '../img/펜픽로고.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function SignUp() {
+
+    const [data, setData] = useState([]);
+    const [newUser, setNewUser] = useState({ userEmail: '', password: '', birthday: '', nickname:'' });
+    const [verificationCode, setVerificationCode] = useState('');
+    const [isVerificationSent, setIsVerificationSent] = useState(false);
+    const [isVerificationConfirmed, setIsVerificationConfirmed] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const res = await axios.get("http://localhost:8080/api/user", {
+              withCredentials: true,
+            });
+            setData(res.data);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        fetchData();
+      }, []);
+
+    const handleInputChange = (e) => {
+        const { name, value} = e.target;
+        setNewUser((prevUser) => ({...prevUser, [name]: value }));
+    }
+
+    const handleSendVerification = async () => {
+        
+        try{
+            const response = await axios.post(
+                'http://localhost:8080/mail',
+                {mail:newUser.userEmail},
+                {
+                    withCredentials : true,
+                }
+            );
+            alert('인증 이메일이 전송되었습니다.');
+            setVerificationCode(response.data);
+            setIsVerificationSent(true);
+        } catch(error) {
+            console.error('인증 이메일 전송 오류', error);
+        }
+    };
+
+    const handleConfirmVerification = () => {
+        if(verificationCode === ''){
+            alert('인증 코드를 먼저 받아주세요');
+            return;
+        }
+
+        setIsVerificationConfirmed(true);
+        alert('인증이 확인되었습니다');
+    };
+
+    const handleAddUser = async() => {
+        try {
+            if(!isVerificationConfirmed){
+                alert('이메일 인증을 먼저 진행해주세요');
+                return;
+            }
+
+            const response = await axios.post(
+                'http://localhost:8080/api/user/add',
+                {...newUser, verificationCode},
+                {
+                    withCredentials:true,
+                }
+            );
+            setData((prevUser) => [...prevUser, response.data]);
+            setNewUser({userEmail:'', password:''});
+            setVerificationCode('');
+            setIsVerificationSent(false);
+            setIsVerificationConfirmed(false);
+            alert('회원가입 완료');
+            window.location.href = 'http://localhost:3000/';
+        } catch(error) {
+            console.error('데이터 저장오류', error);
+        }
+    };
 
     return(
         <div>
@@ -14,7 +92,6 @@ export default function SignUp() {
                         <p id="title">회원가입</p>
                         <p id="signUpMsg">가입을 위한 필수 정보를 입력해주세요</p>
                     </div>
-                    {/* <hr style={{marginBottom:"30px"}}/> */}
                     <div>
                         <label style={{float:'left', fontSize:'small', marginLeft:'2px'}}>이메일</label>
                         <div class="dot-badge"></div>
@@ -24,7 +101,24 @@ export default function SignUp() {
                         type='email'
                         class = 'form-control'
                         placeholder='yourEmail@penpick.co.kr'
+                        name="userEmail"
+                        value={newUser.userEmail}
+                        onChange={handleInputChange}
+                        required
                     /><br />
+                    <button onClick={handleSendVerification}>이메일 인증</button>
+                    {isVerificationSent && (
+                        <div>
+                        <input
+                            type="text"
+                            name="verificationCode"
+                            value={verificationCode}
+                            onChange={(e) => setVerificationCode(e.target.value)}
+                            placeholder="인증 코드 입력"
+                        />
+                        <button onClick={handleConfirmVerification}>인증번호 확인</button>
+                        </div>
+                    )}
                     <div>
                         <label style={{float:'left', fontSize:'small', marginLeft:'2px'}}>비밀번호</label>
                         <div class="dot-badge"></div>
@@ -34,6 +128,10 @@ export default function SignUp() {
                         type='password'
                         class='form-control'
                         placeholder='최소 8자 이상'
+                        name="password"
+                        value={newUser.password}
+                        onChange={handleInputChange}
+                        required
                     /><br />
                     <div>
                         <label style={{float:'left', fontSize:'small', marginLeft:'2px'}}>비밀번호 확인</label>
@@ -77,7 +175,7 @@ export default function SignUp() {
                         class='form-control'
                         placeholder='닉네임 설정'
                     /><br />
-                    <button id='signUpButton' type="button">Sign Up</button>
+                    <button id='signUpButton' type="button" onClick={handleAddUser}>Sign Up</button>
                 </div>
             </div>
         </div>

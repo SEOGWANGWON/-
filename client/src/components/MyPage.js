@@ -1,8 +1,47 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import '../css/MyPage.css';
+import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function MyPage(){
+
+    const[data, setData] = useState([]);
+
+    const [userEmail, setUserEmail] = useState('');
+
+
+    //전체 사용자 받아오기
+    useEffect(()=>{
+        const fetchData = async() => {
+            try{
+                const res = await axios.get('http://localhost:8080/api/user',{
+                    withCredentials: true,
+                });
+                setData(res.data);
+            } catch(error) {
+                console.log(error);
+            }
+        };
+
+        fetchData();
+
+    },[]);
+
+    //로그인한 사용자 정보 받아오기
+    useEffect(() => {
+        // 세션에 저장된 사용자 이름을 불러오기 위해 서버에 요청 (이메일 로그인)
+        const fetchUserData = async () => {
+            try {
+                const res = await axios.get('http://localhost:8080/userdata',{
+                    withCredentials: true
+                });
+                setUserEmail(res.data.userEmail);
+            } catch (err) {
+                console.error('세션 데이터 불러오기 실패', err);
+            }
+        };
+        fetchUserData();
+    }, []);
 
     return(
         <main id="myPage-layout">
@@ -31,12 +70,13 @@ export default function MyPage(){
             </nav>
             <section id="myPage-content">
                 <p id="content-title">내 정보 관리</p><br />
-                <p>김칸쵸/로그인계정닉네임/ 님의 회원 정보</p>
+                <p>{userEmail} 님의 회원 정보</p>
                 <hr />
                 <label id="user-email-info">이메일</label><br />
                 <input 
                     id="user-email-value"
-                    value="로그인한 계정 이메일 값 **수정 불가"
+                    value={userEmail}
+                    readOnly
                 /><br />
                 <label id="user-nickname-info">닉네임</label><br />
                 <input 

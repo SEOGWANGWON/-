@@ -1,7 +1,8 @@
 import '../css/HeaderEdit.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import {
   Button,
   Container,
@@ -14,6 +15,39 @@ import {
 import PenPickLogo from '../img/펜픽로고.png';
 import UserImg from '../img/사용자.png';
 function Header() {
+
+  const [userEmail, setUserEmail] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await axios.get('http://localhost:8080/userdata', {
+          withCredentials: true,
+        });
+        setUserEmail(res.data.userEmail);
+        setAuthentication(res.data.userEmail);
+      } catch (err) {
+        console.error('세션 데이터 불러오기 실패', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  const setAuthentication = (userEmail) => {
+    if (userEmail !== '') {
+      setIsAuthenticated(true);
+    }
+  };
+
+  // 초기 로딩 중에는 아무것도 반환X
+  if (isLoading) {
+    return null;
+  }
+
   return (
     <div>
       <div id='HeaderBannerImg'>
@@ -72,33 +106,36 @@ function Header() {
                       <img id='HeaderUserImg' src={UserImg} alt='사용자' />
                     </a>
                     <ul class='dropdown-menu' id='HeaderDropdownBox'>
-                      <li>
-                        <a
-                          id='HeaderDropDownLink'
-                          class='dropdown-item'
-                          href='/login'
-                        >
-                          로그인/회원가입
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          id='HeaderDropDownLink'
-                          class='dropdown-item'
-                          href='#'
-                        >
-                          비회원 예약조회
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          class='dropdown-item'
-                          id='HeaderDropDownLinkMYPAGE'
-                          href='/mypage/userInfo'
-                        >
-                          마이페이지
-                        </a>
-                      </li>
+                      {isAuthenticated ? (
+                        <li>
+                          <a
+                            class='dropdown-item'
+                            id='HeaderDropDownLinkMYPAGE'
+                            href='/mypage/userInfo'
+                          >
+                            마이페이지
+                          </a>
+                        </li> 
+                      ) : <>
+                        <li>
+                          <a
+                            id='HeaderDropDownLink'
+                            class='dropdown-item'
+                            href='/login'
+                          >
+                            로그인/회원가입
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            id='HeaderDropDownLink'
+                            class='dropdown-item'
+                            href='#'
+                          >
+                            비회원 예약조회
+                          </a>
+                        </li>
+                      </>}
                     </ul>
                   </li>
                 </ul>
