@@ -1,5 +1,7 @@
 package com.penpick.users.model;
 
+import java.sql.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,4 +21,12 @@ public class Users {
     private String userEmail;
 	
     private String password;
+    
+    private String phoneNumber;
+    
+    private String gender;
+    
+    private String nickname;
+    
+    private String access_token;
 }

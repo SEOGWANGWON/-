@@ -28,8 +28,8 @@ public class MailService {
         try {
             message.setFrom(new InternetAddress(senderEmail));
             message.setRecipients(MimeMessage.RecipientType.TO, InternetAddress.parse(mail));
-            message.setSubject("이메일 인증");
-            String body = "<h3>요청하신 인증 번호입니다.</h3><h1>" + number + "</h1><h3>감사합니다.</h3>";
+            message.setSubject("PenPick 가입 인증");
+            String body = "<h3>PenPick 회원가입 인증 번호입니다.</h3><h1>" + number + "</h1><h3>감사합니다.</h3>";
             message.setContent(body, "text/html; charset=utf-8");
         } catch (MessagingException e) {
             e.printStackTrace();
