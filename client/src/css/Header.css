@@ -1,18 +1,28 @@
 #HeaderBannerImg {
   /*PenPick 메인페이지 이미지 */
-  /* height: 110px; */
   width: 100%;
-  height: 90px;
+  height: 80px;
   margin-bottom: -30px;
   min-width: 500px;
-  border-bottom: solid;
-  border-color: lightgray;
-  border-width: 2px;
+  top: 0;
+  position: fixed;
+  background-color: white;
 }
 
-/*  */
+/* 메인페이지 헤더 요소 묶은 박스  */
 #mainPageCenterBox {
   max-width: 1250px;
+  margin: auto;
+}
+
+#HeaderHr {
+  margin: 1.83rem 0;
+  width: 100%;
+}
+
+/* 펜션 검색 결과 헤더 요소 묶은 박스  */
+#PensionListCenterBox {
+  max-width: 1350px;
   margin: auto;
 }
 
@@ -64,7 +74,6 @@
   font-size: 14px;
   cursor: pointer;
   height: 36px;
-  margin-bottom: 5px;
 }
 
 #HeaderDropDownLinkMYPAGE {
@@ -163,6 +172,7 @@
   display: inline-block;
   height: 45px;
   margin-top: -10px;
+  margin-left: 40px;
 }
 
 /* 검색결과 글씨 */
@@ -206,7 +216,7 @@
 /* input 사이에 있는 막대기 */
 #InputBar {
   color: rgb(200, 197, 197);
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 100;
 }
 
@@ -239,9 +249,4 @@
   width: 20px;
   margin-top: -3px;
   margin-left: 5px;
-}
-
-#logoutButton{
-  font-size: 15px;
-  margin-bottom: 5px;
 }

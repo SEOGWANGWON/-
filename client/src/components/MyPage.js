@@ -5,27 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function MyPage(){
 
-    const[data, setData] = useState([]);
-
-    const [userEmail, setUserEmail] = useState('');
-
-
-    //전체 사용자 받아오기
-    useEffect(()=>{
-        const fetchData = async() => {
-            try{
-                const res = await axios.get('http://localhost:8080/api/user',{
-                    withCredentials: true,
-                });
-                setData(res.data);
-            } catch(error) {
-                console.log(error);
-            }
-        };
-
-        fetchData();
-
-    },[]);
+    const [userInfo, setUserInfo] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [editedUserInfo, setEditedUserInfo] = useState({});
+    const [isEditing, setIsEditing] = useState(false);
 
     //로그인한 사용자 정보 받아오기
     useEffect(() => {
@@ -35,16 +18,46 @@ export default function MyPage(){
                 const res = await axios.get('http://localhost:8080/userdata',{
                     withCredentials: true
                 });
-                setUserEmail(res.data.userEmail);
+                setUserInfo(res.data);
+                setEditedUserInfo(res.data);
             } catch (err) {
-                console.error('세션 데이터 불러오기 실패', err);
+                console.error('로그인 정보를 불러오지 못했습니다', err);
+            } finally {
+                setLoading(false);
             }
         };
         fetchUserData();
     }, []);
 
+    const handleEdit = () => {
+        setIsEditing(true);
+    };
+    
+    const handleSave = async () => {
+        try {
+            const response = await axios.put('http://localhost:8080/api/user/update', editedUserInfo, {
+            withCredentials: true,
+            });
+
+            setUserInfo(response.data);
+            setIsEditing(false);
+            alert("회원 정보가 수정되었습니다");
+        } catch (error) {
+            console.error('사용자 정보를 업데이트하지 못했습니다', error);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        setEditedUserInfo({ ...editedUserInfo, [e.target.name]: e.target.value });
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
     return(
         <main id="myPage-layout">
+            <div id="myPage-container">
             <nav id="myPage-navigation">
                 <ul id="navigation-list">
                     <li id="nav-userInfo">
@@ -68,39 +81,82 @@ export default function MyPage(){
                     </li>
                 </ul>
             </nav>
+            {/* 회원 정보 뜨는 곳 */}
             <section id="myPage-content">
                 <p id="content-title">내 정보 관리</p><br />
-                <p>{userEmail} 님의 회원 정보</p>
+                <p>{userInfo.nickname} 님의 회원 정보</p>
                 <hr />
-                <label id="user-email-info">이메일</label><br />
-                <input 
-                    id="user-email-value"
-                    value={userEmail}
-                    readOnly
-                /><br />
-                <label id="user-nickname-info">닉네임</label><br />
-                <input 
-                    id="user-nickname-value"
-                    value="로그인한 계정 닉네임 값"
-                /><br />
-                <label id="user-phone-info">휴대폰 번호</label><br />
-                <input 
-                    id="user-phone-value"
-                    value="로그인한 계정 닉네임 값"
-                /><br />
-                <label id="user-birth-info">생일</label><br />
-                <input 
-                    id="user-birth-value"
-                    value="로그인한 계정 생년월일 값"
-                /><br />
-                <label id="user-gender-info">성별</label><br />
-                <input 
-                    id="user-gender-value"
-                    value="로그인한 계정 성별 값"
-                /><br />
+                {isEditing ? (
+                    <div>
+                    <label id="user-email-info">이메일</label><br />
+                    <input 
+                        name="userEmail"
+                        id="user-email-edit"
+                        value={editedUserInfo.userEmail}
+                        readOnly
+                    /><br />
+                    <label id="user-nickname-info">닉네임</label><br />
+                    <input 
+                        type="text"
+                        name="nickname"
+                        id="user-nickname-edit"
+                        value={editedUserInfo.nickname}
+                        onChange={handleInputChange}
+                    /><br />
+                    <label id="user-phone-info">휴대폰 번호</label><br />
+                    <input 
+                        id="user-phone-edit"
+                        value="로그인한 계정 닉네임 값"
+                    /><br />
+                    <label id="user-birth-info">연락처</label><br />
+                    <input 
+                        id="user-birth-edit"
+                        value="로그인한 계정 생년월일 값"
+                    /><br />
+                    <label id="user-gender-info">성별</label><br />
+                    <input 
+                        id="user-gender-edit"
+                        value="로그인한 계정 성별 값"
+                    /><br />
+                    <button id="saveEditInfo" onClick={handleSave}>변경된 정보 저장</button>
+                </div>
+                ) : (
+                    <div>
+                        <label id="user-email-info">이메일</label><br />
+                        <input 
+                            name="userEmail"
+                            id="user-email-value"
+                            value={userInfo.userEmail}
+                            readOnly
+                        /><br />
+                        <label id="user-nickname-info">닉네임</label><br />
+                        <input 
+                            id="user-nickname-value"
+                            value={userInfo.nickname}
+                            readOnly
+                        /><br />
+                        <label id="user-phone-info">휴대폰 번호</label><br />
+                        <input 
+                            id="user-phone-value"
+                            value="로그인한 계정 닉네임 값"
+                        /><br />
+                        <label id="user-birth-info">생일</label><br />
+                        <input 
+                            id="user-birth-value"
+                            value="로그인한 계정 생년월일 값"
+                        /><br />
+                        <label id="user-gender-info">성별</label><br />
+                        <input 
+                            id="user-gender-value"
+                            value="로그인한 계정 성별 값"
+                        /><br />
+                        <button id="edit-button" onClick={handleEdit}>회원 정보 수정</button>
+                    </div>
+                )}
                 <hr style={{marginTop:"50px"}}/>
                 <p style={{float:"right", marginRight:"5px", fontSize:"small", color:"gray"}}>회원 탈퇴</p>
             </section>
+            </div>
         </main>
     )
 }

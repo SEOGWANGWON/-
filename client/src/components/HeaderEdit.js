@@ -20,6 +20,7 @@ function Header() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  //로그인 정보 불러오기
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -47,6 +48,20 @@ function Header() {
   if (isLoading) {
     return null;
   }
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/logout', null, {
+        withCredentials: true
+      });
+      console.log(response.data);
+      alert("로그아웃 되셨습니다");
+      window.location.href = "http://localhost:3000/login";
+    } catch (error) {
+      console.error('로그아웃 실패', error);
+    }
+  };
+  
 
   return (
     <div>
@@ -107,6 +122,7 @@ function Header() {
                     </a>
                     <ul class='dropdown-menu' id='HeaderDropdownBox'>
                       {isAuthenticated ? (
+                        <>
                         <li>
                           <a
                             class='dropdown-item'
@@ -115,7 +131,18 @@ function Header() {
                           >
                             마이페이지
                           </a>
-                        </li> 
+                        </li>
+                        <li>
+                          <button 
+                            class='dropdown-item'
+                            id='logoutButton' 
+                            type="button" 
+                            onClick={handleLogout}
+                          >
+                            로그아웃
+                          </button>
+                        </li>
+                         </>
                       ) : <>
                         <li>
                           <a
@@ -123,16 +150,16 @@ function Header() {
                             class='dropdown-item'
                             href='/login'
                           >
-                            로그인/회원가입
+                            로그인
                           </a>
                         </li>
                         <li>
                           <a
                             id='HeaderDropDownLink'
                             class='dropdown-item'
-                            href='#'
+                            href='/signUp'
                           >
-                            비회원 예약조회
+                            회원가입
                           </a>
                         </li>
                       </>}
@@ -150,7 +177,7 @@ function Header() {
           </div>
         </div>
       </div>
-      <hr id="HeaderHr"/>
+      {/* <hr id="HeaderHr"/> */}
     </div>
   );
 }

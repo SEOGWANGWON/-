@@ -1,5 +1,5 @@
 #signUpArea{
-    margin-top: 70px;
+    margin-top: 180px;
 }
 #title{
     font-size:xx-large;
@@ -17,22 +17,26 @@
     text-align: center;
     width: 400px;
 }
-#setEmail, #setPassword, #checkPassword, #setBirthday, #setNickname{
+#setEmail, #setPassword, #checkPassword, #setBirthday, #setNickname, #inputEmailcode, #setPhondeNumber{
     height: 45px;
     background-color: rgb(245, 245, 245);
     border-color: rgb(245, 245, 245);
 
 }
-#setEmail::placeholder, #setPassword::placeholder, #checkPassword::placeholder, #setNickname::placeholder{
+#setEmail::placeholder, #setPassword::placeholder, #checkPassword::placeholder, #setNickname::placeholder, #setPhondeNumber::placeholder{
     color:rgb(205, 205, 205);
 }
 #setEmail:focus, #setPassword:focus, #checkPassword:focus, #setBirthday:focus ,#setNickname:focus{
     background-color: white;
 }
-input[type='date']::before{
-    content: attr(data-placeholder);
-    width: 100%;
-    color:rgb(205, 205, 205);
+
+#checkEmailButton{
+    float:right;
+    border: none;
+    font-size: small;
+    margin-top: -20px;
+    background-color: white;
+    color:rgb(255, 115, 0);
 }
 #signUpButton{
     height: 45px;

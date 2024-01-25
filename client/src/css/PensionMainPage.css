@@ -104,14 +104,14 @@
 
 /*PenPick 이벤트이미지와 링크 묶어놓은 div*/
 #Event {
-  width: 1300px;
+  width: 1200px;
   margin: auto;
   margin-top: 50px;
 }
 
 /*PenPick 이벤트이미지로 넘어가는 이미지*/
 #EventImg {
-  width: 400px;
+  width: 370px;
   margin-top: 5px;
   margin-right: 30px;
   border-radius: 15px;
@@ -207,7 +207,7 @@
 }
 
 /*PenPick 검색창의 검색버튼*/
-#SearchButton {
+#MainsearchButton {
   width: 120px;
   background-color: rgb(0, 122, 243);
   color: white;
@@ -219,14 +219,14 @@
 /* 펜션 인기순위 */
 #PopularPensionList {
   margin: auto;
-  width: 1300px;
-  margin-bottom: 100px;
-  margin-top: 100px;
+  width: 1200px;
+  margin-bottom: 70px;
+  margin-top: 70px;
 }
 
 /* 인기 지역 목록 */
 #PopularLocation {
-  width: 1300px;
+  width: 1200px;
   margin: auto;
 }
 
@@ -238,33 +238,21 @@ a {
 
 /* 펜션 이미지 예시 */
 #pensionImg {
-  width: 300px;
+  width: 278px;
   margin-right: 20px;
   border-radius: 15px;
 }
 
-/* 지역 전체 목록 */
-#LocationList {
-  width: 1000px;
-  margin: auto;
-  text-align: center;
-  margin-top: 100px;
-  margin-bottom: 300px;
+#MainPopularLocationButton {
+  background-color: white;
+  border: none;
+  margin-right: 100px;
 }
+
 /* 펜션 사진, 지역 사진 감싼 박스 */
 #LinkImgBox {
   text-align: center;
   margin-top: 20px;
-}
-/* 전체 지역 링크 */
-#location {
-  background-color: lightblue;
-  width: 150px;
-  margin: auto;
-  margin-top: 50px;
-  height: 70px;
-  padding-top: 20px;
-  border-radius: 5px;
 }
 
 /* 인기 펜션 인기 지역 타이틀 */
@@ -275,8 +263,92 @@ a {
   margin-left: 10px;
 }
 
+#MainPopularLocationName {
+  float: left;
+  font-size: 17px;
+  margin-top: 13px;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
 /* 인기펜션 , 인기지역 설명 */
 #description {
   font-size: 13px;
   font-weight: 100;
+}
+
+/* 지역 카테고리 */
+#MainLocationButton {
+  background-color: lightblue;
+  border: none;
+  width: 200px;
+  height: 60px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  margin: auto;
+}
+
+/* 지역 카테고리2 */
+#MainLocationButton2 {
+  background-color: lightblue;
+  border: none;
+  width: 200px;
+  height: 60px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+
+#MainLocationLinkBox {
+  margin: auto;
+  margin-bottom: 30px;
+  text-align: center;
+  width: 1230px;
+}
+
+/* 지역링크 타이틀만 감싼박스 */
+#BigLocationList {
+  padding-bottom: 20px;
+  width: 1200px;
+  margin: auto;
+}
+
+/* 지역 전체 목록 */
+#LocationList {
+  margin: auto;
+  width: 1230px;
+  margin-top: 80px;
+  margin-bottom: 300px;
+}
+
+#BigLocationListdescription {
+  font-size: 13px;
+  font-weight: 100;
+}
+
+#ChatImg {
+  width: 60px;
+  border-radius: 50%;
+  padding: 7px;
+  background-color: white;
+  box-shadow: 0px 0px 10px gray;
+  position: fixed;
+  bottom: 100px;
+  right: 250px;
+}
+
+#mainContainer {
+  width: 1400px;
+  margin: auto;
+}
+
+/* 채팅방 */
+#messageBox {
+  margin-top: 100px;
+  text-align: center;
+}
+
+#ChatContainer {
+  width: 1400px;
+  margin: auto;
+  margin-top: 100px;
 }

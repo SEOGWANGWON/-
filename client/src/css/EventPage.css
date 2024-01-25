@@ -1,0 +1,16 @@
+#EventCategory {
+  background-color: rgb(243, 243, 243);
+  margin-top: 80px;
+  height: 500px;
+  width: 300px;
+  padding: 10px;
+}
+
+#EventMain {
+  margin-top: 40px;
+  margin-left: 50px;
+  height: 2000px;
+}
+
+#EventContent {
+}

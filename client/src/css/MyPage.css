@@ -1,18 +1,19 @@
 #myPage-layout{
     box-sizing: border-box;
-    /* width: 1054px; */
-    /* height: 775px; */
-    margin-top: 30px;
-    margin-left: 295px;
-    margin-right: 113px;
-    padding-left: 40px;
-    padding-right: 40px;
+    width: 100%;
+    margin-top: 120px;
+}
+
+#myPage-container{
+    width: 1500px;
+    margin: auto;
 }
 
 #myPage-navigation{
-    width: 260px;
+    width: 220px;
     height: 295px;
     margin-top: 12px;
+    margin-left: 100px;
     border-style: solid;
     border-width: 1px;
     border-color:lightgray;
@@ -56,5 +57,27 @@ a{
     width: 300px;
     height: 40px;
     border:none;
-    background-color: rgb(218, 238, 245);
+    background-color: rgb(243, 243, 243);
+}
+
+#user-email-edit, #user-nickname-edit, #user-phone-edit, #user-birth-edit, #user-gender-edit{
+    width: 300px;
+    height: 40px;
+    border:none;
+    background-color: rgb(211, 209, 209);
+}
+
+#edit-button{
+    float: right;
+    font-size:"small"; 
+    background: none;
+    border:none;
+    color:"gray";
+}
+
+#saveEditInfo{
+    float: right;
+    font-size:"small"; 
+    background: none;
+    border:none;
 }
