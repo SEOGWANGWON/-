@@ -1,4 +1,4 @@
-package com.penpick.kakao.dto;
+package com.penpick.say.kakao.dto;
 
 import lombok.Data;
 import lombok.Builder;

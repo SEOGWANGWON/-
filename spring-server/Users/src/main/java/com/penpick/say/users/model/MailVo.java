@@ -1,4 +1,4 @@
-package com.penpick.users.model;
+package com.penpick.say.users.model;
 
 import lombok.Data;
 

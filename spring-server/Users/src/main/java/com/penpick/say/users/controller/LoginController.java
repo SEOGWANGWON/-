@@ -1,4 +1,4 @@
-package com.penpick.users.controller;
+package com.penpick.say.users.controller;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -10,13 +10,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.penpick.users.model.Users;
-import com.penpick.users.service.UserService;
+import com.penpick.say.users.model.Users;
+import com.penpick.say.users.service.UserService;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

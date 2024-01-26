@@ -1,22 +1,18 @@
-package com.penpick.kakao.controller;
+package com.penpick.say.kakao.controller;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.penpick.kakao.dto.KakaoLoginDTO;
-import com.penpick.users.model.Users;
-import com.penpick.users.repository.UserRepository;
-import com.penpick.users.service.UserService;
+import com.penpick.say.kakao.dto.KakaoLoginDTO;
+import com.penpick.say.users.model.Users;
+import com.penpick.say.users.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;

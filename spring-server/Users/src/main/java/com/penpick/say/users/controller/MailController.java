@@ -1,16 +1,15 @@
-package com.penpick.users.controller;
+package com.penpick.say.users.controller;
 
 import java.util.Map;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.penpick.users.service.MailService;
+import com.penpick.say.users.service.MailService;
 
 import lombok.RequiredArgsConstructor;
 

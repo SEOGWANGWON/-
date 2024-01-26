@@ -1,6 +1,4 @@
-package com.penpick.users.model;
-
-import java.sql.Date;
+package com.penpick.say.users.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

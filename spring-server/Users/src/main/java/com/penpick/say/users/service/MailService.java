@@ -1,4 +1,4 @@
-package com.penpick.users.service;
+package com.penpick.say.users.service;
 
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;

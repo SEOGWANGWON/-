@@ -1,5 +1,8 @@
-package com.penpick.users.controller;
+package com.penpick.say.users.controller;
 
+
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,14 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.penpick.users.model.Users;
-import com.penpick.users.service.UserService;
+import com.penpick.say.users.model.Users;
+import com.penpick.say.users.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.Data;
-
-import java.util.List;
-import java.util.Optional;
 
 @Data
 @RestController
@@ -62,6 +62,7 @@ public class UserController {
                 //업데이트 로직 적용
                 user.setUserEmail(updatedUser.getUserEmail());
                 user.setNickname(updatedUser.getNickname());
+                user.setPhoneNumber(updatedUser.getPhoneNumber());
 
                 Users savedUser = userService.registerUser(user);
                 return ResponseEntity.ok(savedUser);
