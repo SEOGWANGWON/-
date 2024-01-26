@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import SearchHeader from './SearchHeader';
-import PensionMap from './PensionMap';
 import MapImg from '../img/지도.png';
 import '../css/PensionList.css';
 import {
@@ -16,6 +14,7 @@ import {
 import PenPickLogo from '../img/펜픽로고.png';
 import Calendar from '../img/달력.png';
 import UserImg from '../img/사용자.png';
+import User from '../img/userImg.png';
 import SearchButton from '../img/돋보기.png';
 import { useLocation } from 'react-router-dom';
 
@@ -25,9 +24,17 @@ function PensionList() {
   const location = useLocation();
   const inputValue = location.state?.searchTerm || '';
   const urlParams = new URLSearchParams(window.location.search);
+
   const selectedRegion = urlParams.get('region');
+  const [pensionImg, setPensionImg] = useState([]);
 
   const [filterButton, setFilterButton] = useState(null);
+
+  //지역 이름 넘기는 함수
+  const handleDetailPage = (id) => {
+    const selectedId = id;
+    window.location.href = `/DetailsPage?id=${selectedId}`;
+  };
 
   //렌더링 되자마자 지역이름 setSearch에 저장!!!!
   useEffect(() => {
@@ -39,7 +46,7 @@ function PensionList() {
     if (inputValue !== null && selectedRegion === null) {
       setSearchTerm(inputValue);
     }
-  }, [searchTerm]);
+  }, []);
 
   //searchTerm 널 값 아니면서 지역이름이 null값일떄!!! 자동으로 검색 메서드 실행
   useEffect(() => {
@@ -71,6 +78,23 @@ function PensionList() {
     } catch (error) {
       console.error('Error searching users:', error);
       setSearchResult2([]);
+    }
+  };
+
+  useEffect(() => {
+    handleImgSearch();
+  }, []);
+
+  const handleImgSearch = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8282/penpick/pensionImgList`
+      );
+
+      setPensionImg(response.data);
+    } catch (error) {
+      console.error('Error searching result:', error);
+      setPensionImg([]);
     }
   };
 
@@ -215,7 +239,7 @@ function PensionList() {
               <img src={Calendar} id='Calendar' alt='Calendar' />
               <input id='PensionInput' type='text' />
               <span id='InputBar'>|</span>
-              <img id='UserImg' src={UserImg} alt='사용자' />
+              <img id='UserImg' src={User} alt='사용자' />
               <input id='PensionInputNumber' type='text' />
               <button
                 id='PensionSearchButton'
@@ -319,11 +343,20 @@ function PensionList() {
           <ul>
             {searchResult2.map((pension) => (
               <div id='pensionBox' className='row' key={pension.id}>
-                <span id='pensionSearchImg' className='col-md-4'>
+                <span
+                  id='pensionSearchImg'
+                  onClick={() => handleDetailPage(pension.id)}
+                  className='col-md-4'
+                >
                   이미지
                 </span>
                 <div id='pensionDescription' className='col-md-8'>
-                  <p id='pensionName'>{pension.name}</p>
+                  <p
+                    id='pensionName'
+                    onClick={() => handleDetailPage(pension.id)}
+                  >
+                    {pension.name}
+                  </p>
                   <p>{pension.address}</p>
                   {pension.check_in} - {pension.check_out}
                 </div>

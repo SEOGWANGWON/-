@@ -15,7 +15,7 @@ export default function MyPage(){
         // 세션에 저장된 사용자 이름을 불러오기 위해 서버에 요청 (이메일 로그인)
         const fetchUserData = async () => {
             try {
-                const res = await axios.get('http://localhost:8080/userdata',{
+                const res = await axios.get('http://localhost:8282/userdata',{
                     withCredentials: true
                 });
                 setUserInfo(res.data);
@@ -35,13 +35,14 @@ export default function MyPage(){
     
     const handleSave = async () => {
         try {
-            const response = await axios.put('http://localhost:8080/api/user/update', editedUserInfo, {
+            const response = await axios.put('http://localhost:8282/api/user/update', editedUserInfo, {
             withCredentials: true,
             });
 
             setUserInfo(response.data);
             setIsEditing(false);
             alert("회원 정보가 수정되었습니다");
+
         } catch (error) {
             console.error('사용자 정보를 업데이트하지 못했습니다', error);
         }
@@ -87,6 +88,7 @@ export default function MyPage(){
                 <p>{userInfo.nickname} 님의 회원 정보</p>
                 <hr />
                 {isEditing ? (
+                    // 수정하기 버튼 눌렀을 때 나타나는 영역
                     <div>
                     <label id="user-email-info">이메일</label><br />
                     <input 
@@ -103,15 +105,13 @@ export default function MyPage(){
                         value={editedUserInfo.nickname}
                         onChange={handleInputChange}
                     /><br />
-                    <label id="user-phone-info">휴대폰 번호</label><br />
+                    <label id="user-phone-info">연락처</label><br />
                     <input 
+                        type="text"
+                        name="phoneNumber"
                         id="user-phone-edit"
-                        value="로그인한 계정 닉네임 값"
-                    /><br />
-                    <label id="user-birth-info">연락처</label><br />
-                    <input 
-                        id="user-birth-edit"
-                        value="로그인한 계정 생년월일 값"
+                        value={editedUserInfo.phoneNumber}
+                        onChange={handleInputChange}
                     /><br />
                     <label id="user-gender-info">성별</label><br />
                     <input 
@@ -121,6 +121,7 @@ export default function MyPage(){
                     <button id="saveEditInfo" onClick={handleSave}>변경된 정보 저장</button>
                 </div>
                 ) : (
+                    // 수정 완료 상태 (DB에 저장된 값)
                     <div>
                         <label id="user-email-info">이메일</label><br />
                         <input 
@@ -138,17 +139,13 @@ export default function MyPage(){
                         <label id="user-phone-info">휴대폰 번호</label><br />
                         <input 
                             id="user-phone-value"
-                            value="로그인한 계정 닉네임 값"
+                            value={userInfo.phoneNumber}
                         /><br />
-                        <label id="user-birth-info">생일</label><br />
-                        <input 
-                            id="user-birth-value"
-                            value="로그인한 계정 생년월일 값"
-                        /><br />
+                        
                         <label id="user-gender-info">성별</label><br />
                         <input 
                             id="user-gender-value"
-                            value="로그인한 계정 성별 값"
+                            value={userInfo.gender}
                         /><br />
                         <button id="edit-button" onClick={handleEdit}>회원 정보 수정</button>
                     </div>

@@ -1,8 +1,8 @@
 import Stomp from 'webstomp-client';
 import React, { useState, useEffect } from 'react';
 import SockJS from 'sockjs-client';
-import Header from './Header';
 import '../css/PensionMainPage.css';
+import user from '../img/userImg.png';
 
 const Chat = () => {
   // 받은 메시지를 저장하기 위한 상태
@@ -14,45 +14,55 @@ const Chat = () => {
   // 사용자로부터 입력받은 메시지를 저장하기 위한 상태
   const [inputMessage, setInputMessage] = useState('');
 
+  const [anonymousMessage, setAnonymousMessage] = useState([]);
+
+  const [myClientId, setMyClientId] = useState(null);
+
   // 컴포넌트가 마운트될 때 WebSocket 서버에 연결하기 위한 효과 훅
   useEffect(() => {
-    // WebSocket 연결을 설정하는 함수
     const connect = () => {
-      // WebSocket 통신을 위한 SockJS 객체 생성
       const socket = new SockJS('http://localhost:8282/websocket');
       console.log('여기까지 됨');
-      // WebSocket 연결 위에 Stomp 클라이언트 생성
-      var stomp = Stomp.over(socket);
+      const stomp = Stomp.over(socket);
       console.log('여기까지도 됨');
 
-      // WebSocket 연결 상태를 확인하여 연결이 안 되어 있다면 연결 시도
       if (socket.readyState !== 1) {
         stomp.connect({}, (frame) => {
           console.log('연결됨: ' + frame);
           setStompClient(stomp);
+          // const message = {
+          //   clientId: 'stompClient.sessionId',
+          // };
+
+          // stomp.send('/app/connect', JSON.stringify({ message }));
+          // stomp.subscribe('/topic/myClientId', (response) => {
+          //   const newClientId = JSON.parse(response.body);
+          //   setMyClientId(newClientId);
+          // });
         });
       }
 
-      // 컴포넌트가 언마운트될 때 소켓 연결을 닫음
       return () => {
         socket.close();
       };
     };
 
-    // 컴포넌트가 마운트될 때 한 번만 실행되도록 하기 위해 빈 의존성 배열 사용
     connect();
   }, []);
 
   const sendMessage = (content) => {
-    if (stompClient) {
-      const message = [{ content: content, sender: 'user' }];
+    if (stompClient && stompClient.connected) {
+      const message = {
+        content: content,
+        sender: 'user',
+        direction: 'sent',
+        senderClientId: stompClient.sessionId,
+      };
       // 메시지를 '/app/chat' 목적지로 서버에 전송
-      stompClient.send(
-        '/app/websocket',
-        {}, // 내용과 유저정보를 포함한 메시지 객체 생성
-        JSON.stringify(message)
-      );
+      stompClient.send('/app/websocket', JSON.stringify(message));
       console.log(JSON.stringify(message));
+
+      setInputMessage('');
     } else {
       console.error('Stomp client is not initialized.');
     }
@@ -64,6 +74,7 @@ const Chat = () => {
     stompClient.subscribe('/topic/messages', (response) => {
       // 받은 메시지를 파싱하고 상태에 추가
       const message = JSON.parse(response.body);
+      message.direction = 'received';
       setMessages((prevMessages) => [...prevMessages, message]);
     });
   };
@@ -75,23 +86,91 @@ const Chat = () => {
     }
   }, [stompClient]);
 
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const year = now.getFullYear();
+  var month = ('0' + (now.getMonth() + 1)).slice(-2);
+  var day = ('0' + now.getDate()).slice(-2);
+
+  //input 값에
+  //추가
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      sendMessage(inputMessage); //이동하고자하는 const 메서드 적기
+    }
+  };
+
   return (
     <div>
-      <Header />
       <div id='ChatContainer'>
-        <div id='messageBox'>
+        <div id='firstChatbox'>
+          <p id='ChatInformation'>
+            {year}년{month}월{day}일
+          </p>
+          <p id='ChatInformation' class='chatinfo'>
+            채팅방에 입장하셨습니다.
+          </p>
+
           {messages.map((message, index) => (
-            <div key={index}>
-              {message.sender}: {message.content}
+            <div
+              id='userInputMessage'
+              key={index}
+              className={
+                message.senderClientId === messages[0].senderClientId
+                  ? 'sentByUser1'
+                  : 'sentByUser2'
+              }
+            >
+              <img
+                className={
+                  message.senderClientId === messages[0].senderClientId
+                    ? 'MessageUseImg1'
+                    : 'MessageUseImg2'
+                }
+                id='MessageUseImg'
+                src={user}
+                alt='유저'
+              ></img>
+
+              <span
+                className={
+                  message.senderClientId === messages[0].senderClientId
+                    ? 'messageContent1'
+                    : 'messageContent2'
+                }
+                id='messageContent'
+              >
+                {message.content}
+              </span>
+              <span
+                className={
+                  message.senderClientId === messages[0].senderClientId
+                    ? 'currentTime1'
+                    : 'currentTime2'
+                }
+                id='currentTime'
+              >
+                {hours}:{minutes}
+              </span>
             </div>
           ))}
         </div>
-        <input
-          type='text'
-          onChange={(e) => setInputMessage(e.target.value)}
-          value={inputMessage}
-        />
-        <button onClick={() => sendMessage(inputMessage)}>전송</button>
+        <div id='messageInput'>
+          <input
+            id='messageInputBox'
+            type='text'
+            onKeyPress={handleKeyPress}
+            onChange={(e) => setInputMessage(e.target.value)}
+            value={inputMessage}
+            maxLength={'15'}
+            placeholder='메세지를 입력하세요 '
+          />
+          <button id='ChatSendButton' onClick={() => sendMessage(inputMessage)}>
+            전송
+          </button>
+        </div>
       </div>
     </div>
   );

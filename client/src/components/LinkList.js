@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import PensionMainPage from './PensionMainPage';
 import axios from 'axios';
-import Header from './HeaderEdit';
+import Header from './Header';
 import Login from './Login';
 import SignUp from './SignUp';
 import MyPage from './MyPage';
+import PensionMainPage from './PensionMainPage';
+import PensionList from './PensionList';
+import EventPage from './EventPage';
+import DetailsPage from './DetailsPage';
+import PensionMap from './PensionMap';
+import Chat from './Chat';
+
 
 
 function Link() {
@@ -17,7 +23,7 @@ function Link() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const res = await axios.get('http://localhost:8080/userdata', {
+        const res = await axios.get('http://localhost:8282/userdata', {
           withCredentials: true,
         });
         setUserEmail(res.data.userEmail);
@@ -46,15 +52,34 @@ function Link() {
     <Router>
       <Header />
       <Routes>
-        {/*메인페이지 링크*/}
-        <Route path='/' element={<PensionMainPage />} />
+        {/*로그아웃 상태에서만 유효한 경로*/}
         {!isAuthenticated && (
           <>
+            {/* 로그인 및 회원가입 */}
             <Route path='/login' element={<Login />} />
             <Route path='/signUp' element={<SignUp />} />
           </>
         )}
-        <Route path='/mypage/userInfo' element={<MyPage/>} />
+        {/*로그인 상태에서만 유효한 경로 */}
+        {isAuthenticated && (
+          <>
+            {/* 마이페이지 */}
+            <Route path='/mypage' element={<MyPage/>} />
+          </>
+        )}
+        {/* 로그인 여부 상관 없이 이용 가능한 페이지 */}
+        {/*메인페이지 링크*/}
+        <Route path='/' element={<PensionMainPage />} />
+        {/*펜션 검색 결과 링크*/}
+        <Route path='/PensionList' element={<PensionList />} />
+        {/*이벤트 링크*/}
+        <Route path='/EventPage' element={<EventPage />} />
+        {/*펜션 상세 페이지 링크*/}
+        <Route path='/DetailsPage' element={<DetailsPage />}/>
+        {/* 지도 링크 */}
+        <Route path='/PesionMap' element={<PensionMap />}/>
+        {/* 채팅하기 */}
+        <Route path='/Chat' element={<Chat />}/>
       </Routes>
     </Router>
   );

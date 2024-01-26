@@ -15,7 +15,7 @@ export default function SignUp() {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const res = await axios.get("http://localhost:8080/api/user", {
+            const res = await axios.get("http://localhost:8282/api/user", {
               withCredentials: true,
             });
             setData(res.data);
@@ -41,7 +41,7 @@ export default function SignUp() {
         
         try{
             const response = await axios.post(
-                'http://localhost:8080/mail',
+                'http://localhost:8282/mail',
                 {mail:newUser.userEmail},
                 {
                     withCredentials : true,
@@ -80,7 +80,7 @@ export default function SignUp() {
                 return;
             }
             const response = await axios.post(
-                'http://localhost:8080/api/user/add',
+                'http://localhost:8282/api/user/add',
                 {...newUser, verificationCode},
                 {
                     withCredentials:true,

@@ -8,6 +8,10 @@
   margin-top: 10px;
 }
 
+#MapImg:hover {
+  filter: brightness(0.8);
+}
+
 /* 펜션 검색창 */
 #PensionInput {
   background-color: rgb(242, 242, 242);
@@ -25,8 +29,8 @@
 }
 
 /* 헤더부분 Hr */
-#PensionListHr{
-  margin: 1.1rem 0;
+#PensionListHr {
+  margin: 1rem 0;
   width: 100%;
 }
 
@@ -60,7 +64,7 @@ input:-webkit-autofill:active {
 
 #firstBox {
   width: 400px;
-  margin-top: 40px;
+  margin-top: 75px;
 }
 
 /* 검색필터 */
@@ -129,8 +133,8 @@ input:-webkit-autofill:active {
 
 /* 펜션 이미지랑 설명 감싼 박스 */
 #pensionBox {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 96px;
+  margin-bottom: -93px;
 }
 
 /* 펜션 검색 결과 나누는 hr바 */
@@ -145,6 +149,11 @@ input:-webkit-autofill:active {
   height: 230px;
   background-color: lightgray;
   border-radius: 10px;
+  cursor: pointer;
+}
+
+#pensionSearchImg:hover {
+  filter: brightness(0.8);
 }
 
 /* 펜션 검색 결과 상세 설명 */
@@ -158,4 +167,9 @@ input:-webkit-autofill:active {
 #pensionName {
   font-size: 17px;
   font-weight: 900;
+  cursor: pointer;
+}
+
+#pensionName:hover {
+  color: rgb(5, 117, 236);
 }

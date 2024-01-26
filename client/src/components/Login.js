@@ -14,7 +14,7 @@ export default function SignUp() {
     //이메일 로그인 처리 함수
     const handleLogin = async() => {
         try {
-            const response = await axios.post('http://localhost:8080/login', { userEmail, password }, { withCredentials: true });
+            const response = await axios.post('http://localhost:8282/login', { userEmail, password }, { withCredentials: true });
             console.log(response.data); // 로그인 성공 메시지 또는 실패 메시지
             alert("펜픽에 오신 것을 환영합니다");
             window.location.href="http://localhost:3000/";
@@ -45,7 +45,7 @@ export default function SignUp() {
             console.log("nickname", nickname);
             
             // 서버로 access_token , email, nickname 전송
-            axios.post('http://localhost:8080/api/kakao-login', {
+            axios.post('http://localhost:8282/api/kakao-login', {
                 access_token : access_token,
                 email: email,
                 nickname: nickname,
@@ -113,7 +113,7 @@ export default function SignUp() {
             />
             <div id="signUpMessage">
                 <p>계정이 없으신가요?</p>
-                <a href="/signUp">이메일로 회원가입</a>
+                <a href="/signUp" style={{color:"darkBlue"}}>이메일로 회원가입</a>
             </div>
         </div>
     )

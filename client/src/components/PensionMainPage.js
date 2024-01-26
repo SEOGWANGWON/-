@@ -1,12 +1,9 @@
 import '../css/PensionMainPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PenPickLogo from '../img/PenPickLogo.png';
 import EventImg from '../img/EventImg1.jpg';
 import FormImg from '../img/파란집.png';
 import React, { useState, useEffect } from 'react';
-import CartImg from '../img/장바구니.png';
-import Pagination from 'react-js-pagination';
-import Header from './Header';
+
 import {
   Button,
   Container,
@@ -24,10 +21,7 @@ import BestLocationImg1 from '../img/가평.jpg';
 import BestLocationImg2 from '../img/강릉.jpg';
 import BestLocationImg3 from '../img/속초.jpg';
 import BestLocationImg4 from '../img/포천.jpg';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import PensionList from './PensionList';
-import Chat from './Chat';
+import { useNavigate, Link } from 'react-router-dom';
 import imgChat from '../img/챗봇.png';
 
 function PensionMainPage() {
@@ -48,13 +42,18 @@ function PensionMainPage() {
     window.location.href = `/PensionList?region=${selectedRegion}`;
   };
 
+  const onPopup = () => {
+    const url = 'Chat';
+    window.open(url, '_blank', 'width=750px,height=890px');
+  };
+
   return (
     <div id='mainpageContainer'>
-      
+
       <div id='BannerImg1'>
         {/* 메인 문구 */}
         <div id='MainTitleBox'>
-          <h1 id='MainTitle'>
+          <h1 id='MainTitle' class='fade-in-element'>
             예약부터 픽업까지
             <br />
             펜픽으로 모두해결
@@ -109,9 +108,8 @@ function PensionMainPage() {
       </div>
 
       <div id='mainContainer'>
-        <a href='Chat'>
-          <img id='ChatImg' src={imgChat} alt='챗봇이미지' />
-        </a>
+        <img id='ChatImg' onClick={onPopup} src={imgChat} alt='챗봇이미지' />
+
         {/* 이벤트 배너 */}
         <div id='Event'>
           <h5 id='EventTitle'>이벤트</h5>

@@ -1,13 +1,24 @@
-/* 메인페이지 전체 */
+/* 메인페이지 css */
 
 /*PenPick 메인페이지 이미지*/
 #BannerImg1 {
-  background: url('../img/메인커버사진2.jpg') center no-repeat;
+  background: url('../img/메인커버사진2.jpg') no-repeat;
   background-size: cover;
+  width: 100%;
   height: 500px;
   color: rgb(255, 255, 255);
-  width: 100%;
-  margin-top: 5px;
+  margin-top: 93px;
+}
+
+/* 초기 상태에서 이미지를 전체 화면에 꽉 차게 설정 */
+.full-screen-image {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* 다른 필요한 스타일들도 추가할 수 있습니다. */
 }
 
 @font-face {
@@ -99,7 +110,31 @@
 #MainTitle {
   font-size: 30px;
   font-weight: 700;
-  padding-top: 210px;
+  padding-top: 200px;
+}
+
+/* 초기 상태에서 요소를 투명하고 보이지 않도록 설정 */
+.fade-in-element {
+  opacity: 0;
+  visibility: hidden;
+  /* 다른 필요한 스타일들도 추가할 수 있습니다. */
+}
+
+/* 애니메이션 적용 */
+.fade-in-element {
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+/* 애니메이션 키프레임 정의 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 /*PenPick 이벤트이미지와 링크 묶어놓은 div*/
@@ -336,6 +371,10 @@ a {
   right: 250px;
 }
 
+#ChatImg:hover {
+  width: 65px;
+}
+
 #mainContainer {
   width: 1400px;
   margin: auto;
@@ -347,8 +386,138 @@ a {
   text-align: center;
 }
 
+/* 채팅방 모든 요소 감싼 박스 */
 #ChatContainer {
-  width: 1400px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 900px;
   margin: auto;
-  margin-top: 100px;
+  height: 100%;
+  background-color: rgb(219, 247, 255);
+}
+
+/* 채팅 입력창이랑 버튼 감싼 박스 */
+#messageInput {
+  text-align: center;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  padding: 12px 0px 0px 0px;
+}
+
+/* 채팅입력창 */
+#userInputMessage {
+  margin-top: 10px;
+  border-radius: 20px;
+  height: 60px;
+  padding: 3px;
+  padding-left: 15px;
+}
+
+/* 채팅 프로필 */
+#MessageUseImg {
+  width: 50px;
+}
+
+#firstChatbox {
+  width: 100%;
+  height: 823px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#messageInputBox {
+  width: 580px;
+  height: 40px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  padding-left: 20px;
+}
+
+#ChatSendButton {
+  border: none;
+  margin-left: 20px;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+#messageInputBox:focus {
+  outline: none;
+}
+
+/* 자!! 스크롤바를 한번 꾸며보자~~ */
+#firstChatbox::-webkit-scrollbar {
+  background: rgba(224, 224, 224, 0.408);
+  padding: 1px;
+  border-radius: 0px 10px 0px 0px;
+}
+
+#firstChatbox::-webkit-scrollbar-thumb {
+  background-color: rgb(198, 198, 198);
+  border-radius: 7px;
+}
+
+#ChatInformation {
+  text-align: center;
+  color: gray;
+  font-size: 15px;
+  margin-left: 25px;
+  margin-top: 10px;
+}
+
+/* 애니메이션 적용 */
+.chatinfo {
+  animation: infoDown 1s ease-in-out forwards;
+}
+
+@keyframes infoDown {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* sentByUser1 */
+.sentByUser1 {
+}
+
+.MessageUseImg1 {
+  display: none;
+}
+
+.MessageUseImg2 {
+  margin-right: 20px;
+}
+
+.currentTime1 {
+  font-size: 11px;
+  color: rgb(151, 151, 151);
+  float: right;
+  margin-top: 20px;
+  margin-right: 15px;
+}
+
+.currentTime2 {
+  font-size: 11px;
+  color: rgb(151, 151, 151);
+  margin-top: 20px;
+  margin-left: 15px;
+}
+
+.messageContent1 {
+  background-color: rgb(255, 255, 139);
+  float: right;
+  margin-right: 20px;
+  height: 40px;
+  border-radius: 10px;
+  padding: 6px 20px 10px 20px;
+}
+
+.messageContent2 {
+  background-color: white;
+  height: 40px;
+  border-radius: 10px;
+  padding: 10px 20px 10px 20px;
 }
