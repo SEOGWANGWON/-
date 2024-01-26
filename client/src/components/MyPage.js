@@ -2,6 +2,9 @@ import React, {useState, useEffect} from "react";
 import '../css/MyPage.css';
 import axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 export default function MyPage(){
 
@@ -28,6 +31,16 @@ export default function MyPage(){
         };
         fetchUserData();
     }, []);
+
+    //로그인한 사용자의 성별 가져오기 -> input value 세팅
+    const GenderValue = (userInfo) => {
+        const gender = userInfo.gender;
+        if (gender === 'F'){
+            return '여자';
+        } else {
+            return '남자';
+        }
+    }
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -62,7 +75,7 @@ export default function MyPage(){
             <nav id="myPage-navigation">
                 <ul id="navigation-list">
                     <li id="nav-userInfo">
-                        <a href="/mypage/userInfo">내 정보 관리</a>
+                        <a href="/mypage">내 정보 관리</a>
                     </li>
                     <hr />
                     <li>
@@ -112,12 +125,51 @@ export default function MyPage(){
                         id="user-phone-edit"
                         value={editedUserInfo.phoneNumber}
                         onChange={handleInputChange}
-                    /><br />
-                    <label id="user-gender-info">성별</label><br />
+                    /><br /><br />
+                    <div>
+                        <label style={{float:'left', fontSize:'small', marginLeft:'2px'}}>성별</label>
+                        <br />
+                    </div>
+                    <div class="form-check form-check-inline" id="female">
+                        <input 
+                            class="form-check-input" 
+                            type="radio" 
+                            name="gender" 
+                            id="inlineRadio1" 
+                            value="F"
+                            checked={editedUserInfo.gender === 'F'}
+                            onChange={handleInputChange}
+                        />
+                        <label class="form-check-label" for="inlineRadio1">여자</label>
+                    </div>
+                    <div class="form-check form-check-inline" id="male">
+                        <input 
+                            class="form-check-input" 
+                            type="radio" 
+                            name="gender" 
+                            id="inlineRadio2" 
+                            value="M"
+                            checked={editedUserInfo.gender === 'M'}
+                            onChange={handleInputChange}
+                        />
+                        <label class="form-check-label" for="inlineRadio2">남자</label>
+                    </div><br />
+                    <label id="user-phone-info">생년월일</label><br />
                     <input 
-                        id="user-gender-edit"
-                        value="로그인한 계정 성별 값"
-                    /><br />
+                        type="text"
+                        name="birthday"
+                        id="user-birthday-edit"
+                        value={editedUserInfo.birthday}
+                        onChange={handleInputChange}
+                    /><br /><br />
+                    {/* <DatePicker
+                        id="setBirthday"
+                        selected={editedUserInfo.birthday}
+                        onChange={(date) => setEditedUserInfo((prevUser) => ({ ...prevUser, birthday: date }))}
+                        dateFormat="yyyy-MM-dd"
+                        showYearDropdown
+                        placeholderText="  생일을 선택해주세요"
+                    /> */}
                     <button id="saveEditInfo" onClick={handleSave}>변경된 정보 저장</button>
                 </div>
                 ) : (
@@ -140,12 +192,19 @@ export default function MyPage(){
                         <input 
                             id="user-phone-value"
                             value={userInfo.phoneNumber}
+                            readOnly
                         /><br />
-                        
                         <label id="user-gender-info">성별</label><br />
                         <input 
                             id="user-gender-value"
-                            value={userInfo.gender}
+                            value={GenderValue(userInfo)}
+                            readOnly
+                        /><br />
+                        <label id="user-birthday-info">생년월일</label><br />
+                        <input 
+                            id="user-birthday-value"
+                            value={userInfo.birthday}
+                            readOnly
                         /><br />
                         <button id="edit-button" onClick={handleEdit}>회원 정보 수정</button>
                     </div>

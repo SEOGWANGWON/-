@@ -2,12 +2,14 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import '../css/SignUp.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
 import $ from "jquery";
 
 export default function SignUp() {
 
     const [data, setData] = useState([]);
-    const [newUser, setNewUser] = useState({ userEmail: '', password: '', phoneNumber: '', gender: '', nickname: ''});
+    const [newUser, setNewUser] = useState({ userEmail: '', password: '', phoneNumber: '', gender: '', birthday: '', nickname: ''});
     const [verificationCode, setVerificationCode] = useState('');
     const [isVerificationSent, setIsVerificationSent] = useState(false);
     const [isVerificationConfirmed, setIsVerificationConfirmed] = useState(false);
@@ -207,6 +209,19 @@ export default function SignUp() {
                         <label class="form-check-label" for="inlineRadio2">남자</label>
                     </div><br /><br />
                     <div>
+                        <label style={{ float: 'left', fontSize: 'small', marginLeft: '2px' }}>생일</label>
+                        <div class="dot-badge"></div>
+                    </div><br />
+                    <DatePicker
+                        id="setBirthday"
+                        selected={newUser.birthday}
+                        onChange={(date) => setNewUser((prevUser) => ({ ...prevUser, birthday: date }))}
+                        dateFormat="yyyy-MM-dd"
+                        showYearDropdown
+                        placeholderText="  생일을 선택해주세요"
+                    />
+                    <br /><br />
+                    <div>
                         <label style={{float:'left', fontSize:'small', marginLeft:'2px'}}>닉네임</label>
                         <div class="dot-badge"></div>
                     </div>
@@ -219,7 +234,7 @@ export default function SignUp() {
                         value={newUser.nickname}
                         onChange={handleInputChange}
                         required
-                    /><br />
+                    />
                     <button id='signUpButton' type="button" onClick={handleAddUser}>Sign Up</button>
                 </div>
             </div>

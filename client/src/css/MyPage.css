@@ -48,12 +48,12 @@ a{
     font-weight: 600;
 }
 
-#user-email-info, #user-nickname-info, #user-phone-info, #user-birth-info, #user-gender-info{
+#user-email-info, #user-nickname-info, #user-phone-info, #user-birth-info, #user-gender-info, #user-birthday-info{
     margin-top: 20px;
     font-size: small;
 }
 
-#user-email-value, #user-nickname-value, #user-phone-value, #user-birth-value, #user-gender-value{
+#user-email-value, #user-nickname-value, #user-phone-value, #user-birth-value, #user-gender-value, #user-birthday-value{
     width: 300px;
     height: 40px;
     border:none;
@@ -65,6 +65,11 @@ a{
     height: 40px;
     border:none;
     background-color: rgb(231, 231, 231);
+}
+
+/* 이메일은 수정불가 표시 용도 */
+#user-email-edit{
+    color:gray;
 }
 
 #edit-button{
