@@ -1,0 +1,39 @@
+.list {
+  margin-top: 24px;
+  padding: 16px;
+}
+
+.item__container {
+  display: grid;
+  row-gap: 24px;
+  grid-template-columns: calc(100% / 4) calc(100% / 4) calc(100% / 4) calc(
+      100% / 4
+    );
+}
+
+.item {
+  width: 200px;
+}
+
+.item > .description {
+  display: flex;
+}
+
+.item > .description > .infomation {
+  flex: 1;
+}
+
+.item > .description > .amount {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.item > .description > .amount > input {
+  width: 90px;
+}
+
+.add__button {
+  width: 100%;
+  cursor: pointer;
+}
