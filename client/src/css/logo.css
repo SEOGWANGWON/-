@@ -1,0 +1,14 @@
+.logo__container {
+  display: flex;
+  align-items: center;
+}
+
+.logo > img {
+  width: 250px;
+}
+
+.header {
+  width: 100%;
+  font-size: 36px;
+  text-align: center;
+}

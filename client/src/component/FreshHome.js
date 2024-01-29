@@ -1,62 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "../css/reset-css.css";
 import "../css/logo.css";
 import "../css/navigation.css";
 import "../css/item.css";
 
 export default function FreshHome() {
+  const [selectedValues, setSelectedValues] = useState([]);
   //사용자 불러오기
   const [user, setUser] = useState([]);
   //프레쉬 아이템
-  const [freshitems, setfreshitems] = useState([
-    {
-      item_num: 17,
-      item_name: "삼겹살",
-      item_price: 15000,
-    },
-    {
-      item_num: 25,
-      item_name: "asdasd",
-      item_price: 123123,
-    },
-    {
-      item_num: 26,
-      item_name: "야호",
-      item_price: 0,
-    },
-    {
-      item_num: 27,
-      item_name: "만세",
-      item_price: 0,
-    },
-    {
-      item_num: 23,
-      item_name: "일회용품",
-      item_price: 2000,
-    },
-    {
-      item_num: 24,
-      item_name: "ㅁㅁㄴㅇ",
-      item_price: 123,
-    },
-    {
-      item_num: 18,
-      item_name: "상추",
-      item_price: 1000,
-    },
-    {
-      item_num: 19,
-      item_name: "쌈장",
-      item_price: 1500,
-    },
-  ]);
+  const [freshitems, setfreshitems] = useState([]);
 
-  //카트 아이템
-  const [_, setcartitems] = useState([]);
-  const [newCartItem, setNewCartItem] = useState({
+  //주문 아이템
+  const [newOrder, setNewOrder] = useState({
     item_count: "",
+    item_name: "",
+    item_price: "",
+    item_total_price: "",
+    id: "",
     item_num: "",
-    res_num: "",
   });
 
   //프레쉬 아이템 불러오기
@@ -75,6 +38,8 @@ export default function FreshHome() {
     fetchItemData();
   }, []);
 
+  //props로 예약정보를 넘겨 받아야함
+
   //로그인한 사용자 정보 받아오기
   useEffect(() => {
     // 세션에 저장된 사용자 이름을 불러오기 위해 서버에 요청 (이메일 로그인)
@@ -91,43 +56,55 @@ export default function FreshHome() {
     fetchUserCartData();
   }, []);
 
-  //카트
-  const handleAddCartItem = async () => {
+  //주문하기
+  const registerAddOrder = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8282/freshCart/add",
-        console.log("1"),
-        newCartItem,
-        console.log("2"),
-        {
-          withCredentials: true,
-        },
-        console.log("3")
+        "http://localhost:8282/freshorder/add",
+        { ...newOrder },
+        { withCredentials: true }
       );
-      console.log();
-      console.log("서버 응답:", response);
-
-      setcartitems((prevCartitem) => [...prevCartitem, response.data]);
-      setNewCartItem({
+      //   setorders((prevOrder) => [...prevOrder, response.data]);
+      setNewOrder({
         item_count: "",
+        item_name: "",
+        item_price: "",
+        item_total_price: "",
+        id: "",
         item_num: "",
-        res_num: "",
       });
+      console.log("1", newOrder);
+      console.log("2", selectedValues);
     } catch (error) {
-      console.error("error", error);
+      console.error("데이터 저장오류", error);
     }
   };
+  //기존 아이템정보 집어넣기
+  const handleCheckboxChange = (event) => {
+    const value = event.target.value;
+    //체크여부 확인
+    const isChecked = event.target.checked;
 
-  const carthandleInputChange = (e) => {
+    //체크가 되어있다면
+    if (isChecked) {
+      setSelectedValues((prevValues) => [...prevValues, value]);
+
+      //체크가 안되어있다면
+    } else {
+      setSelectedValues((prevValues) => prevValues.filter((v) => v !== value));
+    }
+  };
+  //갯수 조정
+  const orderhandleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewCartItem((prevCartitem) => ({ ...prevCartitem, [name]: value }));
+    setNewOrder((prevCartitem) => ({ ...prevCartitem, [name]: value }));
   };
 
   return (
     <div>
       <div className="logo__container">
         <a href="/" className="logo">
-          <img src="/assets/펜픽로고.png" alt="logo" />
+          <img src="../assets/펜픽로고.png" alt="logo" />
         </a>
         <h1 className="header">PENPICK FRESH</h1>
       </div>
@@ -160,14 +137,24 @@ export default function FreshHome() {
                 {/* 정보 */}
                 <div className="infomation">
                   {freshitem.item_name}
+                  <input
+                    type="checkbox"
+                    name="item_name"
+                    value={freshitem.item_name}
+                    onChange={handleCheckboxChange}
+                  />
                   <br />
                   {freshitem.item_price}원<br />
-                  <input
-                    type="hidden"
-                    name="item_num"
-                    value={freshitem.item_num}
-                  />
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="item_num"
+                      value={freshitem.item_num}
+                      onChange={handleCheckboxChange}
+                    ></input>
+                  </label>
                 </div>
+
                 {/* 개수 */}
                 <div className="amount">
                   <input
@@ -176,7 +163,7 @@ export default function FreshHome() {
                     name="item_count"
                     placeholder="갯수 입력"
                     value={freshitem.item_count}
-                    onChange={carthandleInputChange}
+                    onChange={orderhandleInputChange}
                   />
                   <p>개</p>
                 </div>
@@ -187,8 +174,8 @@ export default function FreshHome() {
                   onChange={carthandleInputChange}
                 /> */}
               </div>
-              <button className="add__button" onClick={handleAddCartItem}>
-                카트에 담기
+              <button className="add__button" onClick={registerAddOrder}>
+                고르기
               </button>
             </li>
           ))}
