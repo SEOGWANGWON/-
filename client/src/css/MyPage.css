@@ -86,3 +86,12 @@ a{
     background: none;
     border:none;
 }
+
+#signOut-button{
+    float: right; 
+    margin-right: 5px;
+    font-size: small; 
+    color: gray;
+    background-color:white;
+    border:none;
+}

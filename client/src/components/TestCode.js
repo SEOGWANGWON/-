@@ -1,40 +1,55 @@
-import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from "react";
 
-export default function NavBar(){
-    return(
-        <div>
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown link
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-      </ul>
+export default function Checkmenu() {
+  const [selectedValues, setSelectedValues] = useState([]);
+
+  const handleCheckboxChange = (event) => {
+    const value = event.target.value;
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      setSelectedValues((prevValues) => [...prevValues, value]);
+    } else {
+      setSelectedValues((prevValues) => prevValues.filter((v) => v !== value));
+    }
+  };
+
+  const handleSubmit = () => {
+    // 선택된 값들을 처리하는 로직을 작성합니다.
+    console.log("Selected Values:", selectedValues);
+    // 여기에서 선택된 값들을 이용한 추가적인 로직을 수행할 수 있습니다.
+  };
+
+  return (
+    <div>
+      <label>
+        <input
+          type="checkbox"
+          value="value1"
+          onChange={handleCheckboxChange}
+        />{" "}
+        Option 1
+      </label>
+
+      <label>
+        <input
+          type="checkbox"
+          value="value2"
+          onChange={handleCheckboxChange}
+        />{" "}
+        Option 2
+      </label>
+
+      <label>
+        <input
+          type="checkbox"
+          value="value3"
+          onChange={handleCheckboxChange}
+        />{" "}
+        Option 3
+      </label>
+
+      <button onClick={handleSubmit}>Submit</button>
     </div>
-  </div>
-</nav>
-        </div>
-    )
+  );
 }

@@ -5,6 +5,7 @@ import axios from 'axios';
 import KakaoLogin from 'react-kakao-login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import kakaoLoginLogo from '../img/kakao_login_medium_narrow.png';
+import Header from './Header';
 
 export default function SignUp() {
 
@@ -20,7 +21,7 @@ export default function SignUp() {
             window.location.href="http://localhost:3000/";
         } catch (error) {
             console.error('로그인 오류', error);
-            alert("로그인 실패");
+            alert("아이디와 비밀번호를 확인해주세요");
         }
     };
 
@@ -73,6 +74,9 @@ export default function SignUp() {
 
     
     return(
+        <div>
+            <Header />
+        
         <div className='main'>
             <form id="loginForm" method="get" action="/login">
             <img src={logo} alt="로고" style={{width:'180px', margin:'auto'}}/>
@@ -115,6 +119,7 @@ export default function SignUp() {
                 <p>계정이 없으신가요?</p>
                 <a href="/signUp" style={{color:"darkBlue"}}>이메일로 회원가입</a>
             </div>
+        </div>
         </div>
     )
 }

@@ -29,7 +29,7 @@ function Link() {
         setUserEmail(res.data.userEmail);
         setAuthentication(res.data.userEmail);
       } catch (err) {
-        console.error('세션 데이터 불러오기 실패', err);
+        console.error('로그인 정보가 존재하지 않습니다', err);
       } finally {
         setIsLoading(false);
       }
@@ -50,7 +50,7 @@ function Link() {
   
   return (
     <Router>
-      <Header />
+      
       <Routes>
         {/*로그아웃 상태에서만 유효한 경로*/}
         {!isAuthenticated && (

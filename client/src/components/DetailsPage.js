@@ -5,6 +5,7 @@ import { Modal, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import Header from './Header';
 
 function DetailsPage() {
   // 이미지 보여주는 모달
@@ -62,6 +63,7 @@ function DetailsPage() {
 
   return (
     <div>
+      <Header />
       <div id='detailpage'>
         <div>
           <div id='detailpage-sub'>

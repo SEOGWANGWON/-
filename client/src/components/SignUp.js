@@ -6,6 +6,8 @@ import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import $ from "jquery";
 
+import Header from './Header';
+
 export default function SignUp() {
 
     const [data, setData] = useState([]);
@@ -13,6 +15,11 @@ export default function SignUp() {
     const [verificationCode, setVerificationCode] = useState('');
     const [isVerificationSent, setIsVerificationSent] = useState(false);
     const [isVerificationConfirmed, setIsVerificationConfirmed] = useState(false);
+
+    // 비밀번호 정규식 체크 
+    const [isPasswordValid, setIsPasswordValid] = useState(true);
+    // 닉네임 특수문자 제한
+    const [isNicknameValid, setIsNicknameValid] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,9 +56,20 @@ export default function SignUp() {
                     withCredentials : true,
                 }
             );
+
+            if(response.data === 'existUser'){
+                alert('이미 사용중인 이메일입니다');
+                return;
+            }
+            if(response.data === 'kakaoUser'){
+                alert('소셜 로그인 계정입니다');
+                return;
+            }
+
             alert('인증 이메일이 전송되었습니다.');
             setVerificationCode(response.data);
             setIsVerificationSent(true);
+
         } catch(error) {
             console.error('인증 이메일 전송 오류', error);
         }
@@ -67,6 +85,19 @@ export default function SignUp() {
         alert('인증이 확인되었습니다');
     };
 
+    //비밀번호 설정 정규식
+    const handlePasswordChange = (e) => {
+        const newPassword = e.target.value;
+    
+        // 비밀번호 유효성 검사
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*()_+])(?=.*[0-9]).{8,}$/;
+        const isValid = passwordRegex.test(newPassword);
+    
+        // 입력된 비밀번호와 유효성 결과 상태 업데이트
+        setNewUser((prevUser) => ({ ...prevUser, password: newPassword }));
+        setIsPasswordValid(isValid);
+    };
+
     const passwordCheck = () => {
         if($('#setPassword').val() === $('#checkPassword').val()){
             $('#pwConfirm').text('비밀번호 일치').css('color', 'green')
@@ -75,12 +106,30 @@ export default function SignUp() {
         }
     }
 
+    //가입 버튼 누를시 작동하는 함수
     const handleAddUser = async() => {
         try {
             if(!isVerificationConfirmed){
                 alert('이메일 인증을 먼저 진행해주세요');
                 return;
             }
+
+            if(!isPasswordValid){
+                alert('비밀번호가 조건에 부합하지 않습니다');
+            }
+
+            // 필수 항목 검증
+            if (!newUser.userEmail || !newUser.password || !newUser.phoneNumber || !newUser.gender || !newUser.birthday || !newUser.nickname) {
+                alert('모든 항목을 작성해주세요');
+                return;
+            }
+
+             // 비밀번호 일치 확인
+            if ($('#setPassword').val() !== $('#checkPassword').val()) {
+                alert('비밀번호와 비밀번호 확인이 일치하지 않습니다');
+                return;
+            }
+
             const response = await axios.post(
                 'http://localhost:8282/api/user/add',
                 {...newUser, verificationCode},
@@ -96,12 +145,13 @@ export default function SignUp() {
             alert('PenPick 회원가입이 완료되었습니다');
             window.location.href = 'http://localhost:3000/';
         } catch(error) {
-            console.error('데이터 저장오류', error);
+            console.error('회원 정보 저장오류', error);
         }
     };
 
     return(
         <div>
+            <Header />
             <div id="signUpArea">
                 <div id="signUpForm">
                     <div style={{width:'100%', marginBottom:"30px"}}>
@@ -151,10 +201,17 @@ export default function SignUp() {
                         name="password"
                         value={newUser.password}
                         onInput={passwordCheck}
-                        onChange={handleInputChange}
+                        onChange={handlePasswordChange}
                         required
-                    /><br />
-                    <div>
+                    />
+                    {!isPasswordValid && (
+                        <>
+                        <span style={{float:"right", marginRight:"3px", marginTop:"2px", color: 'red',fontSize:"small" }}>
+                            비밀번호는 알파벳과 특수문자를 포함한 8글자 이상이어야 합니다
+                        </span>
+                        </>
+                    )}
+                    <div style={{marginTop:"40px"}}>
                         <label style={{float:'left', fontSize:'small', marginLeft:'2px'}}>비밀번호 확인</label>
                         <div class="dot-badge"></div>
                     </div>
@@ -164,6 +221,7 @@ export default function SignUp() {
                         class='form-control'
                         placeholder='비밀번호 확인'
                         onInput={passwordCheck}
+                        onChange={handleInputChange}
                         required
                     />
                     <span id="pwConfirm" style={{float:"right", marginRight:"3px", marginTop:"2px",color:"gray",fontSize:"small"}}/><br /><br />
