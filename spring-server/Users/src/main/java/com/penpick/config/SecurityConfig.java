@@ -30,7 +30,7 @@ public class SecurityConfig {
 		    .csrf(csrf -> csrf.disable())
 		    .logout(logout -> logout
 		        .logoutUrl("/logout") // 로그아웃 URL 지정
-		        .logoutSuccessUrl("/login") // 로그아웃 성공 시 리다이렉트될 URL 지정
+		        .logoutSuccessUrl("/") // 로그아웃 성공 시 리다이렉트될 URL 지정
 		        .invalidateHttpSession(true) // 세션 무효화
 		        .deleteCookies("JSESSIONID") // 필요하다면 쿠키 삭제
 		        .permitAll()
@@ -39,10 +39,10 @@ public class SecurityConfig {
 		return http.build();
 	}
 	
-//	@Bean
-//	public PasswordEncoder passwordEncoder() {
-//		PasswordEncoder encoder = new BCryptPasswordEncoder();
-//		return encoder;
-//	}
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder;
+	}
 }
 

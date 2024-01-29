@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,19 +30,37 @@ public class LoginController {
 	@Autowired
     private UserService userService;
 	
-	//로그인 & 로그인한 유저 정보(userEmail) 세션에 저장
+	private final PasswordEncoder passwordEncoder;
+	
+	//로그인 & 로그인한 유저 정보(userEmail) 세션에 저장하는 controller
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody Users credentials, HttpSession session) {
+	public ResponseEntity<String> login(@RequestBody Users loginUser, HttpSession session) {
 		
-		Optional<Users> userOptional = userService.loginUser(credentials.getUserEmail());
+		//로그인 시도하는 이메일로 계정 존재여부 확인
+		Optional<Users> userOptional = userService.loginUser(loginUser.getUserEmail());
 		
+		//계정 존재 할 시
 		if (userOptional.isPresent()) {
+			
+			//해당 계정 정보
             Users user = userOptional.get();
-
-            if (user.getPassword().equals(credentials.getPassword())) {
+            
+            //로그인 시도하려는 계정의 비밀번호 (암호화 된 상태)
+            String dbPassword = user.getPassword();
+            
+            //입력한 비밀번호
+            String loginPassword = loginUser.getPassword();
+            
+            if (passwordEncoder.matches(loginPassword, dbPassword)) {
                 session.setAttribute("user", user.getUserEmail());
                 return ResponseEntity.ok("로그인 성공");
             }
+            
+//          if (user.getPassword().equals(loginUser.getPassword())) {
+//          session.setAttribute("user", user.getUserEmail());
+//          return ResponseEntity.ok("로그인 성공");
+//      }
+            
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
@@ -70,11 +90,14 @@ public class LoginController {
 	@PostMapping("/logout")
 	public ResponseEntity<String> logout(HttpSession session, HttpServletResponse response) throws IOException {
 	    session.invalidate();
-	    // 클라이언트에게 리디렉션을 요청합니다.
-	    response.sendRedirect("http://localhost:3000/login");
+	    System.out.println("로그아웃 성공");
+	    // 클라이언트에 리디렉션을 요청
+	    response.sendRedirect("localhost:3000/login");
+	    
 	    return ResponseEntity.ok("로그아웃 성공");
 	}
 
+	
 
  
 }

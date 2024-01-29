@@ -1,7 +1,13 @@
 package com.penpick.say.users.service;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import com.penpick.say.users.model.Users;
+import com.penpick.say.users.repository.UserRepository;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
@@ -13,6 +19,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MailService {
 
+	@Autowired
+	private final UserRepository userRepository;
+	
     private final JavaMailSender javaMailSender;
     private static final String senderEmail = "tpgml0816@gmail.com";
 
@@ -21,6 +30,7 @@ public class MailService {
         return (int) (Math.random() * 90000) + 100000;
     }
 
+    //메일 양식
     public MimeMessage createMail(String mail) {
         int number = createNumber();
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -38,10 +48,17 @@ public class MailService {
         return message;
     }
 
+    //메일 발송
     public int sendMail(String mail) {
         MimeMessage message = createMail(mail);
         javaMailSender.send(message);
         return createNumber();
     }
+    
+    //이메일 조회
+  	public Optional<Users> FindUserByEmail(String userEmail){
+  		return userRepository.findByUserEmail(userEmail);
+  	}
+    
 }
 
