@@ -50,7 +50,6 @@ function Link() {
   
   return (
     <Router>
-      
       <Routes>
         {/*로그아웃 상태에서만 유효한 경로*/}
         {!isAuthenticated && (

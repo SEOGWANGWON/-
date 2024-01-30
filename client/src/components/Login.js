@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../css/Login.css';
 import logo from '../img/펜픽로고.png';
 import axios from 'axios';
 import KakaoLogin from 'react-kakao-login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import kakaoLoginLogo from '../img/kakao_login_medium_narrow.png';
+import NaverLoginLogo from '../img/naver_login_medium_narrow.png';
 import Header from './Header';
 
 export default function SignUp() {
@@ -12,7 +13,7 @@ export default function SignUp() {
     const [userEmail, setUserEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    //이메일 로그인 처리 함수
+    //이메일(일반) 로그인 처리 함수 
     const handleLogin = async() => {
         try {
             const response = await axios.post('http://localhost:8282/login', { userEmail, password }, { withCredentials: true });
@@ -25,7 +26,7 @@ export default function SignUp() {
         }
     };
 
-    //카카오 로그인 처리 함수
+    //카카오 로그인 처리 함수 --------------------------------------------------
     const kakaoLoginSuccess = (res) => {
         
         // Kakao 로그인 성공 시에 서버로 데이터 전송
@@ -60,7 +61,7 @@ export default function SignUp() {
             })
             .catch(error => {
                 console.error(error);
-                alert("로그인 실패");
+                alert("카카오 로그인 서버 연결에 실패했습니다. 잠시 뒤에 다시 시도해주세요.");
             });
         })
         .catch(error => {
@@ -72,11 +73,95 @@ export default function SignUp() {
         console.log(err);
     }
 
+    //네이버 로그인 처리 함수 --------------------------------------------------
+
+    //네이버 Api 정보 설정
+    const { naver } = window
+
+	const NAVER_CLIENT_ID = "JOrgTkSms_oef7S497wp";
+	const NAVER_CALLBACK_URL = "http://localhost:3000";
+
+    //네이버 로그인 초기화
+	const initializeNaverLogin = () => {
+
+		const naverLogin = new naver.LoginWithNaverId({
+			clientId: NAVER_CLIENT_ID,
+			callbackUrl: NAVER_CALLBACK_URL,        
+			isPopup: false, //팝업창 로그인 X
+			loginButton: { color: 'green', type: 3, height: 45, },
+			callbackHandle: true,
+		});
+
+        //초기화
+		naverLogin.init();
+      
+        //로그인 상태 확인 및 사용자 정보 추출
+        naverLogin.getLoginStatus(async function (status) {
+            
+            if (status) {
+                const userid = naverLogin.user.getEmail();
+                const username = naverLogin.user.getName();
+                
+                // setUserInfo(naverLogin.user)
+
+                console.log(status);
+                console.log(userid);
+                console.log(username);
+
+                // 서버로 데이터 전송
+                sendNaverUserInfoToServer({userid, username});
+
+                // 네이버 로그인 성공 시 페이지 이동
+                // window.location.href= "http://localhost:3000/";
+                alert("펜픽 방문을 환영합니다");
+            }
+
+        });     
+	}
+
+    const sendNaverUserInfoToServer = async (userInfo) => {
+        try {
+            // 서버의 API endpoint와 전송할 데이터 설정
+            const apiUrl = 'http://localhost:8282/api/naver-login';
+            const data = {
+                email: userInfo.userid,
+                nickname: userInfo.username,
+            };
+    
+            // axios를 사용하여 서버에 POST 요청 보내기
+            const response = await axios.post(apiUrl, data);
+
+            // 서버 응답 확인
+            console.log('서버 응답:', response.data);
+        } catch (error) {
+            console.error('서버 요청 실패:', error);
+        }
+    }
+   
+    //액세스 토큰 관리
+    const userAccessToken = () => {
+        window.location.href.includes('access_token') && getToken();
+	}
+        
+    const getToken = () => {
+        
+        //URL에서 액세스 토큰 추출
+        const token = window.location.href.split('=')[1].split('&')[0];
+        return token;
+
+	}
+        
+    // 초기화 및 엑세스 토큰 추출 실행
+	useEffect(() => {
+		initializeNaverLogin();
+		userAccessToken();
+	},[]);
+
+    //-------------------------------------------------------------------------
     
     return(
         <div>
-            <Header />
-        
+            <Header /> 
         <div className='main'>
             <form id="loginForm" method="get" action="/login">
             <img src={logo} alt="로고" style={{width:'180px', margin:'auto'}}/>
@@ -101,7 +186,8 @@ export default function SignUp() {
                     onChange={e => setPassword(e.target.value)}
                 /><br />
                 <button id='loginButton' type="button" onClick={handleLogin}>Log In</button>
-            </form><br />
+            </form>
+            <div id="social-login-line" style={{width:"430px", margin:"auto", marginTop:"30px", marginBottom:"30px"}}>Other</div>
             <KakaoLogin 
                 //JS RESTApi key
                 token="e37a82e7e5d11141f3bac76816aec5e7"
@@ -109,17 +195,20 @@ export default function SignUp() {
                 onFailure={kakaoLoginFailure}
                 render={(props) => (
                     <button
-                        alt="kakaologin"
+                        alt="KakaoLoginButton"
                         onClick={props.onClick}
                         style={{border:"none", background:"#FEE500", width:"400px",borderRadius: "7px"}}
                     ><img src={kakaoLoginLogo} alt="카카오로그인"/></button>
                 )}
-            />
+            /><br /><br />
+            {/* 네이버 로그인 버튼 */}
+            <div id="naverIdLogin" style={{width:"400px", backgroundColor:"RGB(3,199,90)", margin:"auto", borderRadius:"7px"}}/>
             <div id="signUpMessage">
                 <p>계정이 없으신가요?</p>
                 <a href="/signUp" style={{color:"darkBlue"}}>이메일로 회원가입</a>
             </div>
         </div>
         </div>
+        
     )
 }
