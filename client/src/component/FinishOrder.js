@@ -56,25 +56,28 @@ export default function FinishOrder() {
       <div className="logo__container">
         <Header />
       </div>
-      <div className="order__list__container">
-        <h1>결제 내역</h1>
-        <h4 className="reservation__number">예약 번호 : 135489156</h4>
-        <ul className="order__list">
-          {finishOrder.map((finish, idx) => (
-            <li key={idx} className="order__item">
-              <p>{finish.item_name}</p>
-              <p>{finish.item_count}개</p>
-              <p>{finish.item_price}원</p>
-              <p>{finish.item_count * finish.item_price}원</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="divider" />
-      <div className="order__footer">
-        <div />
-        <div>
-          <p>총 가격 : {total}원</p>
+      <div className="fresh_order">
+        <div className="order__list__container">
+          <h1>결제 내역</h1>
+          <h4 className="reservation__number">예약 번호 : 135489156</h4>
+
+          <ul className="order__list">
+            {finishOrder.map((finish, idx) => (
+              <li key={idx} className="order__item">
+                <p>{finish.item_name}</p>
+                <p>{finish.item_count}개</p>
+                <p>{finish.item_price}원</p>
+                <p>{finish.item_count * finish.item_price}원</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="divider" />
+        <div className="order__footer">
+          <div />
+          <div>
+            <p className="total">총 가격 : {total}원</p>
+          </div>
         </div>
       </div>
     </div>

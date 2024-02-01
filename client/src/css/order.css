@@ -5,7 +5,9 @@
   width: 1000px;
   text-align: center;
 }
-
+.fresh_order {
+  margin-top: 6%;
+}
 .order__list__container > h1 {
   font-size: 24px;
 }
@@ -13,8 +15,13 @@
 .reservation__number {
   margin-top: 24px;
   text-align: right;
+  font-size: 19px;
+  margin-bottom: 20px;
 }
-
+.total {
+  text-align: right;
+  margin-right: 20px;
+}
 .order__list {
   margin-top: 4px;
   padding: 16px;
