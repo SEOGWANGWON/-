@@ -34,7 +34,7 @@ public class NaverLoginController {
 		//클라이언트에서 전송한 데이터를 받아와서 처리
 		String accessToken = "naverUser";
 		String email = naverLoginDTO.getEmail();
-		//String nickname = naverLoginDTO.getNickname();
+		String nickname = naverLoginDTO.getNickname();
 		
 		//이미 저장된 사용자인지 확인
 		Optional<Users> existingUser = userService.loginUser(email);
@@ -52,7 +52,7 @@ public class NaverLoginController {
 			Users user = new Users();
 			user.setAccess_token(accessToken);
 			user.setUserEmail(email);
-			//user.setNickname(nickname);
+			user.setNickname(nickname);
 			
 			userService.registerKakaoUser(user);
 			

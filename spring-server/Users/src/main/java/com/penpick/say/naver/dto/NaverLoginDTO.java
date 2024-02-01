@@ -8,5 +8,6 @@ import lombok.Data;
 public class NaverLoginDTO {
 
 	private String email;
+	private String nickname;
 	
 }

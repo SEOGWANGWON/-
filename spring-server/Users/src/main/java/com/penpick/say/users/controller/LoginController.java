@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,11 +54,6 @@ public class LoginController {
                 session.setAttribute("user", user.getUserEmail());
                 return ResponseEntity.ok("로그인 성공");
             }
-            
-//          if (user.getPassword().equals(loginUser.getPassword())) {
-//          session.setAttribute("user", user.getUserEmail());
-//          return ResponseEntity.ok("로그인 성공");
-//      }
             
         }
 
