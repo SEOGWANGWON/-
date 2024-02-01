@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../css/reset-css.css";
-import "../css/logo.css";
-import "../css/navigation.css";
 import "../css/item.css";
 import Header from "./Header";
 
@@ -153,140 +151,147 @@ export default function FreshHome() {
   };
 
   return (
-    <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+    <div>
       <div className="logo__container">
         <Header />
       </div>
-      <div className="list">
-        <div className="list-item" style={{ flex: "auto" }}>
-          <h1
-            style={{
-              marginBottom: 16,
-              fontWeight: "bolder",
-            }}
-          >
-            물품 리스트
-          </h1>
-          <ul className="item__container">
-            {freshitems.map((freshitem) => (
-              <li key={freshitem.itemnum} className="item">
-                {/* 사진 */}
-                <div
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div className="list">
+          <div className="list-item" style={{ flex: "auto" }}>
+            <h1
+              style={{
+                marginBottom: 16,
+                fontWeight: "bolder",
+              }}
+            >
+              물품 리스트
+            </h1>
+            <ul className="item__container">
+              {freshitems.map((freshitem) => (
+                <li key={freshitem.itemnum} className="item">
+                  {/* 사진 */}
+                  <div
+                    style={{
+                      width: 200,
+                      height: 200,
+                      backgroundColor: "#e0e0e0",
+                    }}
+                  />
+                  {/* 설명 */}
+                  <div className="description">
+                    {/* 정보 */}
+                    <div className="infomation">
+                      <p
+                        style={{
+                          marginTop: 4,
+                          marginBottom: 4,
+                        }}
+                      >
+                        <input
+                          id={freshitem.itemnum}
+                          type="checkbox"
+                          value={freshitem.itemnum}
+                          style={{ marginRight: 4 }}
+                          onChange={handleCheckboxChange}
+                        />
+                        <label htmlFor={freshitem.itemnum}>
+                          {freshitem.itemName || "이름 없음"}
+                        </label>
+                      </p>
+                      <div>
+                        <span
+                          style={{ fontSize: "1.2em", fontWeight: "bolder" }}
+                        >
+                          {Number(freshitem.itemPrice).toLocaleString()}
+                        </span>
+                        원
+                      </div>
+                    </div>
+                    {/* 개수 */}
+                    <div className="amount">
+                      <input
+                        style={{ maxWidth: 40, padding: 4, marginRight: 4 }}
+                        type="number"
+                        min={0}
+                        name="itemCount"
+                        placeholder="갯수 입력"
+                        value={inputItemCount?.[freshitem.itemnum] || ""}
+                        onChange={(e) =>
+                          onChangeItemCount(freshitem.itemnum, e.target.value)
+                        }
+                      />
+                      <p>개</p>
+                      <div className="res_num">
+                        <input
+                          type="hidden"
+                          name="resnum"
+                          value={resnum?.[freshitem.itemnum] || ""}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="list-item" style={{ width: "30%" }}>
+            <div className="result" style={{ paddingLeft: 16 }}>
+              <div>
+                <h1
                   style={{
-                    width: 200,
-                    height: 200,
-                    backgroundColor: "#e0e0e0",
+                    marginBottom: 16,
+                    fontWeight: "bolder",
+                    textAlign: "right",
                   }}
-                />
-                {/* 설명 */}
-                <div className="description">
-                  {/* 정보 */}
-                  <div className="infomation">
-                    <p
-                      style={{
-                        marginTop: 4,
-                        marginBottom: 4,
-                      }}
-                    >
-                      <input
-                        id={freshitem.itemnum}
-                        type="checkbox"
-                        value={freshitem.itemnum}
-                        style={{ marginRight: 4 }}
-                        onChange={handleCheckboxChange}
-                      />
-                      <label htmlFor={freshitem.itemnum}>
-                        {freshitem.itemName || "이름 없음"}
-                      </label>
-                    </p>
-                    <div>
-                      <span style={{ fontSize: "1.2em", fontWeight: "bolder" }}>
-                        {Number(freshitem.itemPrice).toLocaleString()}
-                      </span>
-                      원
-                    </div>
-                  </div>
-                  {/* 개수 */}
-                  <div className="amount">
-                    <input
-                      style={{ maxWidth: 40, padding: 4, marginRight: 4 }}
-                      type="number"
-                      min={0}
-                      name="itemCount"
-                      placeholder="갯수 입력"
-                      value={inputItemCount?.[freshitem.itemnum] || ""}
-                      onChange={(e) =>
-                        onChangeItemCount(freshitem.itemnum, e.target.value)
-                      }
-                    />
-                    <p>개</p>
-                    <div className="res_num">
-                      <input
-                        type="hidden"
-                        name="resnum"
-                        value={resnum?.[freshitem.itemnum] || ""}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="list-item" style={{ width: "30%" }}>
-          <div className="result" style={{ paddingLeft: 16 }}>
-            <div>
-              <h1
-                style={{
-                  marginBottom: 16,
-                  fontWeight: "bolder",
-                  textAlign: "right",
-                }}
-              >
-                <strong>선택 품목</strong>
-              </h1>
-              {orderList?.length < 1 && (
-                <p style={{ textAlign: "center" }}>먼저 상품을 선택해주세요.</p>
-              )}
-              <ul>
-                {orderList.map((targetItem) => {
-                  return (
+                >
+                  <strong>선택 품목</strong>
+                </h1>
+                {orderList?.length < 1 && (
+                  <p style={{ textAlign: "center" }}>
+                    먼저 상품을 선택해주세요.
+                  </p>
+                )}
+                <ul>
+                  {orderList.map((targetItem) => {
+                    return (
+                      <li style={{ paddingTop: 4, textAlign: "right" }}>
+                        <span style={{ marginRight: 8 }}>
+                          {targetItem.itemName}
+                        </span>
+                        <span style={{ marginRight: 8 }}>
+                          {Number(targetItem.itemCount).toLocaleString()}개
+                        </span>
+                        <span>
+                          {Number(targetItem.item_Total_Price).toLocaleString()}
+                          원
+                        </span>
+                      </li>
+                    );
+                  })}
+                  <li>
+                    <hr />
+                  </li>
+                  {orderList.length > 0 && (
                     <li style={{ paddingTop: 4, textAlign: "right" }}>
-                      <span style={{ marginRight: 8 }}>
-                        {targetItem.itemName}
-                      </span>
-                      <span style={{ marginRight: 8 }}>
-                        {Number(targetItem.itemCount).toLocaleString()}개
-                      </span>
                       <span>
-                        {Number(targetItem.item_Total_Price).toLocaleString()}원
+                        합계 :{" "}
+                        <strong style={{ fontWeight: "bolder" }}>
+                          {Number(totalAmount).toLocaleString()}
+                        </strong>
+                        원
                       </span>
                     </li>
-                  );
-                })}
-                <li>
-                  <hr />
-                </li>
-                {orderList.length > 0 && (
-                  <li style={{ paddingTop: 4, textAlign: "right" }}>
-                    <span>
-                      합계 :{" "}
-                      <strong style={{ fontWeight: "bolder" }}>
-                        {Number(totalAmount).toLocaleString()}
-                      </strong>
-                      원
-                    </span>
-                  </li>
-                )}
-              </ul>
+                  )}
+                </ul>
+              </div>
+              <button
+                className="add__button"
+                onClick={registerAddOrder}
+                style={{ marginTop: 16, padding: 8 }}
+              >
+                고르기
+              </button>
             </div>
-            <button
-              className="add__button"
-              onClick={registerAddOrder}
-              style={{ marginTop: 16, padding: 8 }}
-            >
-              고르기
-            </button>
           </div>
         </div>
       </div>
