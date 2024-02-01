@@ -35,7 +35,7 @@ function ReservationCheck() {
   useEffect(() => {
     const fetchReservationData = async () => {
       try{
-        const res = await axios.get('http://localhost:8282/reservation/list',{
+        const res = await axios.get('http://localhost:8282/reservation/checkAll',{
           withCredentials:true,
         });
         setReservation(res.data)
@@ -47,32 +47,73 @@ function ReservationCheck() {
     fetchReservationData();
   },[])
 
+  function searchRoom () {
+    window.location.href = '/pensionList';
+  }
+
   return (
     <div>
+      <main id='myPage-layout'>
       <Header />
+     <div id='myPage-container'>
+       <nav id='myPage-navigation'>
+         <ul id='navigation-list'>
+           <li id='nav-userInfo'>
+             <a href='/mypage/userInfo'>내 정보 관리</a>
+           </li>
+           <hr />
+           <li>
+             <a href='/reservationCheck'>예약내역</a>
+           </li>
+           <hr />
+           <li>
+             <a href='/mypage/userInfo'>찜목록</a>
+           </li>
+           <hr />
+           <li>
+             <a href='/mypage/userInfo'>문의내역</a>
+           </li>
+           <hr />
+           <li id='nav-coupon'>
+             <a href='/mypage/userInfo'>쿠폰함</a>
+           </li>
+         </ul>
+       </nav>
+       </div>
+       </main>
     <div className='reservationCheckDiv'>
-      <div className='reservationCheckTitle'>
-        <h1>예약 내역</h1>
-      </div>
       <div>
         <div className='reservationDiv1'> 
           <img src={list} className='listImg' alt='목록'></img><span> 예약 목록</span>
          
         </div>
-        <section className='reservationCheckSection'>
-            <span>이메일 : {userInfo?.userEmail}</span><br /> 
+        {/* <section className='reservationCheckSection'>
+            <span>이메일 : {reservation.phoneNumber}</span><br /> 
+            <ul className='reservationUl'>
+                    {reservation.map((reservation) => (
+                        // <li key={reservation.id}>
+                        //     <p>예약자 번호 : {reservation.phoneNumber}</p>
+                        // </li>
+                    ))}
+                </ul>
             <span>닉네임 : {userInfo.nickname}</span><br />
             <span>펜션 이름 : </span>
             <img src={reservationImg} className="reservationImg" alt="펜션"></img>
-        </section>
+        </section> */}
         <br />
         <section className='reservationCheckSection'>
             <span>이메일 : {userInfo.userEmail}</span><br /> 
             <span>닉네임 : {userInfo.nickname}</span><br />
-            <span>펜션 이름 : </span>
+            <span>펜션 이름 : </span><br />
+            <span>예약 일짜 :</span>
             <img src={reservationImg} className="reservationImg" alt="펜션"></img>
         </section>
         <br />
+        <section>
+          <div>
+            <button className='addReservationButton' onClick={searchRoom}>새로운 방 찾아보기</button>
+          </div>
+        </section>
         
 
 

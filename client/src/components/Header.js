@@ -63,7 +63,7 @@ function Header() {
           id='HeaderQnALink2'
           href='/QnA'
         >
-          고객센터<span id='sidemenuArrow'>></span>
+          고객센터<span id='sidemenuArrow'></span>
         </a>
         <a
           class='nav-link active'
@@ -71,7 +71,7 @@ function Header() {
           id='HeaderEventLink2'
           href='/EventPage'
         >
-          이벤트<span id='sidemenuArrow'>></span>
+          이벤트<span id='sidemenuArrow'></span>
         </a>
         <li class='nav-item'>
           <a
@@ -80,7 +80,7 @@ function Header() {
             aria-current='page'
             href='/CartList'
           >
-            펜픽프레쉬<span id='sidemenuArrow'>></span>
+            펜픽프레쉬<span id='sidemenuArrow'></span>
           </a>
         </li>
       </div>

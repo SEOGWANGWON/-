@@ -1,6 +1,5 @@
 #reservationId {
   font-size: 30px;
-  margin-top: 20px;
   margin-left: 20px;
   float: left;
 }
@@ -19,8 +18,9 @@
 
 .reservationCheckSection1 {
   width: 38%;
-  height: 300px;
+  height: 200px;
   margin-left: 50px;
+  margin-top:100px; 
 }
 
 /* 돌아가기 div */
@@ -40,7 +40,7 @@
 .reservationSection1 {
   width: 38%;
   margin-left: 20px;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 /*예약 섹션2*/
@@ -75,8 +75,8 @@
 /* 결제수단 선택 h1 */
 
 .selectPayment {
-  margin-top:50px;
-  margin-left:10px;
+  margin-top:40px;
+  margin-left:18px;
 }
 
 /*결제 수단 버튼*/
@@ -106,7 +106,7 @@
 
 /* 결제선택버튼 */
 .buttonBox {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 /* 고객센터 버튼 */
@@ -155,9 +155,9 @@
   height: 50px;
 }
 
-/* 체크박스 */
-.checkBox {
-  margin-top: 20px;
+/* 페이체크박스 */
+.payCheckBox {
+  margin-top: -30px;
   margin-left: 20px;
 }
 

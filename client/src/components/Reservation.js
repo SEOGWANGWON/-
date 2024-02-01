@@ -102,12 +102,13 @@ function Reservation() {
       console.error('닉네임을 입력하세요.');
       return;
     }
-
-    axios
-      .get(`http://localhost:8282/userdata`)
-      .then((response) => setPurchases(response.data))
-      .catch((error) => console.error(error));
   };
+
+  //   axios
+  //     .get(`http://localhost:8282/userdata`)
+  //     .then((response) => setPurchases(response.data))
+  //     .catch((error) => console.error(error));
+  // };
 
   const makeReservation = () => {
     if (!email  || !phoneNumber || !people) {
@@ -254,7 +255,7 @@ function Reservation() {
         <h1 className="selectPayment">결제 수단</h1>
         <br />
         <br />
-        <div className='checkBox'>
+        <div className='payCheckBox'>
           <input type='checkbox'></input>{' '}
           <span>이 결제수단을 다음에도 사용</span>
           <br />
@@ -271,7 +272,7 @@ function Reservation() {
               <img src={CardImage} id='cardImage' alt='카드이미지'></img>
             </span>
             <br />
-            <span>펜션 이름 : {detailPension.name}</span><br /> 
+            <span style="">펜션 이름 : {detailPension.name}</span><br /> 
             
            
             <button id='modalButton' type='submit' onClick={makeReservation}>

@@ -14,8 +14,10 @@ import com.penpick.users.model.Users;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     List<Reservation> findByPenpickUser(Users penpickUser);
     
-	@Query("SELECT r FROM Reservation r JOIN Users p ON r.phoneNumber = p.phoneNumber WHERE p.userEmail = :email")
-    List<Reservation> findByEmail(@Param("email") String email);
+    @Query("SELECT r FROM Reservation r JOIN Users p ON r.phoneNumber = p.phoneNumber")
+//	@Query("SELECT r FROM Reservation r JOIN Users p ON r.phoneNumber = p.phoneNumber WHERE p.userEmail = :email")
+    List<Reservation> getReservation();
+//    List<Reservation> findByEmail(@Param("email") String email);
 
     
 //    List<Reservation> findByEmail(String email);

@@ -32,7 +32,7 @@ public class ReservationService{
        
 
         Reservation reservation = new Reservation();
-//        reservation.setPenpickUser(penpickUser);
+        reservation.setPenpickUser(penpickUser);
 //        reservation.setPensions(pensions);
           reservation.setPhoneNumber(phoneNumber);
           reservation.setPeople(people);
@@ -55,14 +55,18 @@ public class ReservationService{
     	return reservationRepository.findById(id);
     }
     
-    //이메일로 예약 조회
-    public List<Reservation> getReservations(String email){
-    	return reservationRepository.findByEmail(email);
+    //예약 내역 조회
+    public List<Reservation> getReservations(){
+    	return reservationRepository.getReservation();
     }
+    //이메일로 예약 조회
+//    public List<Reservation> getReservations(String email){
+//    	return reservationRepository.findByEmail(email);
+//    }
 
 //    유저넘으로 조회
 //    public List<Reservation> getReservation(int userNum){
 //    	return reservationRepository.findByUserNum(userNum);
 //    }
-	
+    
 }

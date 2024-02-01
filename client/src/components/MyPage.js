@@ -61,7 +61,7 @@ export default function MyPage() {
 
   return (
     <main id='myPage-layout'>
-      <Header />
+     
       <div id='myPage-container'>
         <nav id='myPage-navigation'>
           <ul id='navigation-list'>

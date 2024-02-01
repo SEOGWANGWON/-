@@ -53,11 +53,17 @@ public class ReservationController {
 			return ResponseEntity.ok(reservationList);
 	 }
 	
-	 //이메일로 조회
+	 //예약 리스트
 	 @GetMapping("/checkAll")
-	 public List<Reservation> getReservations(String email){
-		 return reservationService.getReservations(email);
+	 public List<Reservation> getReservations(){
+		 return reservationService.getReservations();
 	 }
+	 
+	 //이메일로 조회
+//	 @GetMapping("/checkAll")
+//	 public List<Reservation> getReservations(String email){
+//		 return reservationService.getReservations(email);
+//	 }
 	 
 //	 유저넘으로 조회
 //	 @GetMapping("/checkAll")
