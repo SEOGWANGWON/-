@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
-
+import "../css/PrevFresh.css";
 export default function PrevFresh() {
   const navigate = useNavigate();
 
@@ -111,8 +111,8 @@ export default function PrevFresh() {
       <div className="logo__container">
         <Header />
       </div>
-      <div className="list">
-        <h1>예약 리스트</h1>
+      <div className="fresh_res_list">
+        <h1>주문하실 예약 장소를 선택해주세요</h1>
         <ul className="reservation__container">
           {reservation.map((reservation) => (
             <li key={reservation.id} className="reservation">

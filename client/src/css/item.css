@@ -6,8 +6,11 @@
 }
 
 .item__container {
+  line-height: 1;
+  list-style: none;
   display: grid;
-  row-gap: 24px;
+  row-gap: 50px;
+  column-gap: 10px;
   grid-template-columns: calc(100% / 4) calc(100% / 4) calc(100% / 4) calc(
       100% / 4
     );
@@ -17,6 +20,12 @@
   width: 200px;
 }
 
+.fresh_pay {
+  font-size: 10px;
+}
+.select_fresh {
+  list-style: none;
+}
 .item > .description {
   display: flex;
 }

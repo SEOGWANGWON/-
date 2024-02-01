@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import "../css/reset-css.css";
-import "../css/item.css";
+import "../css/Reset-css.css";
+import "../css/Item.css";
 import Header from "./Header";
 
 export default function FreshHome() {
@@ -155,7 +155,7 @@ export default function FreshHome() {
       <div className="logo__container">
         <Header />
       </div>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto" }}>
         <div className="list">
           <div className="list-item" style={{ flex: "auto" }}>
             <h1
@@ -172,7 +172,7 @@ export default function FreshHome() {
                   {/* 사진 */}
                   <div
                     style={{
-                      width: 200,
+                      width: 190,
                       height: 200,
                       backgroundColor: "#e0e0e0",
                     }}
@@ -191,16 +191,23 @@ export default function FreshHome() {
                           id={freshitem.itemnum}
                           type="checkbox"
                           value={freshitem.itemnum}
-                          style={{ marginRight: 4 }}
+                          style={{ marginRight: 2 }}
                           onChange={handleCheckboxChange}
                         />
-                        <label htmlFor={freshitem.itemnum}>
+                        <label
+                          htmlFor={freshitem.itemnum}
+                          style={{ fontSize: 15 }}
+                        >
                           {freshitem.itemName || "이름 없음"}
                         </label>
                       </p>
                       <div>
                         <span
-                          style={{ fontSize: "1.2em", fontWeight: "bolder" }}
+                          style={{
+                            marginLeft: 14,
+                            fontSize: "0.9em",
+                            fontWeight: "bolder",
+                          }}
                         >
                           {Number(freshitem.itemPrice).toLocaleString()}
                         </span>
@@ -210,17 +217,22 @@ export default function FreshHome() {
                     {/* 개수 */}
                     <div className="amount">
                       <input
-                        style={{ maxWidth: 40, padding: 4, marginRight: 4 }}
+                        style={{
+                          maxWidth: 55,
+                          padding: 2,
+                          marginRight: 5,
+                          marginLeft: 10,
+                        }}
                         type="number"
                         min={0}
                         name="itemCount"
-                        placeholder="갯수 입력"
+                        placeholder="수량"
                         value={inputItemCount?.[freshitem.itemnum] || ""}
                         onChange={(e) =>
                           onChangeItemCount(freshitem.itemnum, e.target.value)
                         }
                       />
-                      <p>개</p>
+                      <p style={{ marginTop: 8 }}>개</p>
                       <div className="res_num">
                         <input
                           type="hidden"
@@ -251,7 +263,7 @@ export default function FreshHome() {
                     먼저 상품을 선택해주세요.
                   </p>
                 )}
-                <ul>
+                <ul className="select_fresh">
                   {orderList.map((targetItem) => {
                     return (
                       <li style={{ paddingTop: 4, textAlign: "right" }}>

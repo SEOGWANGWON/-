@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../css/order.css";
+import "../css/Order.css";
 import Header from "./Header";
 
 export default function FinishOrder() {
