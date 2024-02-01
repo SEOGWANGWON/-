@@ -1,44 +1,60 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../css/reset-css.css";
 import "../css/logo.css";
 import "../css/navigation.css";
 import "../css/item.css";
+import Header from "./Header";
 
 export default function FreshHome() {
+  const navigate = useNavigate();
+  //PrevFresh에서 useNavigate 값을 받아오기위함
+  const location = useLocation();
+  const resnum = location.state.id;
+  console.log("뭐지", resnum);
+  // 체크된 상품 목록 item_num
   const [selectedValues, setSelectedValues] = useState([]);
+  // 주문 항목별 개수
+  const [inputItemCount, setItemCount] = useState({});
+  // 주문 목록 금액 총계
+  const [totalAmount, setTotalAmount] = useState(0);
+  // 주문 목록
+  const [orderList, setOrderList] = useState([]);
   //사용자 불러오기
-  const [user, setUser] = useState([]);
+  const [, setUser] = useState([]);
   //프레쉬 아이템
-  const [freshitems, setfreshitems] = useState([]);
-
-  //주문 아이템
-  const [newOrder, setNewOrder] = useState({
-    item_count: "",
-    item_name: "",
-    item_price: "",
-    item_total_price: "",
-    id: "",
-    item_num: "",
-  });
+  const [freshitems, setFreshItems] = useState([]);
+  // resnum 값이 바뀔 때마다 sessionStorage의 값도 변경하기
+  useEffect(() => {
+    window.sessionStorage.setItem("resnum", resnum);
+  }, [resnum]);
 
   //프레쉬 아이템 불러오기
   useEffect(() => {
     const fetchItemData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8282/productItem/list"
-        );
-        setfreshitems(response.data);
-        console.log(response.data);
+        // const response = await axios.get(
+        //   "http://localhost:8282/productItem/list"
+        // );
+        const tmpData = [
+          { itemnum: 1, itemName: "삼겹살 150g", itemPrice: 12000 },
+          { itemnum: 2, itemName: "목살 150g", itemPrice: 11000 },
+          { itemnum: 5, itemName: "일회용품", itemPrice: 2000 },
+          { itemnum: 6, itemName: "허브솔트", itemPrice: 2000 },
+          { itemnum: 7, itemName: "상추", itemPrice: 1000 },
+          { itemnum: 8, itemName: "쌈장", itemPrice: 1500 },
+          { itemnum: 9, itemName: "뒤처리", itemPrice: 10000 },
+        ];
+        // setfreshitems(response.data);
+        setFreshItems(tmpData);
+        // console.log(response.data);
       } catch (error) {
         console.log("데이터를 불러오지 못했습니다.", error);
       }
     };
     fetchItemData();
   }, []);
-
-  //props로 예약정보를 넘겨 받아야함
 
   //로그인한 사용자 정보 받아오기
   useEffect(() => {
@@ -56,130 +72,223 @@ export default function FreshHome() {
     fetchUserCartData();
   }, []);
 
-  //주문하기
+  // 선택주문, 주문 개수, 상품 정보 목록 변경 시 새로운 order 데이터를 수립합니다.
+  useEffect(() => {
+    const selectedItems = selectedValues
+      .filter((itemnum) => {
+        return Number(inputItemCount?.[itemnum]);
+      })
+      .map((itemnum) => {
+        const count = inputItemCount?.[itemnum] || 1;
+        const targetItem =
+          freshitems.find((item) => String(item?.itemnum) === itemnum) || {};
+        return {
+          ...targetItem,
+          resnum: resnum,
+          itemCount: count,
+          item_Total_Price: count * Number(targetItem.itemPrice),
+        };
+      });
+    // 새롭게 주문예정 목록 작성
+    setOrderList(selectedItems);
+    const totalAmountArr = selectedItems.map((item) => item?.item_Total_Price);
+    if (totalAmountArr?.length > 0) {
+      const totalAmount = totalAmountArr.reduce((a, b) => a + b);
+      setTotalAmount(totalAmount);
+    }
+  }, [selectedValues, inputItemCount, freshitems, resnum]);
+
+  //주문하기 (고르기 클릭 시 )
   const registerAddOrder = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8282/freshorder/add",
-        { ...newOrder },
-        { withCredentials: true }
-      );
-      //   setorders((prevOrder) => [...prevOrder, response.data]);
-      setNewOrder({
-        item_count: "",
-        item_name: "",
-        item_price: "",
-        item_total_price: "",
-        id: "",
-        item_num: "",
+      const jobs = orderList.map((targetItem) => {
+        console.log(targetItem);
+        return axios.post("http://localhost:8282/freshorder/add", targetItem, {
+          withCredentials: true,
+        });
       });
-      console.log("1", newOrder);
-      console.log("2", selectedValues);
+      console.log(orderList);
+      const result = await Promise.all(jobs);
+      navigate("/FinishOrder", {
+        replace: true,
+      });
+      console.log(result);
+      //   setorders((prevOrder) => [...prevOrder, response.data]);
+      // setNewOrder({
+      //   item_count: "",
+      //   item_name: "",
+      //   item_price: "",
+      //   item_total_price: "",
+      //   id: "",
+      //   item_num: ""
+      // });
+      // console.log("1", newOrder);
+      // console.log("2", selectedValues);
     } catch (error) {
       console.error("데이터 저장오류", error);
     }
   };
   //기존 아이템정보 집어넣기
   const handleCheckboxChange = (event) => {
-    const value = event.target.value;
+    const currentItemNum = event.target.value;
     //체크여부 확인
     const isChecked = event.target.checked;
-
-    //체크가 되어있다면
+    //체크 시
     if (isChecked) {
-      setSelectedValues((prevValues) => [...prevValues, value]);
-
+      setSelectedValues([...selectedValues, currentItemNum]);
+      if (!inputItemCount?.[currentItemNum]) {
+        setItemCount({ ...inputItemCount, [currentItemNum]: 1 });
+      }
       //체크가 안되어있다면
     } else {
-      setSelectedValues((prevValues) => prevValues.filter((v) => v !== value));
+      setSelectedValues(selectedValues.filter((v) => v !== currentItemNum));
     }
   };
+
   //갯수 조정
-  const orderhandleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewOrder((prevCartitem) => ({ ...prevCartitem, [name]: value }));
+  const onChangeItemCount = (itemnum, count) => {
+    // const { name, value } = e.target;
+    setItemCount({ ...inputItemCount, [itemnum]: count });
+    // setNewOrder(prevCartitem => ({ ...prevCartitem, [name]: value }));
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: 1200, margin: "0 auto" }}>
       <div className="logo__container">
-        <a href="/" className="logo">
-          <img src="../assets/펜픽로고.png" alt="logo" />
-        </a>
-        <h1 className="header">PENPICK FRESH</h1>
-      </div>
-      <div className="navigation__container">
-        <ul className="navigation">
-          <li>홈</li>
-          <li>물품 리스트</li>
-          <li>장바구니</li>
-          <li>결제</li>
-        </ul>
-        <a href="/FreshOrder" className="cart">
-          <img src="/assets/장바구니.png" alt="cart" />
-        </a>
+        <Header />
       </div>
       <div className="list">
-        <h1>물품 리스트</h1>
-        <ul className="item__container">
-          {freshitems.map((freshitem) => (
-            <li key={freshitem.item_num} className="item">
-              {/* 사진 */}
-              <div
-                style={{
-                  width: 200,
-                  height: 200,
-                  backgroundColor: "#e0e0e0",
-                }}
-              />
-              {/* 설명 */}
-              <div className="description">
-                {/* 정보 */}
-                <div className="infomation">
-                  {freshitem.item_name}
-                  <input
-                    type="checkbox"
-                    name="item_name"
-                    value={freshitem.item_name}
-                    onChange={handleCheckboxChange}
-                  />
-                  <br />
-                  {freshitem.item_price}원<br />
-                  <label>
+        <div className="list-item" style={{ flex: "auto" }}>
+          <h1
+            style={{
+              marginBottom: 16,
+              fontWeight: "bolder",
+            }}
+          >
+            물품 리스트
+          </h1>
+          <ul className="item__container">
+            {freshitems.map((freshitem) => (
+              <li key={freshitem.itemnum} className="item">
+                {/* 사진 */}
+                <div
+                  style={{
+                    width: 200,
+                    height: 200,
+                    backgroundColor: "#e0e0e0",
+                  }}
+                />
+                {/* 설명 */}
+                <div className="description">
+                  {/* 정보 */}
+                  <div className="infomation">
+                    <p
+                      style={{
+                        marginTop: 4,
+                        marginBottom: 4,
+                      }}
+                    >
+                      <input
+                        id={freshitem.itemnum}
+                        type="checkbox"
+                        value={freshitem.itemnum}
+                        style={{ marginRight: 4 }}
+                        onChange={handleCheckboxChange}
+                      />
+                      <label htmlFor={freshitem.itemnum}>
+                        {freshitem.itemName || "이름 없음"}
+                      </label>
+                    </p>
+                    <div>
+                      <span style={{ fontSize: "1.2em", fontWeight: "bolder" }}>
+                        {Number(freshitem.itemPrice).toLocaleString()}
+                      </span>
+                      원
+                    </div>
+                  </div>
+                  {/* 개수 */}
+                  <div className="amount">
                     <input
-                      type="checkbox"
-                      name="item_num"
-                      value={freshitem.item_num}
-                      onChange={handleCheckboxChange}
-                    ></input>
-                  </label>
+                      style={{ maxWidth: 40, padding: 4, marginRight: 4 }}
+                      type="number"
+                      min={0}
+                      name="itemCount"
+                      placeholder="갯수 입력"
+                      value={inputItemCount?.[freshitem.itemnum] || ""}
+                      onChange={(e) =>
+                        onChangeItemCount(freshitem.itemnum, e.target.value)
+                      }
+                    />
+                    <p>개</p>
+                    <div className="res_num">
+                      <input
+                        type="hidden"
+                        name="resnum"
+                        value={resnum?.[freshitem.itemnum] || ""}
+                      />
+                    </div>
+                  </div>
                 </div>
-
-                {/* 개수 */}
-                <div className="amount">
-                  <input
-                    type="number"
-                    min={0}
-                    name="item_count"
-                    placeholder="갯수 입력"
-                    value={freshitem.item_count}
-                    onChange={orderhandleInputChange}
-                  />
-                  <p>개</p>
-                </div>
-                {/* <input
-                  type="hidden"
-                  name="user_num"
-                  value={user.user_num}
-                  onChange={carthandleInputChange}
-                /> */}
-              </div>
-              <button className="add__button" onClick={registerAddOrder}>
-                고르기
-              </button>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="list-item" style={{ width: "30%" }}>
+          <div className="result" style={{ paddingLeft: 16 }}>
+            <div>
+              <h1
+                style={{
+                  marginBottom: 16,
+                  fontWeight: "bolder",
+                  textAlign: "right",
+                }}
+              >
+                <strong>선택 품목</strong>
+              </h1>
+              {orderList?.length < 1 && (
+                <p style={{ textAlign: "center" }}>먼저 상품을 선택해주세요.</p>
+              )}
+              <ul>
+                {orderList.map((targetItem) => {
+                  return (
+                    <li style={{ paddingTop: 4, textAlign: "right" }}>
+                      <span style={{ marginRight: 8 }}>
+                        {targetItem.itemName}
+                      </span>
+                      <span style={{ marginRight: 8 }}>
+                        {Number(targetItem.itemCount).toLocaleString()}개
+                      </span>
+                      <span>
+                        {Number(targetItem.item_Total_Price).toLocaleString()}원
+                      </span>
+                    </li>
+                  );
+                })}
+                <li>
+                  <hr />
+                </li>
+                {orderList.length > 0 && (
+                  <li style={{ paddingTop: 4, textAlign: "right" }}>
+                    <span>
+                      합계 :{" "}
+                      <strong style={{ fontWeight: "bolder" }}>
+                        {Number(totalAmount).toLocaleString()}
+                      </strong>
+                      원
+                    </span>
+                  </li>
+                )}
+              </ul>
+            </div>
+            <button
+              className="add__button"
+              onClick={registerAddOrder}
+              style={{ marginTop: 16, padding: 8 }}
+            >
+              고르기
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
