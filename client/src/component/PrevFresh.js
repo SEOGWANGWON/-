@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Header from "./Header";
 
 export default function PrevFresh() {
   const navigate = useNavigate();
@@ -106,17 +107,22 @@ export default function PrevFresh() {
   }, []);
 
   return (
-    <div className="list">
-      <h1>예약 리스트</h1>
-      <ul className="reservation__container">
-        {reservation.map((reservation) => (
-          <li key={reservation.id} className="reservation">
-            <button onClick={() => move(reservation.id)}>
-              날짜 : {reservation.res_date}
-            </button>
-          </li>
-        ))}
-      </ul>
+    <div>
+      <div className="logo__container">
+        <Header />
+      </div>
+      <div className="list">
+        <h1>예약 리스트</h1>
+        <ul className="reservation__container">
+          {reservation.map((reservation) => (
+            <li key={reservation.id} className="reservation">
+              <button onClick={() => move(reservation.id)}>
+                날짜 : {reservation.res_date}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

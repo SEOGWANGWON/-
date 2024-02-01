@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/order.css";
+import Header from "./Header";
 
 export default function FinishOrder() {
   //결제내역
@@ -53,21 +54,7 @@ export default function FinishOrder() {
   return (
     <div>
       <div className="logo__container">
-        <a href="/" className="logo">
-          <img src="/assets/펜픽로고.png" alt="logo" />
-        </a>
-        <h1 className="header">PENPICK FRESH</h1>
-      </div>
-      <div className="navigation__container">
-        <ul className="navigation">
-          <li>홈</li>
-          <li>물품 리스트</li>
-          <li>장바구니</li>
-          <li>결제</li>
-        </ul>
-        <a href="/FreshOrder" className="cart">
-          <img src="/assets/장바구니.png" alt="cart" />
-        </a>
+        <Header />
       </div>
       <div className="order__list__container">
         <h1>결제 내역</h1>
