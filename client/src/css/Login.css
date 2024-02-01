@@ -52,3 +52,8 @@
     line-height: 0px;
     margin: 0px 16px;
 }
+
+#naverLogin-button{
+    height: 44px;
+    margin:auto;
+}

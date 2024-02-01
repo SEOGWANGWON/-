@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 import Header from './Header';
+import houseImage from '../img/User-Profile-PNG-Download-Image.png';
 
 
 export default function MyPage(){
@@ -123,8 +124,11 @@ export default function MyPage(){
                 </nav>
                 {/* 회원 정보 뜨는 곳 */}
                 <section id="myPage-content">
-                    <p id="content-title">내 정보 관리</p><br />
-                    <p>{userInfo.nickname} 님의 회원 정보</p>
+                    <div>
+                        <img src={houseImage} alt="프사" style={{float:"right", width:"130px", marginTop:"10px", marginRight:"10px"}} />
+                        <p id="content-title">내 정보 관리</p><br />
+                        <p>{userInfo.nickname} 님의 회원 정보</p>
+                    </div>
                     <hr />
                     {isEditing ? (
                         // 수정하기 버튼 눌렀을 때 나타나는 영역

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import '../css/Login.css';
 import logo from '../img/펜픽로고.png';
 import axios from 'axios';
@@ -6,6 +6,7 @@ import KakaoLogin from 'react-kakao-login';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import kakaoLoginLogo from '../img/kakao_login_medium_narrow.png';
 import NaverLoginLogo from '../img/naver_login_medium_narrow.png';
+import styled from 'styled-components'
 import Header from './Header';
 
 export default function SignUp() {
@@ -75,48 +76,44 @@ export default function SignUp() {
 
     //네이버 로그인 처리 함수 --------------------------------------------------
 
-    //네이버 Api 정보 설정
-    const { naver } = window
+    //useRef 선언
+    const naverRef = useRef()
 
 	const NAVER_CLIENT_ID = "JOrgTkSms_oef7S497wp";
-	const NAVER_CALLBACK_URL = "http://localhost:3000";
+	const NAVER_CALLBACK_URL = "http://localhost:3000/login";
 
     //네이버 로그인 초기화
 	const initializeNaverLogin = () => {
 
-		const naverLogin = new naver.LoginWithNaverId({
-			clientId: NAVER_CLIENT_ID,
-			callbackUrl: NAVER_CALLBACK_URL,        
-			isPopup: false, //팝업창 로그인 X
-			loginButton: { color: 'green', type: 3, height: 45, },
-			callbackHandle: true,
-		});
+        const naverLogin = new window.naver.LoginWithNaverId({
+            clientId: NAVER_CLIENT_ID,
+            callbackUrl: NAVER_CALLBACK_URL,        
+            isPopup: false, //팝업창 로그인 X
+            loginButton: { color: 'green', type: 3, height: 45, },
+            callbackHandle: true,
+        });
 
-        //초기화
+        //네이버 로그인 시작
 		naverLogin.init();
-      
+
         //로그인 상태 확인 및 사용자 정보 추출
         naverLogin.getLoginStatus(async function (status) {
             
             if (status) {
-                const userid = naverLogin.user.getEmail();
-                const username = naverLogin.user.getName();
-                
-                // setUserInfo(naverLogin.user)
 
-                console.log(status);
+                const userid = naverLogin.user.email;
+                const username = naverLogin.user.nickname;
+
+                //console.log(status);
                 console.log(userid);
                 console.log(username);
 
-                // 서버로 데이터 전송
                 sendNaverUserInfoToServer({userid, username});
 
-                // 네이버 로그인 성공 시 페이지 이동
-                // window.location.href= "http://localhost:3000/";
-                alert("펜픽 방문을 환영합니다");
             }
 
         });     
+
 	}
 
     const sendNaverUserInfoToServer = async (userInfo) => {
@@ -133,29 +130,28 @@ export default function SignUp() {
 
             // 서버 응답 확인
             console.log('서버 응답:', response.data);
+            alert("펜픽 방문을 환영합니다");
+
         } catch (error) {
             console.error('서버 요청 실패:', error);
         }
     }
-   
-    //액세스 토큰 관리
-    const userAccessToken = () => {
-        window.location.href.includes('access_token') && getToken();
-	}
-        
-    const getToken = () => {
-        
-        //URL에서 액세스 토큰 추출
-        const token = window.location.href.split('=')[1].split('&')[0];
-        return token;
 
-	}
+    const handleNaverLogin = () => {
+        initializeNaverLogin();
+        naverRef.current.children[0].click();
+    }
+   
+    //URL에 붙어 전달되는 어스코드 추출
+    // const userAccessToken = () => {
+    //     window.location.href.includes('access_token') && getToken();
+	// }
         
-    // 초기화 및 엑세스 토큰 추출 실행
-	useEffect(() => {
-		initializeNaverLogin();
-		userAccessToken();
-	},[]);
+    // const getToken = () => {
+    //     //URL에서 액세스 토큰 추출
+    //     const token = window.location.href.split('=')[1].split('&')[0];
+    //     return token;
+	// }
 
     //-------------------------------------------------------------------------
     
@@ -188,6 +184,7 @@ export default function SignUp() {
                 <button id='loginButton' type="button" onClick={handleLogin}>Log In</button>
             </form>
             <div id="social-login-line" style={{width:"430px", margin:"auto", marginTop:"30px", marginBottom:"30px"}}>Other</div>
+            {/* 카카오 로그인 버튼 */}
             <KakaoLogin 
                 //JS RESTApi key
                 token="e37a82e7e5d11141f3bac76816aec5e7"
@@ -202,7 +199,10 @@ export default function SignUp() {
                 )}
             /><br /><br />
             {/* 네이버 로그인 버튼 */}
-            <div id="naverIdLogin" style={{width:"400px", backgroundColor:"RGB(3,199,90)", margin:"auto", borderRadius:"7px"}}/>
+            <NaverIdLogin ref={naverRef} id="naverIdLogin" />
+			<NaverLoginBtn onClick={handleNaverLogin}>
+                <img src={NaverLoginLogo} alt="네이버로그인 로고" id="naverLogin-button"/>
+			</NaverLoginBtn>
             <div id="signUpMessage">
                 <p>계정이 없으신가요?</p>
                 <a href="/signUp" style={{color:"darkBlue"}}>이메일로 회원가입</a>
@@ -212,3 +212,20 @@ export default function SignUp() {
         
     )
 }
+
+// 기존 로그인 버튼이 아닌 커스텀을 진행한 로그인 버튼만 나타내기 위해 작성
+const NaverIdLogin = styled.div`
+	display: none;
+`
+
+const NaverLoginBtn = styled.button`
+	display: flex;
+	align-items: center;
+	width: 400px;
+	height: 45px;
+    margin: auto;
+	background-color: #03c75a;
+	border-radius: 7px;
+    border:none;
+    color: white;
+`
