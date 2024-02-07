@@ -93,13 +93,13 @@
 }
 
 * {
-  font-family: "NanumSquareNeo-Variable";
+  font-family: 'NanumSquareNeo-Variable';
 }
 /* PenPick 폰트 */
 @font-face {
-  font-family: "NanumSquareNeo-Variable";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2")
-    format("woff2");
+  font-family: 'NanumSquareNeo-Variable';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2')
+    format('woff2');
   font-weight: normal;
   font-style: normal;
 }
@@ -159,8 +159,8 @@
   font-size: 30px;
   font-weight: 900;
   margin-right: 100px;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 /*PenPick 로고이미지*/
