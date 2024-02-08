@@ -32,7 +32,7 @@ public class ReservationController {
 	
 	@Autowired
     public ReservationController(ReservationService reservationService) {
-        this.reservationService = reservationService;
+        this.reservationService = reservationService;	
     }
 	
 	//24시간 이후의 데이터 불러오기
