@@ -1,0 +1,114 @@
+#eventTitle {
+  font-weight: 900;
+  font-size: 20px;
+  margin-left: 100px;
+  transition: all 0.3s ease-out;
+}
+
+#eventTitle:hover{
+  color:orangered;
+  transform: translateY(-5px);
+}
+
+#EventMain {
+  width: 1000px;
+  margin-top: 150px;
+  float: right;
+}
+
+#eventContainer {
+  width: 1400px;
+  height: 700px;
+  display: flex;
+}
+
+#eventComments {
+  width: 850px;
+  height: 80px;
+  margin-left: 15px;
+}
+
+#eventform {
+  width: 1000px;
+  margin: auto;
+  margin-bottom: 100px;
+}
+
+#eventFormButton {
+  width: 100px;
+  margin-left: 20px;
+}
+
+#Detailcontainer {
+  height: 1000px;
+  width: 1000px;
+  margin: auto;
+}
+
+#detailContent {
+  margin-top: 150px;
+  font-size: 25px;
+  font-weight: 900;
+  margin-left: 50px;
+}
+
+/* 이벤트 댓글 날짜 */
+#eventCommentDate {
+  float: right;
+  color: gray;
+  font-weight: 100;
+  font-size: 12px;
+  padding-top: 0;
+}
+
+/* 이벤트 게시글 목록 */
+#eventButton {
+  background-color: white;
+  border: none;
+}
+
+#EventContent {
+  margin-bottom: 50px;
+  margin-left: 100px;
+  margin-top: 10px;
+}
+
+#eventInputAndButton {
+  margin: auto;
+}
+
+#eventContentimgBox {
+  width: 800px;
+  margin: auto;
+}
+
+#eventContentimg {
+  width: 800px;
+  margin-top: 60px;
+}
+#eventthumnailBox {
+  width: 400px;
+  margin: auto;
+  transition: all 0.3s ease-out;
+}
+
+#eventthumnailBox:hover{
+  transform: translateY(-3px);
+  
+}
+
+#eventthumnail {
+  width: 400px;
+  border-radius: 10px;
+}
+
+#eventthumnail:hover{
+  box-shadow: 0px 2px 10px gray;
+}
+
+#eventBox {
+  width: 1200px;
+  display: grid;
+  grid-template-columns: calc(100% / 2) calc(100% / 2);
+  margin-bottom: 100px;
+}
