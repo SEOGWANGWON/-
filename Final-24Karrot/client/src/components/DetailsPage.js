@@ -15,6 +15,9 @@ import ReviewList from "./ReviewList";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function DetailsPage() {
+  // 로그인 상태
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   // 카카오 지도 모달
   const [mapModalBtn, setmapModalBtn] = useState(false);
 
@@ -442,18 +445,36 @@ function DetailsPage() {
                               <div id="room-reservation-price">80,000원</div>
 
                               <div>
-                                <Button
-                                  id="reservation-btn"
-                                  onClick={() =>
-                                    handleReservationPage(
-                                      searchDetail,
-                                      doubleRoom,
-                                      doubleRoomPrice
-                                    )
-                                  }
-                                >
-                                  객실 예약
-                                </Button>
+                                {peopleNumber >= 2 && peopleNumber <= 3 ? (
+                                  <Button
+                                    class="btn btn-primary"
+                                    id="reservation-btn"
+                                    onClick={() =>
+                                      handleReservationPage(
+                                        searchDetail,
+                                        doubleRoom,
+                                        doubleRoomPrice
+                                      )
+                                    }
+                                  >
+                                    객실 예약
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    class="btn btn-danger"
+                                    id="reservation-btn"
+                                    onClick={() =>
+                                      handleReservationPage(
+                                        searchDetail,
+                                        doubleRoom,
+                                        doubleRoomPrice
+                                      )
+                                    }
+                                    disabled
+                                  >
+                                    객실 예약
+                                  </Button>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -493,18 +514,36 @@ function DetailsPage() {
                               <div id="room-reservation-price">120,000원</div>
 
                               <div>
-                                <Button
-                                  id="reservation-btn"
-                                  onClick={() =>
-                                    handleReservationPage(
-                                      searchDetail,
-                                      tripleRoom,
-                                      tripleRoomPrice
-                                    )
-                                  }
-                                >
-                                  객실 예약
-                                </Button>
+                                {peopleNumber >= 3 && peopleNumber <= 4 ? (
+                                  <Button
+                                    class="btn btn-primary"
+                                    id="reservation-btn"
+                                    onClick={() =>
+                                      handleReservationPage(
+                                        searchDetail,
+                                        tripleRoom,
+                                        tripleRoomPrice
+                                      )
+                                    }
+                                  >
+                                    객실 예약
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    class="btn btn-danger"
+                                    id="reservation-btn"
+                                    onClick={() =>
+                                      handleReservationPage(
+                                        searchDetail,
+                                        tripleRoom,
+                                        tripleRoomPrice
+                                      )
+                                    }
+                                    disabled
+                                  >
+                                    객실 예약
+                                  </Button>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -544,18 +583,36 @@ function DetailsPage() {
                               <div id="room-reservation-price">160,000원</div>
 
                               <div>
-                                <Button
-                                  id="reservation-btn"
-                                  onClick={() =>
-                                    handleReservationPage(
-                                      searchDetail,
-                                      famillyRoom,
-                                      famillyRoomPrice
-                                    )
-                                  }
-                                >
-                                  객실 예약
-                                </Button>
+                                {peopleNumber >= 4 && peopleNumber <= 5 ? (
+                                  <Button
+                                    class="btn btn-primary"
+                                    id="reservation-btn"
+                                    onClick={() =>
+                                      handleReservationPage(
+                                        searchDetail,
+                                        famillyRoom,
+                                        famillyRoomPrice
+                                      )
+                                    }
+                                  >
+                                    객실 예약
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    class="btn btn-danger"
+                                    id="reservation-btn"
+                                    onClick={() =>
+                                      handleReservationPage(
+                                        searchDetail,
+                                        famillyRoom,
+                                        famillyRoomPrice
+                                      )
+                                    }
+                                    disabled
+                                  >
+                                    객실 예약
+                                  </Button>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -595,18 +652,36 @@ function DetailsPage() {
                               <div id="room-reservation-price">240,000원</div>
 
                               <div>
-                                <Button
-                                  id="reservation-btn"
-                                  onClick={() =>
-                                    handleReservationPage(
-                                      searchDetail,
-                                      groupRoom,
-                                      groupRoomPrice
-                                    )
-                                  }
-                                >
-                                  객실 예약
-                                </Button>
+                                {peopleNumber >= 5 && peopleNumber <= 8 ? (
+                                  <Button
+                                    class="btn btn-primary"
+                                    id="reservation-btn"
+                                    onClick={() =>
+                                      handleReservationPage(
+                                        searchDetail,
+                                        groupRoom,
+                                        groupRoomPrice
+                                      )
+                                    }
+                                  >
+                                    객실 예약
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    class="btn btn-danger"
+                                    id="reservation-btn"
+                                    onClick={() =>
+                                      handleReservationPage(
+                                        searchDetail,
+                                        groupRoom,
+                                        groupRoomPrice
+                                      )
+                                    }
+                                    disabled
+                                  >
+                                    예약 불가
+                                  </Button>
+                                )}
                               </div>
                             </div>
                           </div>
