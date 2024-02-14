@@ -85,9 +85,9 @@ public class ReservationService{
     }
     
     // 펜션 id로 예약 정보를 가져오기 위한 메서드
-    public List<Reservation> findReservationByPensionsId(Long pensions){
-    	System.out.println("서비스" + reservationRepository.findReservationByPensionsId(pensions));
-    	return reservationRepository.findReservationByPensionsId(pensions);
+    public List<Reservation> findReservationByPensionsId(Long pensions,LocalDate checkInDay , LocalDate checkOutDay){
+    	System.out.println("서비스" + reservationRepository.findReservationByPensionsId(pensions,checkInDay,checkOutDay));
+    	return reservationRepository.findReservationByPensionsId(pensions,checkInDay ,checkOutDay);
     }
     
     

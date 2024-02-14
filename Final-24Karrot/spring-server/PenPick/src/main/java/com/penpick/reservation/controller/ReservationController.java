@@ -3,6 +3,7 @@ package com.penpick.reservation.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -142,9 +143,9 @@ public class ReservationController {
 			
 	 // 펜션 id로 예약 정보 가져오기
 	 @GetMapping("/getReservation")
-	 public List<Reservation> getReservationByPensionsId(@RequestParam("pensions") Long pensions){
+	 public List<Reservation> getReservationByPensionsId(@RequestParam("pensions") Long pensions, @RequestParam("checkInDay") LocalDate checkInDay, @RequestParam("checkOutDay") LocalDate checkOutDay){
 		 System.out.println(pensions);
-		 List<Reservation> getReservationList = reservationService.findReservationByPensionsId(pensions);
+		 List<Reservation> getReservationList = reservationService.findReservationByPensionsId(pensions,checkInDay,checkOutDay);
 		 System.out.println(getReservationList);
 		 
 		 
