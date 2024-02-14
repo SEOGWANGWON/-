@@ -66,8 +66,6 @@ public class Pensions{
 	private int family_room;
 	
 	private int group_room;
-	
-//	private Blob img;
 
 	
 	

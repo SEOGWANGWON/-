@@ -1,12 +1,13 @@
 package com.penpick.pension.service;
 
-import java.sql.Blob;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.penpick.pension.model.Pensions;
+import com.penpick.pension.model.pimg;
+import com.penpick.pension.repository.PensionImgRepository;
 import com.penpick.pension.repository.PensionRepository;
 
 @Service
@@ -14,6 +15,8 @@ public class PensionService {
 	
 	@Autowired 
 	private PensionRepository pensionRepository;
+	@Autowired 
+	private PensionImgRepository pensionImgRepository;
 	
 	
 	//============================================가을이 것=======================================
@@ -57,6 +60,10 @@ public class PensionService {
 	public List<Pensions> getAllPensionList(){
 		
 		return pensionRepository.findAll();
+	}
+	
+	public List<pimg> getAllImages(){
+		return pensionImgRepository.findAll();
 	}
 
 	

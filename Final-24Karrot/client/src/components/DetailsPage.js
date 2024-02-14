@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
 import healingPension from "../img/THE 힐링펜션_2_공공3유형.jpg";
 import mapOption from "../img/최대화 옵션 이미지.png";
 import "../css/DetailsPage.css";
@@ -11,12 +10,13 @@ import DetailTripleRoomModal from "./DetailPageModal/DetailTripleRoomModal";
 import DetailFamilyRoomModal from "./DetailPageModal/DetailFamilyRoomModal";
 import DetailGroupRoomModal from "./DetailPageModal/DetailGroupRoomModal";
 import DetailDoubleRoomModal from "./DetailPageModal/DetailDoubleRoomModal";
-import ReviewList from "./ReviewList";
 import { useLocation, useNavigate } from "react-router-dom";
+import Header from "./Header";
 
 function DetailsPage() {
   // 로그인 상태
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const [isLoading, setIsLoading] = useState(true);
 
   // 카카오 지도 모달
   const [mapModalBtn, setmapModalBtn] = useState(false);
@@ -50,6 +50,9 @@ function DetailsPage() {
 
   const [groupRoomPrice] = useState(240000);
 
+  // Reservation 데이터 받아오기
+  const [reservation, setReservation] = useState([]);
+
   // pension 정보 들어있는 Hook
   const [detailPension, setDetailPension] = useState([]);
 
@@ -66,29 +69,105 @@ function DetailsPage() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // 날짜
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = ("0" + (now.getMonth() + 1)).slice(-2);
+  const day = ("0" + now.getDate()).slice(-2);
+
+  // 다음 날짜 계산
+  const nextDay = new Date(now);
+  nextDay.setDate(nextDay.getDate() + 1);
+  const nextDayOfMonth = ("0" + nextDay.getDate()).slice(-2);
+  const Month = ("0" + (nextDay.getMonth() + 1)).slice(-2);
+  const nextYear = nextDay.getFullYear();
+
+  // 한 달 후 날짜 계산
+  const oneMonthLater = new Date(now);
+  oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
+  const oneMonthLaterYear = oneMonthLater.getFullYear();
+  const oneMonthLaterMonth = ("0" + (oneMonthLater.getMonth() + 1)).slice(-2);
+  const oneMonthLaterDay = ("0" + oneMonthLater.getDate()).slice(-2);
+
   //체크인 날짜 받기
-  const inputcheckinDate = location.state?.inputcheckinDate;
+  const [inputcheckinDate, setInputcheckinDate] = useState(
+    location.state?.inputcheckinDate
+  );
 
   //체크아웃 날짜 받기
-  const inputcheckoutDate = location.state?.inputcheckoutDate;
+  const [inputcheckoutDate, setInputcheckoutDate] = useState(
+    location.state?.inputcheckoutDate
+  );
 
   // 인원수
-  const peopleNumber = location.state?.peopleNumber;
+  const [peopleNumber, setPeopleNumber] = useState(
+    location.state?.peopleNumber
+  );
 
   // 펜션 id
   const selectedId = location.state?.selectedId;
 
   console.log(inputcheckinDate, inputcheckoutDate, peopleNumber, selectedId);
 
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  const handleReservation = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:8282/reservation/getReservation",
+        {
+          params: {
+            pensions: selectedId,
+          },
+        }
+      );
+      console.log("나는 reservation" + res.data);
+      setReservation(res.data);
+      console.log("1" + reservation);
+    } catch (err) {
+      console.log("에러입니다" + err);
+    }
+  };
+
   useEffect(() => {
+    fetchUserData();
+
     setSearchDetail(selectedId);
     if (selectedId !== null) {
       handleDetail();
+      handleReservation();
+
       console.log(selectedId);
     } else {
       console.log("검색값 없음");
     }
   }, [searchDetail]);
+
+  const fetchUserData = async () => {
+    try {
+      const res = await axios.get("http://localhost:8282/userdata", {
+        withCredentials: true,
+      });
+      setAuthentication(res.data.userEmail);
+      console.log(res.data.userEmail);
+    } catch (err) {
+      console.error("세션 데이터 불러오기 실패", err);
+    } finally {
+      // setIsLoading(false);
+      console.log("finally");
+    }
+  };
+
+  //  로그인 체크
+  const setAuthentication = (userEmail) => {
+    if (userEmail !== "") {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  };
 
   const handleReservationPage = (id, room, price) => {
     // 펜션 id
@@ -100,7 +179,7 @@ function DetailsPage() {
     // 룸 가격
     const roomPrice = price;
 
-    console.log(id, room);
+    console.log(id, room, price);
     navigate("/Reservation", {
       state: {
         inputcheckinDate,
@@ -111,6 +190,15 @@ function DetailsPage() {
         roomPrice,
       },
     });
+  };
+
+  const handleFalseAlert = (isAuthenticated) => {
+    if (isAuthenticated !== true) {
+      alert("로그인이 필요합니다.");
+      window.location.href = "/login";
+    } else {
+      alert("날짜 또는 인원수가 올바르지 않습니다.");
+    }
   };
 
   const handleDetail = async () => {
@@ -130,7 +218,7 @@ function DetailsPage() {
   };
   useEffect(() => {
     loadKakaoMap(detailPension);
-  });
+  }, []);
 
   const loadKakaoMap = (pension) => {
     const script = document.createElement("script");
@@ -289,18 +377,24 @@ function DetailsPage() {
     };
   };
 
-  const handleCopyClipBoard = (text) => {
-    try {
-      navigator.clipboard.writeText(text);
-      alert("클립보드에 복사되었습니다.");
-    } catch (error) {
-      alert("클립보드 복사에 실패하였습니다.");
-    }
-  };
+  // const handleCopyClipBoard = (text) => {
+  //   try {
+  //     navigator.clipboard.writeText(text);
+  //     alert("클립보드에 복사되었습니다.");
+  //   } catch (error) {
+  //     alert("클립보드 복사에 실패하였습니다.");
+  //   }
+  // };
+
+  // 초기 로딩 중에는 아무것도 반환X
+  // if (isLoading) {
+  //   return null;
+  // }
 
   return (
     <div>
       <Header />
+
       <div id="detailpage">
         <div>
           <div id="detailpage-sub">
@@ -396,13 +490,42 @@ function DetailsPage() {
                 <p id="detail-title-text">펜션</p>
                 <h3 id="detail-title-name">{detailPension.name}</h3>
               </div>
-              <div id="detail-review-title">
-                별점,(review_id.length)+"명 평가" <a href="">리뷰보기</a>
+              <div id="detail-PensionSearchForm">
+                <input
+                  id="detail-HeaderPensionInputDate1"
+                  value={inputcheckinDate}
+                  min={inputcheckinDate}
+                  max={oneMonthLaterYear + "-" + oneMonthLaterMonth + "-" + day}
+                  type="date"
+                  onChange={(e) => setInputcheckinDate(e.target.value)}
+                />
+                <span id="detail-InputBar">|</span>
+                <input
+                  id="detail-HeaderPensionInputDate2"
+                  min={inputcheckinDate}
+                  value={inputcheckoutDate}
+                  max={
+                    oneMonthLaterYear +
+                    "-" +
+                    oneMonthLaterMonth +
+                    "-" +
+                    nextDayOfMonth
+                  }
+                  type="date"
+                  onChange={(e) => setInputcheckoutDate(e.target.value)}
+                />
+                <span id="detail-InputBar">ㅣ</span>
+                <input
+                  id="detail-HeaderPensionInputNumber"
+                  value={peopleNumber}
+                  type="number"
+                  onChange={(e) => setPeopleNumber(e.target.value)}
+                  min={1}
+                  max={8}
+                />
+                명
               </div>
-              <div id="detail-review-container">
-                <ReviewList />
-                "내용","이용자 닉네임","작성날짜"
-              </div>
+
               <div id="detail-service-container">
                 <div id="detail-lines" />
                 <div id="detail-lines-title">
@@ -445,7 +568,13 @@ function DetailsPage() {
                               <div id="room-reservation-price">80,000원</div>
 
                               <div>
-                                {peopleNumber >= 2 && peopleNumber <= 3 ? (
+                                {(peopleNumber >= 2 &&
+                                  peopleNumber <= 3 &&
+                                  isAuthenticated !== false &&
+                                  reservation.checkin <= inputcheckinDate &&
+                                  reservation.checkout >= inputcheckinDate) ||
+                                (reservation.checkin <= inputcheckoutDate &&
+                                  reservation.checkout >= inputcheckoutDate) ? (
                                   <Button
                                     class="btn btn-primary"
                                     id="reservation-btn"
@@ -462,17 +591,12 @@ function DetailsPage() {
                                 ) : (
                                   <Button
                                     class="btn btn-danger"
-                                    id="reservation-btn"
+                                    id="reservation-btn-false"
                                     onClick={() =>
-                                      handleReservationPage(
-                                        searchDetail,
-                                        doubleRoom,
-                                        doubleRoomPrice
-                                      )
+                                      handleFalseAlert(isAuthenticated)
                                     }
-                                    disabled
                                   >
-                                    객실 예약
+                                    예약 불가
                                   </Button>
                                 )}
                               </div>
@@ -514,7 +638,13 @@ function DetailsPage() {
                               <div id="room-reservation-price">120,000원</div>
 
                               <div>
-                                {peopleNumber >= 3 && peopleNumber <= 4 ? (
+                                {(peopleNumber >= 3 &&
+                                  peopleNumber <= 4 &&
+                                  isAuthenticated !== false &&
+                                  reservation.checkin <= inputcheckinDate &&
+                                  reservation.checkout >= inputcheckinDate) ||
+                                (reservation.checkin <= inputcheckoutDate &&
+                                  reservation.checkout >= inputcheckoutDate) ? (
                                   <Button
                                     class="btn btn-primary"
                                     id="reservation-btn"
@@ -531,17 +661,12 @@ function DetailsPage() {
                                 ) : (
                                   <Button
                                     class="btn btn-danger"
-                                    id="reservation-btn"
+                                    id="reservation-btn-false"
                                     onClick={() =>
-                                      handleReservationPage(
-                                        searchDetail,
-                                        tripleRoom,
-                                        tripleRoomPrice
-                                      )
+                                      handleFalseAlert(isAuthenticated)
                                     }
-                                    disabled
                                   >
-                                    객실 예약
+                                    예약 불가
                                   </Button>
                                 )}
                               </div>
@@ -583,7 +708,13 @@ function DetailsPage() {
                               <div id="room-reservation-price">160,000원</div>
 
                               <div>
-                                {peopleNumber >= 4 && peopleNumber <= 5 ? (
+                                {(peopleNumber >= 4 &&
+                                  peopleNumber <= 5 &&
+                                  isAuthenticated !== false &&
+                                  reservation.checkin <= inputcheckinDate &&
+                                  reservation.checkout >= inputcheckinDate) ||
+                                (reservation.checkin <= inputcheckoutDate &&
+                                  reservation.checkout >= inputcheckoutDate) ? (
                                   <Button
                                     class="btn btn-primary"
                                     id="reservation-btn"
@@ -600,17 +731,12 @@ function DetailsPage() {
                                 ) : (
                                   <Button
                                     class="btn btn-danger"
-                                    id="reservation-btn"
+                                    id="reservation-btn-false"
                                     onClick={() =>
-                                      handleReservationPage(
-                                        searchDetail,
-                                        famillyRoom,
-                                        famillyRoomPrice
-                                      )
+                                      handleFalseAlert(isAuthenticated)
                                     }
-                                    disabled
                                   >
-                                    객실 예약
+                                    예약 불가
                                   </Button>
                                 )}
                               </div>
@@ -652,7 +778,16 @@ function DetailsPage() {
                               <div id="room-reservation-price">240,000원</div>
 
                               <div>
-                                {peopleNumber >= 5 && peopleNumber <= 8 ? (
+                                {(peopleNumber >= 5 &&
+                                  peopleNumber <= 8 &&
+                                  isAuthenticated !== false &&
+                                  reservation.checkin <= inputcheckinDate &&
+                                  reservation.checkout >= inputcheckinDate) ||
+                                (peopleNumber >= 5 &&
+                                  peopleNumber <= 8 &&
+                                  isAuthenticated !== false &&
+                                  reservation.checkin <= inputcheckoutDate &&
+                                  reservation.checkout >= inputcheckoutDate) ? (
                                   <Button
                                     class="btn btn-primary"
                                     id="reservation-btn"
@@ -669,15 +804,10 @@ function DetailsPage() {
                                 ) : (
                                   <Button
                                     class="btn btn-danger"
-                                    id="reservation-btn"
+                                    id="reservation-btn-false"
                                     onClick={() =>
-                                      handleReservationPage(
-                                        searchDetail,
-                                        groupRoom,
-                                        groupRoomPrice
-                                      )
+                                      handleFalseAlert(isAuthenticated)
                                     }
-                                    disabled
                                   >
                                     예약 불가
                                   </Button>
@@ -809,7 +939,6 @@ function DetailsPage() {
                 </div>
                 <div id="detail-lines" />
               </div>
-
               <section id="detail-bottom-section">
                 <div id="detail-review-map-secsion">
                   위치

@@ -51,6 +51,7 @@ function DetailFamilyRoomModal() {
       });
       // console.log(res.data);
       setDetailPension(res.data);
+      console.log("된거야?");
       // console.log(detailPension);
     } catch (error) {
       console.error("Error", error);

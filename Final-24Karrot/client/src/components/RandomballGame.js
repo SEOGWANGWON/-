@@ -55,7 +55,7 @@ function RandomballGame() {
         <div id="lottosecondContainer">
           <div id="gameCoinANDTitle">
             <a href="/GameLand">
-              <h5 id="gamelandtitle">게임랜드</h5>
+              <span id="gamelandtitle">게임랜드</span>
             </a>
             <img src={coinimg} alt="코인" id="coinimg" />
           </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import WriteAnswer from "./WriteAnswer";
+import "../css/AnswerContent.css";
 
 const AnswerToQuestion = ({ questionId }) => {
   const [answer, setAnswer] = useState(null);
@@ -9,6 +10,31 @@ const AnswerToQuestion = ({ questionId }) => {
 
   // 답변 작성 폼 표시 여부
   const [showWriteAnswerForm, setShowWriteAnswerForm] = useState(false);
+
+  //로그인 유저
+  const [userEmail, setUserEmail] = useState("");
+
+  //관리자 유무 체크
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  //로그인 정보 불러오기
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await axios.get("http://localhost:8282/userdata", {
+          withCredentials: true,
+        });
+        setUserEmail(res.data.userEmail);
+        if (res.data.userEmail === "tpgml4606@gmail.com") {
+          setIsAdmin(true);
+          console.log(true); // isAdmin이 true로 설정된 직후에 관리자 상태 확인
+        }
+      } catch (err) {
+        console.error("세션 데이터 불러오기 실패", err);
+      }
+    };
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
     const fetchAnswer = async () => {
@@ -29,6 +55,15 @@ const AnswerToQuestion = ({ questionId }) => {
     fetchAnswer();
   }, [questionId]);
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    return new Date(dateString)
+      .toLocaleDateString("ko-KR", options)
+      .replace(/\. /g, "-")
+      .replace(".", "");
+  };
+
   const handleEdit = () => {
     setEditMode(!editMode);
   };
@@ -36,11 +71,11 @@ const AnswerToQuestion = ({ questionId }) => {
   const handleSave = async () => {
     try {
       await axios.put(
-        `http://localhost:8282/QnA/answers/${answer.answerId}`,
+        `http://localhost:8282/QnA/answers/${answer.questionId}`,
         {
           questionId: answer.questionId,
           answerContent: editedContent,
-          writtenDate: new Date().toISOString(), // 현재 시간으로 업데이트하거나 서버측에서 처리
+          writtenDate: new Date().toISOString(),
         },
         {
           withCredentials: true,
@@ -50,8 +85,8 @@ const AnswerToQuestion = ({ questionId }) => {
       setEditMode(false);
       alert("답변이 수정되었습니다.");
     } catch (err) {
-      console.error("Error saving edited answer: ", err);
-      alert("답변 수정에 실패했습니다.");
+      console.error("답변 수정 오류 : ", err);
+      alert("답변 수정이 되지 않았습니다.");
     }
   };
 
@@ -61,30 +96,61 @@ const AnswerToQuestion = ({ questionId }) => {
 
   if (!answer && !showWriteAnswerForm) {
     return (
-      <div>
+      <div id="no-answer-content">
+        <br />
+        <br />
+        <br />
         <p>아직 답변이 작성되지 않았습니다.</p>
-        <button onClick={toggleWriteAnswerForm}>답변 작성하기</button>
+        {/* 관리자 계정일 경우만 수정 가능 */}
+        {isAdmin ? (
+          <button id="write-answer-button" onClick={toggleWriteAnswerForm}>
+            답변 작성
+          </button>
+        ) : null}
       </div>
     );
   }
 
   return (
-    <div>
+    <div id="answer-content">
       {showWriteAnswerForm ? (
-        <WriteAnswer questionId={questionId} />
+        <div id="no-answer-content">
+          <WriteAnswer questionId={questionId} />
+          <button
+            id="write-answer-button"
+            onClick={toggleWriteAnswerForm}
+            style={{ float: "right", marginRight: "20px" }}
+          >
+            취소
+          </button>
+        </div>
       ) : editMode ? (
         <>
           <textarea
             value={editedContent}
             onChange={(e) => setEditedContent(e.target.value)}
           />
-          <button onClick={handleSave}>저장하기</button>
+          <button onClick={handleSave} style={{ float: "right" }}>
+            저장
+          </button>
         </>
       ) : (
         <>
+          <h4>
+            <b style={{ color: "green" }}>A. </b>답변입니다
+          </h4>
+          <br />
+          <p>{formatDate(answer?.writtenDate)}</p>
+          <hr />
+          <br />
+          <br />
           <p>{answer.answerContent}</p>
-          <p>{answer.writtenDate}</p>
-          <button onClick={handleEdit}>수정하기</button>
+          {/* 관리자 계정일 경우만 수정 가능 */}
+          {isAdmin ? (
+            <button onClick={handleEdit} style={{ float: "right" }}>
+              수정하기
+            </button>
+          ) : null}
         </>
       )}
     </div>

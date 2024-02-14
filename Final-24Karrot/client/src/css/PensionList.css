@@ -145,19 +145,24 @@ input:-webkit-autofill:active {
 /* 펜션 검색 결과 모음 */
 #PensionSearchList {
   padding-top: 30px;
-  margin-left: -70px;
 }
 
 /* 펜션 이미지랑 설명 감싼 박스 */
 #pensionBox {
   margin-top: 96px;
   margin-bottom: -93px;
+  display: grid;
+  grid-template-columns: 380px 300px;
+  column-gap: 50px;
 }
 
 /* 펜션 검색 결과 나누는 hr바 */
 #PensionSearchListhr {
   color: rgb(151, 151, 151);
   margin-top: 30px;
+  width: 900px;
+  margin-left: 30px;
+  margin-bottom: 25px;
 }
 
 /* 펜션 검색 결과 이미지 */
@@ -216,4 +221,21 @@ input:-webkit-autofill:active {
 
 .page-item {
   color: black;
+}
+
+#pensionListMapLink {
+  border: none;
+  background-color: white;
+}
+
+#pensionListLoading {
+  margin-top: 300px;
+  margin-bottom: 400px;
+  width: 100px;
+  height: 100px;
+  color: gray;
+}
+
+#bigfirstbox {
+  margin-left: 10px;
 }

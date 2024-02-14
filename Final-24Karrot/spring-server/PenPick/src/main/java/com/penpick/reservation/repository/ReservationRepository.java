@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.penpick.pension.model.Pensions;
 import com.penpick.reservation.model.Reservation;
-import com.penpick.users.model.Users;
 
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
@@ -29,9 +29,16 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     	
     	void deleteById(Long id);
     	
-    	Optional<Reservation> findById(Long id);
+    	@Query("SELECT r FROM Reservation r WHERE r.id =:id")
+    	Optional<Reservation> findById(@Param("id")Long id);
     	
     	//24시간 이후의 값만 불러오기
-    			@Query("SELECT r FROM Reservation r WHERE r.penpickUser.id = :userId AND r.checkOutDay >= :twentyFourHoursLater")
-    			List<Reservation> findReservationsByPenpickUserIdAndCheckOutDayGreaterThanEqual(@Param("userId") Long userId, @Param("twentyFourHoursLater") LocalDate twentyFourHoursLater);
+    	@Query("SELECT r FROM Reservation r WHERE r.penpickUser.id = :userId AND r.checkOutDay >= :twentyFourHoursLater")
+    	List<Reservation> findReservationsByPenpickUserIdAndCheckOutDayGreaterThanEqual(@Param("userId") Long userId, @Param("twentyFourHoursLater") LocalDate twentyFourHoursLater);
+    	
+    	// 펜션 id와 일치하는 예약 불러오기
+    	@Query("SELECT r FROM Reservation r WHERE r.pensions.id = :pensions")
+    	List<Reservation> findReservationByPensionsId(@Param("pensions") Long pensions);
+
+
 }

@@ -6,6 +6,8 @@ import Reservation from "./Reservation";
 import "../css/ReservationCheck.css";
 import list from "../img/목록.jpg";
 import reservationImg from "../img/펜션1.jpg";
+import { useLocation, useNavigate } from "react-router-dom";
+
 function ReservationCheck() {
   //  const [user,setUser] = useState([]);
   const [reservation, setReservation] = useState([]);
@@ -17,21 +19,71 @@ function ReservationCheck() {
   const [id, setId] = useState([]);
   const [userPhoneNumber, setUserPhoneNumber] = useState([]);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [pensionId, setPensionId] = useState([]);
+
+  //체크인 날짜 받기
+  const inputcheckinDate = location.state?.inputcheckinDate;
+
+  //체크아웃 날짜 받기
+  const inputcheckoutDate = location.state?.inputcheckoutDate;
+
+  // 인원수
+  const peopleNumber = location.state?.peopleNumber;
+
+  // 펜션 id
+  const selectedId = location.state?.selectedId;
+
+  // 룸 타입
+  const roomType1 = location.state?.roomType;
+
+  // 방 가격
+  const roomPrice = location.state?.roomPrice;
+  console.log(selectedId);
+
   const handleSelectedId = (id) => {
     const selectedId = id;
     window.location.href = `/Review?id=${selectedId}`;
   };
 
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = ("0" + (now.getMonth() + 1)).slice(-2);
-  const day = ("0" + now.getDate()).slice(-2);
+  const handleReservationCheckDetailPage = (id) => {
+    // reservationId
+    const selectedId = id;
 
-  const Today = year + "-" + month + "-" + day;
+    navigate("/ReservationCheckDetail", {
+      state: {
+        selectedId,
+      },
+    });
+    handleReservationId();
+  };
 
-  // const [checkday, setCheckday] = useState(false);
+  const handleOrderDetailPage = (id) => {
+    const selectedId = id;
 
-  console.log(now);
+    navigate("/FinishOrder", {
+      state: {
+        selectedId,
+      },
+    });
+  };
+
+  const handleReservationId = (reservation) => {
+    const selectedReservation = reservation;
+
+    navigate("/ReservationCheckDetail", {
+      state: {
+        selectedReservation,
+      },
+    });
+  };
+
+  // useEffect(() => {
+  //   window.sessionStorage.setItem("idParam");
+  // },[]);
+  // console.log("펜션id",);
 
   useEffect(() => {
     // 세션에 저장된 사용자 이름을 불러오기 위해 서버에 요청 (이메일 로그인)
@@ -76,36 +128,15 @@ function ReservationCheck() {
         }
       };
       fetchReservationData();
-      console.log({ reservation });
     }
   }, [userInfo]);
-  // useEffect(() => {
-  //   const fetchReservationData = async () => {
-
-  //     try{
-  //       const res = await axios.get(`http://localhost:8282/reservation/check`,{
-  //         withCredentials:true,
-  //         params:{
-  //           phoneNumber:userInfo.phoneNumber,
-
-  //         },
-  //       });
-
-  //       setReservation(res.data)
-  //       console.log(reservation)
-  //        console.log(userInfo.phoneNumber)
-  //         console.log('일치하는 데이터가 없습니다.')
-
-  //     }catch (err){
-  //       console.log(userInfo.phoneNumber)
-  //       console.error('예약 정보를 불러오지 못했습니다',err)
-  //     }
-  //   };
-  //   fetchReservationData();
-  // },[userInfo])
 
   function searchRoom() {
     window.location.href = "/pensionList";
+  }
+
+  function reservationDetail() {
+    window.location.href = "/reservationCheckDetail";
   }
 
   return (
@@ -159,9 +190,10 @@ function ReservationCheck() {
             <img src={reservationImg} className="reservationImg" alt="펜션"></img>
         </section>
         <br /> */}
-
-            <span> {userInfo.nickname}님의 예약 정보</span>
-            <br />
+            <div className="nicknameSpace">
+              <span> {userInfo.nickname}님의 예약 정보</span>
+              <br />
+            </div>
             <section className="reservationCheckSection">
               <ul className="reservationUl">
                 {reservation.map((reservation) => (
@@ -169,33 +201,32 @@ function ReservationCheck() {
                     <p>예약자 번호 : {reservation.phoneNumber}</p>
                     <p>예약 인원 : {reservation.people} 명</p>
                     <p>예약 객실 : {reservation.roomType}</p>
-                    <p>체크 인 : {reservation.checkInDay}</p>
-                    <p>체크 아웃 : {reservation.checkOutDay}</p>
-
                     <img
                       src={reservationImg}
                       className="reservationImg"
                       alt="펜션"
                     />
-                    {/* 체크 아웃 날짜 지날시 작성  */}
-                    {reservation.checkOutDay < Today ? (
-                      <button
-                        type="button"
-                        onClick={() => handleSelectedId(reservation.id)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        리뷰 작성하기
-                      </button>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => handleSelectedId(reservation.id)}
-                        style={{ cursor: "pointer" }}
-                        disabled
-                      >
-                        리뷰 작성하기
-                      </button>
-                    )}
+                    <button
+                      type="button"
+                      onClick={() => handleSelectedId(reservation.id)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      리뷰 작성하기
+                    </button>
+                    <button
+                      id="detailButton"
+                      onClick={() =>
+                        handleReservationCheckDetailPage(reservation.id)
+                      }
+                    >
+                      상세보기
+                    </button>
+                    <button
+                      id="detailButton"
+                      onClick={() => handleOrderDetailPage(reservation.id)}
+                    >
+                      프레쉬보기
+                    </button>
                   </li>
                 ))}
                 ;

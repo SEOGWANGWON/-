@@ -27,7 +27,7 @@ function Reservation() {
 
   const [payment, setPayment] = useState("토스페이");
 
-  const [pick, setPick] = useState(false);
+  const [pick, setPick] = useState("");
 
   const [email, setEmail] = useState("");
 
@@ -49,13 +49,14 @@ function Reservation() {
 
   const [userNum, setUserNum] = useState("");
 
-  const urlParameter = new URLSearchParams(window.location.search);
-
-  const selectedPension = urlParameter.get("id");
-
   const [testParam, setTestParam] = useState([]);
 
   const [isCheckedAll, setIsCheckedAll] = useState(false);
+
+  const [userInfo, setUserInfo] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [editedUserInfo, setEditedUserInfo] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -87,6 +88,25 @@ function Reservation() {
     roomPrice
   );
 
+  useEffect(() => {
+    // 세션에 저장된 사용자 이름을 불러오기 위해 서버에 요청 (이메일 로그인)
+    const fetchUserData = async () => {
+      try {
+        const res = await axios.get("http://localhost:8282/userdata", {
+          withCredentials: true,
+        });
+        setUserInfo(res.data);
+        setEditedUserInfo(res.data);
+        console.log(res.data);
+      } catch (err) {
+        console.error("로그인 정보를 불러오지 못했습니다", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUserData();
+  }, []);
+
   const [isChecked, setIsChecked] = useState({
     agreement: false,
     privacyPolicy: false,
@@ -112,9 +132,9 @@ function Reservation() {
   };
 
   useEffect(() => {
-    window.sessionStorage.setItem("pay", pay);
-  }, [pay]);
-  console.log("가격", pay);
+    window.sessionStorage.setItem("roomPrice", roomPrice);
+  }, [roomPrice]);
+  console.log("방가격", roomPrice);
 
   // const handleCheckboxChange = (e) => {
   //   const {value} = e.target;
@@ -124,14 +144,37 @@ function Reservation() {
   // const handlePick = () => setPick(true);
   //펜션 아이디 담는곳
   useEffect(() => {
-    setTestParam(selectedPension);
+    setTestParam(selectedId);
   }, [testParam]);
+
+  const handleReservationCheckDetailPage = (id, room, price) => {
+    // 펜션 id
+    const selectedId = id;
+
+    // 룸 타입
+    const roomType = room;
+
+    // 룸 가격
+    const roomPrice = price;
+
+    console.log(id, room);
+    navigate("/ReservationCheckDetail", {
+      state: {
+        inputcheckinDate,
+        inputcheckoutDate,
+        peopleNumber,
+        selectedId,
+        roomType,
+        roomPrice,
+      },
+    });
+  };
 
   //펜션 아이디 데이터 가져오기
   useEffect(() => {
-    if (selectedPension !== null) {
+    if (selectedId !== null) {
       handleDetail();
-      console.log(selectedPension + "이건 selectedPension");
+      console.log(selectedId + "이건 selectedId");
       console.log(testParam);
     } else {
       console.log("엥;");
@@ -174,29 +217,28 @@ function Reservation() {
   };
 
   const makeReservation = () => {
-    // if ( !email || !pick || !payment || !phoneNumber || !people) {
-    //   console.error(
-    //     '입력하지 않은 값이 있습니다.'
-    //   );
-    //   return;
-
-    // }
-
+    if (!pick) {
+      console.error("픽업여부를 선택하세요.");
+      alert("픽업여부를 선택하세요.");
+      handleClose();
+      return;
+    }
     axios
       .post("http://localhost:8282/reservation/makeReservation", {
-        email: email,
-        phoneNumber: phoneNumber,
+        id: selectedId,
+        email: userInfo.userEmail,
+        phoneNumber: userInfo.phoneNumber,
         pick: pick,
-        people: people,
+        people: peopleNumber,
         payment: payment,
-        pay: pay,
-        roomType: roomType,
-        checkInDay: formatDate(checkInDay),
-        checkOutDay: formatDate(checkOutDay),
+        pay: roomPrice,
+        roomType: roomType1,
+        checkInDay: inputcheckinDate,
+        checkOutDay: inputcheckoutDate,
       })
       .then(() => {
         // fetchReservations();
-        window.location.href = "/sandBox";
+        window.location.href = "reservation/sandbox";
       })
       .catch((error) => console.error(error));
   };
@@ -244,7 +286,7 @@ function Reservation() {
               className="backSpaceImage"
               alt="돌아가기"
             ></img>
-            돌아가기
+            다른 펜션 보러가기
           </button>
         </div>
         <br />
@@ -253,32 +295,39 @@ function Reservation() {
           <label>펜션 이름 </label>
           <br />
           <lnput> {detailPension.name}</lnput> <br />
-          <label>이메일 </label>
+          {/* <label>이메일 </label>
           <br />
           <input
             type="text"
             placeholder="kh@co.kr"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-          ></input>{" "}
+          ></input>{" "} */}
+          <label>이메일 </label>
+          <br />
+          <input
+            type="text"
+            className="form-control"
+            value={userInfo.userEmail}
+            onChange={(e) => setEmail(e.target.value)}
+          ></input>
           <br />
           <label>전화번호 </label>
           <br />
           <input
             type="text"
+            className="form-control"
             placeholder="010-1234-5678 -빼고 입력"
-            value={phoneNumber}
+            value={userInfo.phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           ></input>{" "}
           <br />
           <label>인원 수 </label>
           <br />
           <input
-            type="number"
-            placeholder="1"
-            max="8"
-            min="1"
-            value={people}
+            type="text"
+            className="form-control"
+            value={peopleNumber}
             onChange={(e) => setPeople(e.target.value)}
           ></input>{" "}
           <br />
@@ -286,6 +335,7 @@ function Reservation() {
           <br />
           <select
             value={payment}
+            className="form-control"
             onChange={(e) => setPayment(e.target.value)}
             disabled
           >
@@ -294,76 +344,57 @@ function Reservation() {
           <br />
           <label>픽업 </label>
           <br />
-          <select value={pick} onChange={(e) => setPick(e.target.value)}>
-            <option value="1">픽업 O</option>
-            <option value="0">픽업 X</option>
+          <select
+            value={pick}
+            className="form-control"
+            onChange={(e) => setPick(e.target.value)}
+          >
+            <option value="null">픽업 여부 선택</option>
+            <option value="픽업 O">픽업 O</option>
+            <option value="픽업 X">픽업 X</option>
           </select>
           <br />
           <label>결제 금액 </label>
           <br />
-          <select value={pay} onChange={(e) => setPay(e.target.value)}>
-            <option value="80000">80,000원</option>
-            <option value="120000">120,000원</option>
-            <option value="160000">160,000원</option>
-            <option value="240000">240,000원</option>
-          </select>
+          <input
+            type="text"
+            className="form-control"
+            value={roomPrice}
+            onChange={(e) => setPay(e.target.value)}
+          ></input>
           <br />
           <label>룸 타입 </label>
           <br />
-          <select
-            value={roomType}
+          <input
+            type="text"
+            className="form-control"
+            value={roomType1}
             onChange={(e) => setRoomType(e.target.value)}
-          >
-            <option value="더블 룸">더블 룸</option>
-            <option value="트리플 룸">트리플 룸</option>
-            <option value="패밀리 룸">패밀리 룸</option>
-            <option value="그룹 룸">그룹 룸</option>
-          </select>
+          ></input>
           <br />
           <label>체크인 날짜</label>
           <br />
-          <DatePicker
-            id="setCheckInDay"
-            selected={checkInDay}
-            onChange={(date) => setCheckInDay(date)}
-            dateFormat="yyyy-MM-dd"
-            showYearDropdown
-            placeholderText="체크인 날짜를 선택하세요."
-            selectsStart
-            startDate={checkInDay}
-            endDate={checkOutDay}
-          />{" "}
+          <input
+            type="text"
+            className="form-control"
+            value={inputcheckinDate}
+            onChange={(e) => setCheckInDay(e.target.value)}
+          ></input>
           <br />
           <label>체크아웃 날짜</label>
           <br />
-          <DatePicker
-            id="setCheckOutDay"
-            selected={checkOutDay}
-            onChange={(date) => setCheckOutDay(date)}
-            dateFormat="yyyy-MM-dd"
-            showYearDropdown
-            placeholderText="체크아웃 날짜를 선택하세요."
-            selectsEnd
-            startDate={checkInDay}
-            endDate={checkOutDay}
-            minDate={checkInDay}
-          />{" "}
+          <input
+            type="text"
+            className="form-control"
+            value={inputcheckoutDate}
+            onChange={(e) => setCheckOutDay(e.target.value)}
+          ></input>
         </section>
         <section className="reservationSection2">
           <div className="reservationCoverImage">
             <img src={CoverImage} className="CoverImage" alt="커버이미지"></img>
           </div>
           <br />
-
-          {/* <ul>
-                    {reservations.map((reservation) => (
-                        <li key={reservation.id}>
-                            <p>예약 금액 : {reservation.pay}원</p>
-                            <p>결제 일 : {reservation.payDate}</p>
-                        </li>
-                    ))}
-                </ul>
-                */}
         </section>
 
         <section className="reservationSection3">

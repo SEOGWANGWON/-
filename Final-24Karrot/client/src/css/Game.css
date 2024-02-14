@@ -13,16 +13,17 @@
 }
 
 #GamelandSecondContainer {
-  width: 1200px;
+  width: 1000px;
   margin: auto;
 }
 
 #gamelandgrid {
   display: grid;
-  grid-template-columns: 300px 300px 300px;
-  gap: 100px;
-  width: 1200px;
+  grid-template-columns: 300px 300px;
+  gap: 200px;
+  width: 1000px;
   margin-top: -100px;
+  margin-left: 150px;
 }
 
 #lottoimg {
@@ -66,14 +67,8 @@
 }
 
 #gamelandtype1box {
-  margin-top: 70px;
+  margin-top: 100px;
   width: 300px;
-}
-
-#gameCoinANDTitle {
-  display: grid;
-  grid-template-columns: 170px 45px;
-  margin-top: 20px;
 }
 
 #gamelandtitle {
@@ -84,11 +79,21 @@
   text-shadow: 3px 2px 0px rgb(101, 31, 1);
 }
 
+#gamelandtitle2 {
+  font-family: "DNFBitBitv2";
+  color: rgb(250, 91, 24);
+  font-size: 40px;
+  font-weight: 100;
+  text-shadow: 3px 2px 0px rgb(101, 31, 1);
+  width: 160px;
+}
+
 /* 코인 이미지 */
 #coinimg {
   width: 45px;
+  margin-left: 13px;
+  margin-top: -14px;
   animation: coin 3s ease-out infinite;
-  margin-top: 2px;
 }
 
 @keyframes coin {
@@ -100,7 +105,8 @@
   }
 }
 
-#gamelandtitle:hover {
+#gamelandtitle:hover,
+#gamelandtitle2:hover {
   color: rgb(255, 166, 0);
 }
 
@@ -201,6 +207,11 @@
 }
 
 #lottosecondContainer {
+  margin: auto;
+  width: 1000px;
+}
+
+#lottosecondContainer2 {
   margin: auto;
   width: 1000px;
 }
@@ -464,6 +475,22 @@
   font-family: "DNFBitBitv2";
 }
 
+#fortunetoGameland {
+  background-color: orange;
+  width: 150px;
+  height: 60px;
+  text-align: center;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 900;
+  padding-top: 15px;
+  box-shadow: 0px 5px 0px 3px rgb(200, 67, 0);
+  transition: transform 0.1s ease-out;
+  position: absolute;
+  margin: 0px 0px 0px 80px;
+  font-family: "DNFBitBitv2";
+}
+
 #returnGameland:hover {
   box-shadow: 0px 4px 0px 3px rgb(200, 67, 0);
   transform: translateY(1px);
@@ -586,4 +613,98 @@
   padding: 30px 30px 80px 30px;
   border-bottom: 30px solid gray;
   border-top: 33px solid gray;
+}
+
+/* 포춘쿠키 */
+#fortuneContainer {
+  background-color: white;
+  margin: auto;
+  width: 1000px;
+  padding: 30px 30px 30px 50px;
+  border-bottom: 30px solid gray;
+  border-left: 5px solid gray;
+  border-right: 5px solid gray;
+  border-top: 33px solid gray;
+  cursor: url("../img/cursor\ \(8\).cur"), auto;
+  height: 520px;
+}
+
+#fortunegrid {
+  margin: auto;
+  width: 330px;
+}
+
+#fortunetitle {
+  font-family: "DNFBitBitv2";
+  color: #000000;
+  text-shadow: 2px 2px 0px rgb(185, 185, 185);
+  font-size: 35px;
+  width: 180px;
+  display: flex;
+  animation: lotto 5s linear infinite;
+  text-align: center;
+  margin: auto;
+}
+
+#fortuneImgBox {
+  width: 200px;
+  margin: auto;
+}
+
+#fortuneImg {
+  width: 200px;
+  margin: 30px 0px 20px 0px;
+}
+
+#fortuneImg:hover {
+  animation: shake 0.2s ease-in-out infinite;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+#fortunecookiement {
+  text-align: center;
+}
+
+#fortuneResultBox {
+  height: 350px;
+}
+
+#GamelandfortuneContainer {
+  width: 1000px;
+  margin: auto;
+}
+
+#fortuneImg2 {
+  margin: 25px 0px 0px 0px;
+  border-radius: 20px;
+  width: 300px;
+}
+
+#fortuneImg2:hover {
+  box-shadow: 0px 10px 0px 15px orange;
+  background: orange;
+  cursor: url("../img/cursor\ \(8\).cur"), auto;
+  padding: -10px -10px 10px 10px;
+}
+
+#GamelandSecondContainer {
+  width: 1200px;
+  margin: auto;
 }

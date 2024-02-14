@@ -8,6 +8,7 @@ import com.penpick.pension.model.Pensions;
 import com.penpick.users.model.Users;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,10 +33,10 @@ public class Reservation {
 		@SequenceGenerator(name="perchase_seq", sequenceName="perchase_seq", allocationSize=1)
 	    private Long id;
 
-	    @ManyToOne
+	    @ManyToOne(fetch = FetchType.EAGER)
 	    private Users penpickUser;
 
-	    @ManyToOne
+	    @ManyToOne(fetch = FetchType.EAGER)
 	    private Pensions pensions;
 	  
 	    private String phoneNumber;

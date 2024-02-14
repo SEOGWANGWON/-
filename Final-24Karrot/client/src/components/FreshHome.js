@@ -349,6 +349,7 @@ export default function FreshHome() {
                       <p style={{ marginTop: 8 }}>개</p>
                       <div className="res_num">
                         <input
+                          className="form-control"
                           type="hidden"
                           name="resnum"
                           value={resnum?.[freshitem.itemnum] || ""}
@@ -432,15 +433,16 @@ export default function FreshHome() {
                   팬픽프레쉬 개인정보 수집 및 활용에 동의합니다.
                 </label>
               </div>
-
-              <button
-                className="add__button"
-                onClick={registerAddOrder}
-                style={{ marginTop: 16, padding: 8 }}
-                disabled={orderList.length === 0} // orderList가 비어 있으면 버튼을 비활성화합니다.
-              >
-                결제하기
-              </button>
+              <div className="button_align" style={{ textAlign: "right" }}>
+                <button
+                  className="add__button"
+                  onClick={registerAddOrder}
+                  style={{ marginTop: 16, padding: 8, width: 365 }}
+                  disabled={orderList.length === 0} // orderList가 비어 있으면 버튼을 비활성화합니다.
+                >
+                  결제하기
+                </button>
+              </div>
             </div>
           </div>
         </div>

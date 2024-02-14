@@ -30,6 +30,9 @@ import PensionList from "./PensionList";
 import Chat from "./Chat";
 import imgChat from "../img/챗봇.png";
 import marker from "../img/마커2.png";
+import event1 from "../img/이벤트 썸네일.png";
+import event2 from "../img/이벤트 썸네일2.png";
+import event3 from "../img/이벤트 썸네일3.png";
 
 function PensionMainPage() {
   // 날짜
@@ -166,7 +169,7 @@ function PensionMainPage() {
             {/* 인원입력칸 */}
             <input
               min={1}
-              max={6}
+              max={8}
               id="input2"
               className="form-control col-md-3"
               placeholder="인원"
@@ -201,13 +204,17 @@ function PensionMainPage() {
         {/* 이벤트 배너 */}
         <div id="Event">
           <h5 id="EventTitle">이벤트</h5>
-          <a id="EventLink" href="/EventPage">
-            <div id="EventImgBox">
-              <img id="EventImg" src={EventImg} alt="이벤트이미지" />
-              <img id="EventImg" src={EventImg} alt="이벤트이미지" />
-              <img id="EventImg" src={EventImg} alt="이벤트이미지" />
-            </div>
-          </a>
+          <div id="EventImgBox">
+            <a id="EventLink" href="/EventDetail?content=이벤트1">
+              <img id="EventImg" src={event1} alt="이벤트이미지" />
+            </a>
+            <a id="EventLink" href="/EventDetail?content=이벤트2">
+              <img id="EventImg" src={event2} alt="이벤트이미지" />
+            </a>
+            <a id="EventLink" href="/EventDetail?content=이벤트3">
+              <img id="EventImg" src={event3} alt="이벤트이미지" />
+            </a>
+          </div>
         </div>
 
         <div id="PopularPensionList">
@@ -226,7 +233,7 @@ function PensionMainPage() {
             </div>
             <div className="col-md-3" id="popularPensionGroup">
               <a
-                href="http://localhost:3000/PensionList?region=아침의소리"
+                href="http://localhost:3000/PensionList?region=아침의 소리"
                 alt="인기펜션"
               >
                 <img id="pensionImg" src={pensionImg2} alt="pensionImg"></img>
@@ -235,7 +242,7 @@ function PensionMainPage() {
             </div>
             <div className="col-md-3" id="popularPensionGroup">
               <a
-                href="http://localhost:3000/PensionList?region=해뜨는집펜션"
+                href="http://localhost:3000/PensionList?region=해뜨는집 펜션"
                 alt="인기펜션"
               >
                 <img id="pensionImg" src={pensionImg3} alt="pensionImg"></img>
@@ -244,7 +251,7 @@ function PensionMainPage() {
             </div>
             <div className="col-md-3" id="popularPensionGroup">
               <a
-                href="http://localhost:3000/PensionList?region=바닷가하얀집"
+                href="http://localhost:3000/PensionList?region=바닷가 하얀집"
                 alt="인기펜션"
               >
                 <img id="pensionImg" src={pensionImg4} alt="pensionImg"></img>
@@ -309,6 +316,7 @@ function PensionMainPage() {
             </button>
           </div>
         </div>
+
         <div id="LocationList">
           <div id="BigLocationList">
             <span id="PopularLocationTitle"> 전체지역 </span>

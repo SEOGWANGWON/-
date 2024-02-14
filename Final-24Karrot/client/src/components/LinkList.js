@@ -30,6 +30,9 @@ import Roulette from "./Roulette";
 import QnA from "./QnAList";
 import WriteQuestion from "./WriteQusetion";
 import QuestionDetail from "./QuestionDetail";
+import FortuneCookie from "./FortuneCookie";
+import ResetPassword from "./ResetPassword";
+import ReservationCheckDetail from "./ReservationCheckDetail";
 
 function Link() {
   const [userEmail, setUserEmail] = useState("");
@@ -73,6 +76,7 @@ function Link() {
             {/* 로그인 및 회원가입 */}
             <Route path="/login" element={<Login />} />
             <Route path="/signUp" element={<SignUp />} />
+            <Route path="/rest-password" element={<ResetPassword />} />
           </>
         )}
         {/*로그인 상태에서만 유효한 경로 */}
@@ -122,7 +126,12 @@ function Link() {
         <Route path="/sandbox/success" element={<FreshTossSuccess />}></Route>
         <Route path="/sandbox/fail" element={<FreshTossFail />}></Route>
         {/* 예약 성공 페이지  */}
-        <Route path="/sandBox" element={<ReservationCheckout />}></Route>
+        <Route
+          path="reservation/sandbox"
+          element={<ReservationCheckout />}
+        ></Route>
+        {/* 예약 상세 보기 */}
+        {/* <Route path="reservationCheckDetail" element={<ReservationCheckDetail/>}></Route> */}
         {/* 고객센터 페이지 */}
         <Route path="/QnA" element={<QnA />} />
         {/* 문의글 작성 페이지 */}
@@ -134,6 +143,13 @@ function Link() {
         />
         {/* 지정되지 않은 경로로 접근시 보일 페이지 */}
         <Route path="*" element={<EmptyPage />} />
+        {/* 게임랜드 */}
+        <Route path="/FortuneCookie" element={<FortuneCookie />}></Route>
+        {/* 예약 상세 보기 */}
+        <Route
+          path="reservationCheckDetail"
+          element={<ReservationCheckDetail />}
+        ></Route>
       </Routes>
       <Footer />
     </Router>

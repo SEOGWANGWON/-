@@ -2,6 +2,8 @@ import React from "react";
 import Header from "./Header";
 import lottoimg from "../img/로또.png";
 import coinimg from "../img/coin2.png";
+import fortuneImg from "../img/포춘쿠키들3.png";
+import fortuneImg2 from "../img/포춘쿠키들2.png";
 
 function GameLand() {
   return (
@@ -40,25 +42,14 @@ function GameLand() {
                 </h6>
               </div>
               <div id="gamelandtype1box">
-                <a href="Randomnumber" id="RouleletteLink">
-                  <img src={lottoimg} id="lottoimg" alt="로또게임" />
-                  <h6 id="gamelandtype1">행운의 공뽑기</h6>
+                <a href="FortuneCookie" id="RouleletteLink">
+                  <img src={fortuneImg} id="fortuneImg2" alt="로또게임" />
+                  <h6 id="gamelandtype1">오늘의 운세</h6>
                 </a>
                 <h6 id="gamelanddescription">
-                  랜덤으로 나오는 숫자는 무엇일까요?
+                  오늘 당신의 운세는 무엇일까요?
                   <br />
-                  당신의 행운을 시험해보세요!
-                </h6>
-              </div>
-              <div id="gamelandtype1box">
-                <a href="Randomnumber" id="RouleletteLink">
-                  <img src={lottoimg} id="lottoimg" alt="로또게임" />
-                  <h6 id="gamelandtype1">행운의 공뽑기</h6>
-                </a>
-                <h6 id="gamelanddescription">
-                  랜덤으로 나오는 숫자는 무엇일까요?
-                  <br />
-                  당신의 행운을 시험해보세요!
+                  포춘쿠키로 운세를 확인해봐요!
                 </h6>
               </div>
             </div>
