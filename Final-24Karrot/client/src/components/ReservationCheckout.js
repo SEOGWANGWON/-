@@ -50,13 +50,13 @@ export function ReservationCheckout() {
   }, []);
 
   return (
-    <div className='wrapper w-100'>
-      <div className='max-w-540 w-100'>
-        <div id='payment-method' className='w-100' />
-        <div id='agreement' className='w-100' />
-        <div className='btn-wrapper w-100'>
+    <div className='reswrapper w-100'>
+      <div className='resmax-w-540 w-100'>
+        <div id='payment-method' className='resw-100' />
+        <div id='agreement' className='resw-100' />
+        <div className='resbtn-wrapper w-100'>
           <button
-            className='btn primary w-100'
+            className='resbtn primary w-100'
             onClick={async () => {
               const paymentWidget = paymentWidgetRef.current;
 
