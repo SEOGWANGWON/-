@@ -139,7 +139,11 @@ function DetailsPage() {
       // console.log(resData);
       const forData = () => {
         for (let i = 0; i <= Object.entries(res.data).length; i++) {
-          if (res.data[i] !== null || res.data[i] !== resCheck) {
+          if (
+            res.data[i] !== null &&
+            res.data[i] !== resCheck &&
+            res.data[i] !== undefined
+          ) {
             console.log("false 실행중2");
             return setReservation(false);
           } else {
