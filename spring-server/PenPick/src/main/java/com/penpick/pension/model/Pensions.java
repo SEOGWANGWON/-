@@ -1,12 +1,12 @@
 package com.penpick.pension.model;
 
+import java.sql.Blob;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 @Entity
 public class Pensions{
 
@@ -66,6 +66,8 @@ public class Pensions{
 	private int family_room;
 	
 	private int group_room;
+
+	
 	
 	
 	

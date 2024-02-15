@@ -1,5 +1,10 @@
 	package com.penpick.pension.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.penpick.pension.model.PensionImg;
 import com.penpick.pension.model.Pensions;
 import com.penpick.pension.service.PensionService;
 
@@ -22,10 +26,10 @@ public class PensionController {
 	private PensionService pensionService;
 	
 //	펜션 이름 검색
-	@GetMapping("/searchPension")
-	public List<Pensions>  PensionNameList(@RequestParam String name) {
-		return pensionService.PensionNameList(name);
-	}
+//	@GetMapping("/searchPension")
+//	public List<Pensions>  PensionNameList(@RequestParam String name) {
+//		return pensionService.PensionNameList(name);
+//	}
 
 //	펜션 통합검색
 	@GetMapping("/searchAll")
@@ -35,12 +39,14 @@ public class PensionController {
 		System.out.println(filter);
         if (filter == null) {
             return pensionService.PensionList(term);
-        } else if(term != null&&filter !=null ){
-        	return pensionService.PensionFilterList(term, "있음");
+        } else if(filter !=null&&term != null){
+        	return pensionService.PensionFilterList(term, filter);
         } else {
-             throw new IllegalArgumentException("요청하는 파라미터 값을 찾을 수 없습니다.");
-        }
+            return pensionService.getAllPensionList();
+       }
     }
+	
+
 	
 	//모든 펜션 조회
 	@GetMapping("/pensionList")
@@ -48,10 +54,16 @@ public class PensionController {
 		return pensionService.getAllPensionList();
 	}
 	
-	@GetMapping("/pensionImgList")
-	public List<PensionImg> getAllPensionImgList(){
-		return pensionService.getAllPensionImgList();
-	}
+//	@GetMapping("/pensionImgList")
+//	public List<Pensions> getAllPensionImgList(){
+//		Blob blob = resultSet.getBlob("profile_image");
+//		byte[] imageData = blob.getBytes(1, (int) blob.length());
+//		String imageBase64 = java.util.Base64.getEncoder().encodeToString(imageData);
+//		String profile_image = "data:image/jpeg;base64, " + imageBase64;
+//		return pensionService.getAllPensionImgList();
+//	}
+	
+
 	
 	// 펜션 상세 페이지 이동(서광원)
 		@GetMapping("/details")

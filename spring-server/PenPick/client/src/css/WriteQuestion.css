@@ -1,0 +1,24 @@
+#write-question-form{
+    background-color: white;
+    width: 95%;
+    margin: auto;
+    padding: 20px;
+    padding-top: 50px;
+    border-radius: 8px;
+    height: 600px;
+    margin-top: 80px;
+}
+#write-QnA-container {
+    margin: auto;
+    width: 80%;
+    max-width: 1200px;
+    height: 800px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#write-QnA-header{
+    margin-top: 180px;
+    margin-left: 360px;
+}

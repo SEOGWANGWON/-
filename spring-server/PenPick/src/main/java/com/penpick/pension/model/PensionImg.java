@@ -9,9 +9,10 @@ import lombok.Data;
 @Data
 @Entity
 public class PensionImg {
-
+	
 	@Id
 	private String imageName;
 	private Blob imageData;
 	private String name;
+
 }

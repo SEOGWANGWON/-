@@ -1,5 +1,7 @@
 package com.penpick.reservation.model;
 
+
+
 import java.util.Date;
 
 import com.penpick.pension.model.Pensions;
@@ -11,6 +13,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,12 +43,21 @@ public class Reservation {
 		private int people;
 		private String payment;
 		private int pay;
-		private String resDate;
-		private boolean pick;
+		
+		
+		@Temporal(TemporalType.DATE)
+		private Date checkInDay;
+		
+		@Temporal(TemporalType.DATE)
+		private Date checkOutDay;
+		
+		private String pick;
 		private String pickTime;
 		private String market;
 	    
-	    
+		public Reservation(Long id) {
+	        this.id = id;
+	    }
 	    
 
 	}

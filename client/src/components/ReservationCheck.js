@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
 import Header from './Header';
 import axios from 'axios';
 import Reservation from './Reservation';
@@ -38,8 +39,12 @@ function ReservationCheck() {
         const res = await axios.get('http://localhost:8282/reservation/checkAll',{
           withCredentials:true,
         });
+        
         setReservation(res.data)
         console.log(res.data)
+        
+          // console.log('일치하는 데이터가 없습니다.')
+       
       }catch (err){
         console.error('예약 정보를 불러오지 못했습니다',err)
       }
@@ -87,6 +92,7 @@ function ReservationCheck() {
           <img src={list} className='listImg' alt='목록'></img><span> 예약 목록</span>
          
         </div>
+        <div>
         {/* <section className='reservationCheckSection'>
             <span>이메일 : {reservation.phoneNumber}</span><br /> 
             <ul className='reservationUl'>
@@ -113,10 +119,11 @@ function ReservationCheck() {
           <div>
             <button className='addReservationButton' onClick={searchRoom}>새로운 방 찾아보기</button>
           </div>
+        
         </section>
         
 
-
+        </div>
       </div>
     </div>
     </div>

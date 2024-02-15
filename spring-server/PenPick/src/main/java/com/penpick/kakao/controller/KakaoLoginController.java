@@ -54,7 +54,7 @@ public class KakaoLoginController {
             user.setUserEmail(email);
             user.setNickname(nickname);
             
-            userService.registerUser(user);
+            userService.registerKakaoUser(user);
             
             //세션에 사용자 정보 저장
             session.setAttribute("user", email);
