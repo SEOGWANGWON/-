@@ -32,6 +32,7 @@ import WriteQuestion from './WriteQusetion';
 import QuestionDetail from './QuestionDetail';
 import FortuneCookie from './FortuneCookie';
 import ResetPassword from './ResetPassword';
+import ReservationCheckDetail from './ReservationCheckDetail';
 
 function Link() {
   const [userEmail, setUserEmail] = useState('');
@@ -144,6 +145,11 @@ function Link() {
         <Route path='*' element={<EmptyPage />} />
         {/* 게임랜드 */}
         <Route path='/FortuneCookie' element={<FortuneCookie />}></Route>
+        {/* 예약 상세 보기 */}
+        <Route
+          path='reservationCheckDetail'
+          element={<ReservationCheckDetail />}
+        ></Route>
       </Routes>
       <Footer />
     </Router>

@@ -91,13 +91,13 @@ export default function QnAList() {
   return (
     <div>
       <Header />
+      <div id='QnA-header'>
+        <h4>
+          <strong>고객센터</strong>
+        </h4>
+        <p id='QnA-description'>어려움이나 궁금한 점이 있으신가요?</p>
+      </div>
       <div id='QnA-container'>
-        <div id='QnA-header'>
-          <h4>
-            <strong>고객센터</strong>
-          </h4>
-          <p id='QnA-description'>어려움이나 궁금한 점이 있으신가요?</p>
-        </div>
         <button
           className='button'
           onClick={gotoWriteQuestion}
@@ -121,7 +121,7 @@ export default function QnAList() {
                     <td>{post.questionId}</td>
                     <td>
                       <Link to={`/questionDetail/${post.questionId}`}>
-                        {post.questionTitle}
+                        <span id='qnaTitle'>{post.questionTitle}</span>
                       </Link>
                     </td>
                     <td>{post.nickname}</td>

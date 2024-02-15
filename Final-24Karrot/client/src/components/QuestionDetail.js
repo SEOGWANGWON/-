@@ -40,13 +40,13 @@ export default function QuestionDetail() {
   return (
     <div>
       <Header />
+      <div id='QnA-header'>
+        <h4>
+          <strong>고객센터</strong>
+        </h4>
+        <p id='QnA-description'>어려움이나 궁금한 점이 있으신가요?</p>
+      </div>
       <div id='QnA-container'>
-        <div id='QnA-header'>
-          <h4>
-            <strong>고객센터</strong>
-          </h4>
-          <p id='QnA-description'>어려움이나 궁금한 점이 있으신가요?</p>
-        </div>
         <br />
         <div id='question-content'>
           <h3>

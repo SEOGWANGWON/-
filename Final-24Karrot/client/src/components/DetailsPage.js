@@ -50,6 +50,17 @@ function DetailsPage() {
 
   const [groupRoomPrice] = useState(240000);
 
+  // 비교용 빈배열
+  const [resCheck, setResCheck] = useState([]);
+
+  // 예약 날짜 데이터 넣기
+
+  const [resCheckInDate, setResCheckInDate] = useState([]);
+  const [resCheckOutDate, setResCheckOutDate] = useState([]);
+
+  // 예약 날짜 체크
+  const [reservation, setReservation] = useState(false);
+
   // pension 정보 들어있는 Hook
   const [detailPension, setDetailPension] = useState([]);
 
@@ -110,16 +121,71 @@ function DetailsPage() {
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  const handleReservation = async () => {
+    try {
+      const res = await axios.get(
+        'http://localhost:8282/reservation/getReservation',
+        {
+          withCredentials: true,
+          params: {
+            pensions: selectedId,
+            checkInDay: inputcheckinDate,
+            checkOutDay: inputcheckoutDate,
+          },
+        }
+      );
+
+      // const resData = Array.isArray(res.data) ? res.data : [res.data];
+      // console.log(resData);
+      const forData = () => {
+        for (let i = 0; i <= Object.entries(res.data).length; i++) {
+          if (
+            res.data[i] !== null &&
+            res.data[i] !== resCheck &&
+            res.data[i] !== undefined
+          ) {
+            console.log('false 실행중2');
+            return setReservation(false);
+          } else {
+            console.log('true 실행');
+          }
+          return setReservation(true);
+        }
+      };
+      forData();
+      console.log('for문 끄읏');
+      console.log(Object.entries(res.data).length);
+      console.log(res.data);
+      // console.log("1111" + res.data.checkInDay);
+      // console.log("2222" + res.data[0]);
+      // for (var item of reservation) {
+      //   const reservationCheckInDay = item.checkInDay;
+      //   console.log("11111" + reservationCheckInDay);
+      // }
+    } catch (err) {
+      console.log('에러입니다' + err);
+    }
+  };
+
+  const reservationCheck = () => {
+    for (var checkInDay of reservation) {
+      console.log(reservation[checkInDay]);
+    }
+  };
+
   useEffect(() => {
     fetchUserData();
 
     setSearchDetail(selectedId);
     if (selectedId !== null) {
       handleDetail();
+      handleReservation();
+
       console.log(selectedId);
     } else {
       console.log('검색값 없음');
     }
+    console.log('22' + reservation.pay);
   }, [searchDetail]);
 
   const fetchUserData = async () => {
@@ -169,18 +235,27 @@ function DetailsPage() {
     });
   };
 
-  const handleFalseAlert = (isAuthenticated) => {
+  const handleFalseAlert = (isAuthenticated, reservation) => {
     if (isAuthenticated !== true) {
       alert('로그인이 필요합니다.');
       window.location.href = '/login';
+    } else if (
+      inputcheckinDate === undefined ||
+      inputcheckoutDate === undefined ||
+      peopleNumber === undefined
+    ) {
+      alert('날짜 또는 인원수를 입력하지 않으셨습니다.');
+    } else if (reservation !== true) {
+      alert('선택하신 날짜에 이미 예약이 있습니다.');
     } else {
-      alert('날짜 또는 인원수가 올바르지 않습니다.');
+      alert('인원수에 맞는 객실을 선택해주세요.');
     }
   };
 
   const handleDetail = async () => {
     try {
       const res = await axios.get(`http://localhost:8282/penpick/details`, {
+        withCredentials: true,
         params: {
           id: searchDetail,
         },
@@ -195,7 +270,7 @@ function DetailsPage() {
   };
   useEffect(() => {
     loadKakaoMap(detailPension);
-  });
+  }, []);
 
   const loadKakaoMap = (pension) => {
     const script = document.createElement('script');
@@ -547,7 +622,8 @@ function DetailsPage() {
                               <div>
                                 {peopleNumber >= 2 &&
                                 peopleNumber <= 3 &&
-                                isAuthenticated !== false ? (
+                                isAuthenticated !== false &&
+                                reservation !== false ? (
                                   <Button
                                     class='btn btn-primary'
                                     id='reservation-btn'
@@ -566,7 +642,10 @@ function DetailsPage() {
                                     class='btn btn-danger'
                                     id='reservation-btn-false'
                                     onClick={() =>
-                                      handleFalseAlert(isAuthenticated)
+                                      handleFalseAlert(
+                                        isAuthenticated,
+                                        reservation
+                                      )
                                     }
                                   >
                                     예약 불가
@@ -613,7 +692,8 @@ function DetailsPage() {
                               <div>
                                 {peopleNumber >= 3 &&
                                 peopleNumber <= 4 &&
-                                isAuthenticated !== false ? (
+                                isAuthenticated !== false &&
+                                reservation !== false ? (
                                   <Button
                                     class='btn btn-primary'
                                     id='reservation-btn'
@@ -632,7 +712,10 @@ function DetailsPage() {
                                     class='btn btn-danger'
                                     id='reservation-btn-false'
                                     onClick={() =>
-                                      handleFalseAlert(isAuthenticated)
+                                      handleFalseAlert(
+                                        isAuthenticated,
+                                        reservation
+                                      )
                                     }
                                   >
                                     예약 불가
@@ -679,7 +762,8 @@ function DetailsPage() {
                               <div>
                                 {peopleNumber >= 4 &&
                                 peopleNumber <= 5 &&
-                                isAuthenticated !== false ? (
+                                isAuthenticated !== false &&
+                                reservation !== false ? (
                                   <Button
                                     class='btn btn-primary'
                                     id='reservation-btn'
@@ -698,7 +782,10 @@ function DetailsPage() {
                                     class='btn btn-danger'
                                     id='reservation-btn-false'
                                     onClick={() =>
-                                      handleFalseAlert(isAuthenticated)
+                                      handleFalseAlert(
+                                        isAuthenticated,
+                                        reservation
+                                      )
                                     }
                                   >
                                     예약 불가
@@ -745,7 +832,8 @@ function DetailsPage() {
                               <div>
                                 {peopleNumber >= 5 &&
                                 peopleNumber <= 8 &&
-                                isAuthenticated !== false ? (
+                                isAuthenticated !== false &&
+                                reservation !== false ? (
                                   <Button
                                     class='btn btn-primary'
                                     id='reservation-btn'
@@ -764,7 +852,10 @@ function DetailsPage() {
                                     class='btn btn-danger'
                                     id='reservation-btn-false'
                                     onClick={() =>
-                                      handleFalseAlert(isAuthenticated)
+                                      handleFalseAlert(
+                                        isAuthenticated,
+                                        reservation
+                                      )
                                     }
                                   >
                                     예약 불가
