@@ -13,6 +13,7 @@ import paycoPay from '../img/payco.jpg';
 import Header from './Header';
 import DatePicker from 'react-datepicker';
 import { useLocation, useNavigate } from 'react-router-dom';
+import tosspay from '../img/토스페이.png';
 
 function Reservation() {
   const [checkInDay, setCheckInDay] = useState(new Date());
@@ -289,12 +290,9 @@ function Reservation() {
             다른 펜션 보러가기
           </button>
         </div>
-        <br />
         <h1 id='reservationId'>예약 및 결제</h1>
-        <section className='reservationSection1'>
-          <label>펜션 이름 </label>
-          <br />
-          <lnput> {detailPension.name}</lnput> <br />
+        <div id='resSectionContainer'>
+          <span id='resPensionCheck'>예약자 정보 확인</span>
           {/* <label>이메일 </label>
           <br />
           <input
@@ -303,47 +301,36 @@ function Reservation() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           ></input>{" "} */}
-          <label>이메일 </label>
-          <br />
+          <label id='resOption'>이메일 </label>
           <input
             type='text'
             className='form-control'
+            id='resuserinfo'
             value={userInfo.userEmail}
             onChange={(e) => setEmail(e.target.value)}
           ></input>
-          <br />
-          <label>전화번호 </label>
-          <br />
+          <label id='resOption'>전화번호 </label>
           <input
             type='text'
+            id='resuserinfo'
             className='form-control'
             placeholder='010-1234-5678 -빼고 입력'
             value={userInfo.phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           ></input>{' '}
-          <br />
-          <label>인원 수 </label>
-          <br />
+          <hr id='reshrbar' />
+          <span id='pensionredinfocheck'>펜션 예약정보 확인</span>
+          <span id='resOption'>
+            펜션명 : <span id='respensionNamecheck'> {detailPension.name}</span>
+          </span>
+          <label id='resOption'>인원 수 </label>
           <input
             type='text'
             className='form-control'
             value={peopleNumber}
             onChange={(e) => setPeople(e.target.value)}
-          ></input>{' '}
-          <br />
-          <label>결제 수단 </label>
-          <br />
-          <select
-            value={payment}
-            className='form-control'
-            onChange={(e) => setPayment(e.target.value)}
-            disabled
-          >
-            <option value='토스페이'>토스페이</option>
-          </select>
-          <br />
-          <label>픽업 </label>
-          <br />
+          ></input>
+          <label id='resOption'>픽업 </label>
           <select
             value={pick}
             className='form-control'
@@ -353,60 +340,41 @@ function Reservation() {
             <option value='픽업 O'>픽업 O</option>
             <option value='픽업 X'>픽업 X</option>
           </select>
-          <br />
-          <label>결제 금액 </label>
-          <br />
+          <label id='resOption'>결제 금액 </label>
           <input
             type='text'
             className='form-control'
             value={roomPrice}
             onChange={(e) => setPay(e.target.value)}
           ></input>
-          <br />
-          <label>룸 타입 </label>
-          <br />
+          <label id='resOption'>룸 타입 </label>
           <input
             type='text'
             className='form-control'
             value={roomType1}
             onChange={(e) => setRoomType(e.target.value)}
           ></input>
-          <br />
-          <label>체크인 날짜</label>
-          <br />
+          <label id='resOption'>체크인 날짜</label>
           <input
             type='text'
             className='form-control'
             value={inputcheckinDate}
             onChange={(e) => setCheckInDay(e.target.value)}
           ></input>
-          <br />
-          <label>체크아웃 날짜</label>
-          <br />
+          <label id='resOption'>체크아웃 날짜</label>
           <input
             type='text'
             className='form-control'
             value={inputcheckoutDate}
             onChange={(e) => setCheckOutDay(e.target.value)}
           ></input>
-        </section>
-        <section className='reservationSection2'>
-          <div className='reservationCoverImage'>
-            <img src={CoverImage} className='CoverImage' alt='커버이미지'></img>
-          </div>
+          <hr id='reshrbar' />
+          <label id='resPensionCheck'>결제 수단 </label>
+        </div>
+        <div className='payCheckBox'>
+          <input type='checkbox'></input>{' '}
+          <span>이 결제수단을 다음에도 사용</span>
           <br />
-        </section>
-
-        <section className='reservationSection3'>
-          <h1 className='selectPayment'>결제 수단</h1>
-          <br />
-          <br />
-          <div className='payCheckBox'>
-            <input type='checkbox'></input>{' '}
-            <span>이 결제수단을 다음에도 사용</span>
-            <br />
-          </div>
-
           <Modal className='Modal' show={modalIsOpen} onHide={handleClose}>
             <div className='modalDiv'>
               <span>
@@ -490,10 +458,9 @@ function Reservation() {
               </button>
             </div>
           </Modal>
-
           <div className='buttonBox'>
             <button id='payButton' onClick={handleShow}>
-              결제하기
+              <img id='tosspay' src={tosspay} alt='tosspay' />
             </button>
 
             {/* <button id='payButton' onClick={handleShow}>
@@ -514,17 +481,7 @@ function Reservation() {
             <img src={paycoPay} id='paycoPay' alt='payco 페이'></img>
           </button>*/}
           </div>
-        </section>
-        <section className='reservationSection4'>
-          <button id='serviceCenterButton' onClick={serviceCenterFunction}>
-            고객센터
-          </button>
-          <br />
-          <button id='kakaoQuestionButton' onClick={kakaoQuestionFuction}>
-            <img src={KakaoImage} id='kakaoQuestion' alt='카카오 상담'></img>
-            카카오톡 상담
-          </button>
-        </section>
+        </div>
       </div>
     </div>
   );

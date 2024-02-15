@@ -526,6 +526,7 @@ a {
 /* 채팅 프로필 */
 #MessageUseImg {
   width: 50px;
+  margin-bottom: 10px;
 }
 
 #firstChatbox {
@@ -594,7 +595,9 @@ a {
 }
 
 .MessageUseImg1 {
-  display: none;
+  margin-right: 20px;
+  float: right;
+  margin-top: -10px;
 }
 
 .MessageUseImg2 {
@@ -607,6 +610,18 @@ a {
   float: right;
   margin-top: 20px;
   margin-right: 15px;
+}
+
+#chatuser1 {
+  float: right;
+  margin-top: 38px;
+  margin-right: -204px;
+  font-size: 14px;
+}
+
+#chatuser2 {
+  margin-top: -10px;
+  font-size: 14px;
 }
 
 .currentTime2 {

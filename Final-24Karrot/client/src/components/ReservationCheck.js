@@ -22,6 +22,8 @@ function ReservationCheck() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [pensionId, setPensionId] = useState([]);
+
   //체크인 날짜 받기
   const inputcheckinDate = location.state?.inputcheckinDate;
 
@@ -39,6 +41,7 @@ function ReservationCheck() {
 
   // 방 가격
   const roomPrice = location.state?.roomPrice;
+  console.log(selectedId);
 
   const handleSelectedId = (id) => {
     const selectedId = id;
@@ -55,6 +58,31 @@ function ReservationCheck() {
       },
     });
   };
+
+  const handleOrderDetailPage = (id) => {
+    const selectedId = id;
+
+    navigate('/FinishOrder', {
+      state: {
+        selectedId,
+      },
+    });
+  };
+
+  const handleReservationId = (reservation) => {
+    const selectedReservation = reservation;
+
+    navigate('/ReservationCheckDetail', {
+      state: {
+        selectedReservation,
+      },
+    });
+  };
+
+  // useEffect(() => {
+  //   window.sessionStorage.setItem("idParam");
+  // },[]);
+  // console.log("펜션id",);
 
   useEffect(() => {
     // 세션에 저장된 사용자 이름을 불러오기 위해 서버에 요청 (이메일 로그인)
@@ -139,15 +167,15 @@ function ReservationCheck() {
             </ul>
           </nav>
         </div>
-      </main>
-      <div className='reservationCheckDiv'>
-        <div>
-          <div className='reservationDiv1'>
-            <img src={list} className='listImg' alt='목록'></img>
-            <span> 예약 목록</span>
-          </div>
+
+        <div className='reservationCheckDiv'>
           <div>
-            {/* <section className='reservationCheckSection'>
+            <div className='reservationDiv1'>
+              <img src={list} className='listImg' alt='목록'></img>
+              <span> 예약 목록</span>
+            </div>
+            <div>
+              {/* <section className='reservationCheckSection'>
             <span>이메일 : {reservation.phoneNumber}</span><br /> 
             <ul className='reservationUl'>
                     {reservation.map((reservation) => (
@@ -161,53 +189,60 @@ function ReservationCheck() {
             <img src={reservationImg} className="reservationImg" alt="펜션"></img>
         </section>
         <br /> */}
-            <div className='nicknameSpace'>
-              <span> {userInfo.nickname}님의 예약 정보</span>
-              <br />
-            </div>
-            <section className='reservationCheckSection'>
-              <ul className='reservationUl'>
-                {reservation.map((reservation) => (
-                  <li className='reservationLi' key={reservation.id}>
-                    <p>예약자 번호 : {reservation.phoneNumber}</p>
-                    <p>예약 인원 : {reservation.people} 명</p>
-                    <p>예약 객실 : {reservation.roomType}</p>
-                    <img
-                      src={reservationImg}
-                      className='reservationImg'
-                      alt='펜션'
-                    />
-                    <button
-                      type='button'
-                      onClick={() => handleSelectedId(reservation.id)}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      리뷰 작성하기
-                    </button>
-                    <button
-                      id='detailButton'
-                      onClick={() =>
-                        handleReservationCheckDetailPage(reservation.id)
-                      }
-                    >
-                      상세보기
-                    </button>
-                  </li>
-                ))}
-                ;
-              </ul>
-            </section>
-            <br />
-            <section>
-              <div>
-                <button className='addReservationButton' onClick={searchRoom}>
-                  새로운 방 찾아보기
-                </button>
+              <div className='nicknameSpace'>
+                <span> {userInfo.nickname}님의 예약 정보</span>
+                <br />
               </div>
-            </section>
+              <section className='reservationCheckSection'>
+                <ul className='reservationUl'>
+                  {reservation.map((reservation) => (
+                    <li className='reservationLi' key={reservation.id}>
+                      <p>펜션 이름 : {reservation.pensions.name}</p>
+                      <p>예약자 번호 : {reservation.phoneNumber}</p>
+                      <p>예약 객실 : {reservation.roomType}</p>
+                      <img
+                        src={reservationImg}
+                        className='reservationImg'
+                        alt='펜션'
+                      />
+                      <button
+                        type='button'
+                        onClick={() => handleSelectedId(reservation.id)}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        리뷰 작성하기
+                      </button>
+                      <button
+                        id='detailButton'
+                        onClick={() =>
+                          handleReservationCheckDetailPage(reservation.id)
+                        }
+                      >
+                        상세보기
+                      </button>
+                      <button
+                        id='detailButton'
+                        onClick={() => handleOrderDetailPage(reservation.id)}
+                      >
+                        프레쉬보기
+                      </button>
+                    </li>
+                  ))}
+                  ;
+                </ul>
+              </section>
+              <br />
+              <section>
+                <div>
+                  <button className='addReservationButton' onClick={searchRoom}>
+                    새로운 방 찾아보기
+                  </button>
+                </div>
+              </section>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

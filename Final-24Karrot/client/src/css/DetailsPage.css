@@ -7,6 +7,12 @@
   justify-content: center;
 }
 
+/* 이미지  */
+#detail-img-map {
+  width: 100px;
+  height: 100px;
+}
+
 /* 구분하려고 넣음 */
 #detailpage-sub {
   display: flex;
@@ -321,9 +327,10 @@
   width: 100%;
 }
 
+/* 객실 선택 이미지 css */
 #detail-room-img {
-  width: 44%;
-  height: 100%;
+  width: 330px;
+  height: 250px;
   border-radius: 15px;
   cursor: pointer;
   float: left;
@@ -563,4 +570,35 @@
 }
 
 #detail-InputBar {
+}
+
+/* ============================================================================== */
+
+/* ReviewList.js */
+
+/* 최상위 부모 div */
+#reviewList-main-bigbox {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  width: 1200px;
+}
+
+#reviewList-head-div {
+  padding-top: 50px;
+  padding-bottom: 30px;
+
+  border-bottom: 1px solid rgb(230, 230, 230);
+}
+
+/* 리얼 리뷰 text */
+#reviewList-realreview {
+  font-size: 16px;
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+#reviewList-review-length {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(194 194 194);
 }

@@ -96,15 +96,17 @@ function PensionList() {
 
   const navigate = useNavigate();
   // 상세 페이지에 id값 넘기기
-  const handleDetailPage = (id) => {
+  const handleDetailPage = (id, name) => {
     const selectedId = id;
 
+    const pensionName = name;
     navigate('/DetailsPage', {
       state: {
         inputcheckinDate,
         inputcheckoutDate,
         peopleNumber,
         selectedId,
+        pensionName,
       },
     });
   };
@@ -497,6 +499,9 @@ function PensionList() {
                           image.imageData &&
                           pension.name === image.name && (
                             <img
+                              onClick={() =>
+                                handleDetailPage(pension.id, pension.name)
+                              }
                               key={index}
                               src={`data:image/jpeg;base64,${image.imageData}`}
                               id='pensionSearchImg'
@@ -507,6 +512,9 @@ function PensionList() {
                       {/* 이미지가 없는 경우 기본 이미지 표시 */}
                       {images.every((image) => pension.name !== image.name) && (
                         <img
+                          onClick={() =>
+                            handleDetailPage(pension.id, pension.name)
+                          }
                           id='pensionSearchImg'
                           src={NoImg}
                           alt='펜픽 펜션입니다.'
@@ -516,7 +524,9 @@ function PensionList() {
                     <div id='pensionDescription'>
                       <p
                         id='pensionName'
-                        onClick={() => handleDetailPage(pension.id)}
+                        onClick={() =>
+                          handleDetailPage(pension.id, pension.name)
+                        }
                       >
                         {pension.name}
                       </p>

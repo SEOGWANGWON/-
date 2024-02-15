@@ -35,6 +35,24 @@ import event2 from '../img/이벤트 썸네일2.png';
 import event3 from '../img/이벤트 썸네일3.png';
 
 function PensionMainPage() {
+  //로그인 사용자 불러오기!
+  const [loginUser, setLoginUser] = useState('');
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const res = await axios.get('http://localhost:8282/userdata', {
+          withCredentials: true,
+        });
+
+        const name = res.data.nickname;
+        setLoginUser(name);
+        console.log('로그인한 유저 이름 :' + loginUser);
+      } catch (err) {
+        console.error('세션 데이터 불러오기 실패', err);
+      }
+    };
+    fetchUserData();
+  }, []);
   // 날짜
   const now = new Date();
   const year = now.getFullYear();
@@ -78,14 +96,23 @@ function PensionMainPage() {
     window.location.href = `/PensionList?region=${selectedRegion}`;
   };
 
+  // 챗봇 실해 함수
   const onPopup = () => {
     const url = 'Chat';
     window.open(url, '_blank', 'width=750px,height=890px');
+  };
+  const onPopuphandler = () => {
+    if (loginUser === '') {
+      alert('로그인 후 채팅이 가능합니다.');
+    } else {
+      onPopup();
+    }
   };
 
   const Up = () => {
     window.scrollTo(0, 0);
   };
+
   return (
     <div id='mainpageContainer'>
       <Header />
@@ -198,7 +225,12 @@ function PensionMainPage() {
       </div>
 
       <div id='mainContainer'>
-        <img id='ChatImg' onClick={onPopup} src={imgChat} alt='챗봇이미지' />
+        <img
+          id='ChatImg'
+          onClick={onPopuphandler}
+          src={imgChat}
+          alt='챗봇이미지'
+        />
         <img id='Upimg' onClick={Up} src={upImg} alt='위로이동' />
 
         {/* 이벤트 배너 */}

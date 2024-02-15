@@ -52,9 +52,19 @@ function ReviewList() {
   }, [review]);
 
   return (
-    <div>
+    <div id="reviewList-main-bigbox">
+      <div id="reviewList-head-div">
+        <span id="reviewList-realreview">★ 리얼 리뷰</span>
+        {"  "}
+        <span id="reviewList-review-length">
+          {review.length}명 평가 ㆍ {review.length}개 리뷰
+        </span>
+      </div>
+
       {review.map((reviews) => (
         <div key={reviews.id}>
+          <div id="" />
+
           <div>{reviews.reviewText}</div>
         </div>
       ))}

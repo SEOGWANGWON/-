@@ -112,42 +112,43 @@ function ReservationCheckDetail() {
             </ul>
           </nav>
         </div>
-      </main>
-      <div className='reservationCheckDiv'>
-        <div>
-          <div className='reservationDiv1'>
-            <img src={list} className='listImg' alt='목록'></img>
-            <span> 예약 목록</span>
-          </div>
+
+        <div className='reservationCheckDiv'>
           <div>
-            <div className='nicknameSpace'>
-              <span> {userInfo.nickname}님의 예약 정보</span>
-              <br />
+            <div className='reservationDiv1'>
+              <img src={list} className='listImg' alt='목록'></img>
+              <span> 예약 목록</span>
             </div>
-            <section className='reservationCheckSection'>
-              <div className='detailReservation'>
-                <span>예약자 번호 : {reservation.phoneNumber}</span>
-                <br />
-                <span>체크인 날짜 : {reservation.checkInDay}</span>
-                <br />
-                <span>체크아웃 날짜 : {reservation.checkOutDay}</span>
-                <br />
-                <span>결제 수단 : {reservation.payment}</span>
-                <br />
-                <span>결제 금액 : {reservation.pay}원</span>
-                <br />
-                <span>인원 : {reservation.people}명</span>
-                <br />
-                <span>픽업 여부 : {reservation.pick}</span>
-                <br />
-                <span>룸 타입 : {reservation.roomType}</span>
+            <div>
+              <div className='nicknameSpace'>
+                <span> {userInfo.nickname}님의 예약 정보</span>
                 <br />
               </div>
-            </section>
-            <br />
+              <section className='reservationCheckSection'>
+                <div className='detailReservation'>
+                  <span>예약자 번호 : {reservation.phoneNumber}</span>
+                  <br />
+                  <span>체크인 날짜 : {reservation.checkInDay}</span>
+                  <br />
+                  <span>체크아웃 날짜 : {reservation.checkOutDay}</span>
+                  <br />
+                  <span>결제 수단 : {reservation.payment}</span>
+                  <br />
+                  <span>결제 금액 : {reservation.pay}원</span>
+                  <br />
+                  <span>인원 : {reservation.people}명</span>
+                  <br />
+                  <span>픽업 여부 : {reservation.pick}</span>
+                  <br />
+                  <span>룸 타입 : {reservation.roomType}</span>
+                  <br />
+                </div>
+              </section>
+              <br />
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
