@@ -171,6 +171,7 @@ function DetailsPage() {
 
   useEffect(() => {
     fetchUserData();
+    handleReview();
 
     setSearchDetail(selectedId);
     if (selectedId !== null) {
@@ -290,6 +291,24 @@ function DetailsPage() {
       console.log(imagesData);
     } catch (error) {
       console.error("이미지 에러.:", error);
+    }
+  };
+
+  // 리뷰
+  const [review, setReview] = useState([]);
+  const handleReview = async () => {
+    try {
+      const res = await axios.get(`http://localhost:8282/review/detailReview`, {
+        withCredentials: true,
+        params: {
+          id: selectedId,
+        },
+      });
+      console.log(res + "아니");
+      console.log(res.data);
+      setReview(res.data);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -688,11 +707,26 @@ function DetailsPage() {
                 <div id="detail-room-container">
                   <div id="detail-room-sub-container">
                     <div id="detail-room-imgbox">
-                      <img
-                        id="detail-room-img"
-                        src={healingPension}
-                        alt="펜션이미지"
-                      />
+                      {images[0] ? (
+                        <div id="detail-room-img">
+                          {images.length > 0 && images[0].imageData && (
+                            <img
+                              id="detail-room-img"
+                              src={`data:image/jpeg;base64,${images[0].imageData}`}
+                              alt={images[0].imageName}
+                              onClick={handleShow}
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <img
+                          id="detail-room-img"
+                          src={healingPension}
+                          alt="펜픽 펜션입니다."
+                          onClick={handleShow}
+                        />
+                      )}
+
                       <h5 id="detail-room-name">더블 룸</h5>
                       <div>
                         <DetailDoubleRoomModal />
@@ -758,11 +792,25 @@ function DetailsPage() {
                 <div id="detail-room-container">
                   <div id="detail-room-sub-container">
                     <div id="detail-room-imgbox">
-                      <img
-                        id="detail-room-img"
-                        src={healingPension}
-                        alt="펜션이미지"
-                      />
+                      {images[1] ? (
+                        <div id="detail-room-img">
+                          {images.length > 0 && images[1].imageData && (
+                            <img
+                              id="detail-room-img"
+                              src={`data:image/jpeg;base64,${images[1].imageData}`}
+                              alt={images[1].imageName}
+                              onClick={handleShow}
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <img
+                          id="detail-room-img"
+                          src={healingPension}
+                          alt="펜픽 펜션입니다."
+                          onClick={handleShow}
+                        />
+                      )}
                       <h5 id="detail-room-name">트리플 룸</h5>
                       <div>
                         <DetailTripleRoomModal />
@@ -828,11 +876,25 @@ function DetailsPage() {
                 <div id="detail-room-container">
                   <div id="detail-room-sub-container">
                     <div id="detail-room-imgbox">
-                      <img
-                        id="detail-room-img"
-                        src={healingPension}
-                        alt="펜션이미지"
-                      />
+                      {images[2] ? (
+                        <div id="detail-room-img">
+                          {images.length > 0 && images[2].imageData && (
+                            <img
+                              id="detail-room-img"
+                              src={`data:image/jpeg;base64,${images[2].imageData}`}
+                              alt={images[2].imageName}
+                              onClick={handleShow}
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <img
+                          id="detail-room-img"
+                          src={healingPension}
+                          alt="펜픽 펜션입니다."
+                          onClick={handleShow}
+                        />
+                      )}
                       <h5 id="detail-room-name">패밀리 룸</h5>
                       <div>
                         <DetailFamilyRoomModal />
@@ -898,11 +960,25 @@ function DetailsPage() {
                 <div id="detail-room-container">
                   <div id="detail-room-sub-container">
                     <div id="detail-room-imgbox">
-                      <img
-                        id="detail-room-img"
-                        src={healingPension}
-                        alt="펜션이미지"
-                      />
+                      {images[3] ? (
+                        <div id="detail-room-img">
+                          {images.length > 0 && images[3].imageData && (
+                            <img
+                              id="detail-room-img"
+                              src={`data:image/jpeg;base64,${images[3].imageData}`}
+                              alt={images[3].imageName}
+                              onClick={handleShow}
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <img
+                          id="detail-room-img"
+                          src={healingPension}
+                          alt="펜픽 펜션입니다."
+                          onClick={handleShow}
+                        />
+                      )}
                       <h5 id="detail-room-name">그룹 룸</h5>
                       <div>
                         <DetailGroupRoomModal />
@@ -1096,7 +1172,27 @@ function DetailsPage() {
                 </div>
                 <div id="detail-review-bottom-section">
                   <div>
-                    <ReviewList />
+                    <div id="reviewList-main-bigbox">
+                      <div id="reviewList-head-div">
+                        <span id="reviewList-realreview">★ 리얼 리뷰</span>
+                        {"  "}
+                        <span id="reviewList-review-length">
+                          {review.length}명 평가 ㆍ {review.length}개 리뷰
+                        </span>
+                      </div>
+
+                      {review.map((reviews) => (
+                        <div key={reviews.id} id="reviewList-map-box">
+                          <span id="reviewList-nickName-text">
+                            {reviews.nickName}
+                          </span>
+
+                          <div id="reviewList-box-container">
+                            <div>{reviews.reviewText}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </section>

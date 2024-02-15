@@ -1,11 +1,14 @@
 #reservationId {
   font-size: 30px;
-  margin-left: 20px;
   float: left;
+  font-weight: 900;
+  color: orangered;
+  margin-bottom: 30px;
 }
 /* reservation 전체 div */
 .reservationDiv {
-  margin-left: 280px;
+  margin: auto;
+  width: 1000px;
 }
 
 /* reservationCheck 전체 div */
@@ -85,11 +88,10 @@
   background-color: white;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-right: 30px;
-  padding-left: 30px;
+  padding-right: 10px;
+  padding-left: 10px;
   border: 2px solid rgb(221, 218, 218);
   border-radius: 12px;
-  margin-left: 20px;
 }
 
 /*커버이미지*/
@@ -158,19 +160,19 @@
 
 /* 페이체크박스 */
 .payCheckBox {
-  margin-top: -30px;
-  margin-left: 20px;
+  margin-top: -5px;
 }
 
 /* 결제 모달 */
 .Modal {
   border-radius: 20px;
-  width: 700px;
+  width: 665px;
   height: 700px;
   background-color: #f8f8f8;
   position: fixed;
   top: 20%;
   left: 30%;
+  padding-left: 19px;
 }
 
 /* 결제 카드 이미지 */
@@ -182,8 +184,12 @@
 
 /* 모달 창 div  */
 .modalDiv {
-  width: 600px;
-  height: 600px;
+  width: 455px;
+  height: 500px;
+  font-size: 15px;
+  margin: auto;
+  padding-top: 60px;
+  margin-bottom: 30px;
 }
 
 /* 모달 결제하기 버튼 */
@@ -193,7 +199,7 @@
   color: white;
   border-radius: 10px;
   border: none;
-  margin-left: 140px;
+  margin-left: 116px;
   margin-top: 450px;
 }
 
@@ -209,7 +215,6 @@
 /* 모달 이용약관 */
 .modalTerms {
   position: fixed;
-  margin-left: 10px;
 }
 
 /* 체크타임 div */
@@ -230,4 +235,47 @@
 
 li {
   list-style-type: none;
+}
+
+#resSectionContainer {
+  display: grid;
+  width: 1000px;
+}
+
+#resPensionCheck {
+  font-weight: 900;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+#resOption {
+  font-size: 15px;
+  color: rgb(144, 143, 143);
+  font-weight: 100;
+  margin-top: 10px;
+}
+
+#pensionredinfocheck {
+  font-size: 20px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+#reshrbar {
+  color: rgb(183, 181, 181);
+  width: 1000px;
+}
+
+#tosspay {
+  width: 200px;
+}
+
+#resuserinfo {
+  width: 300px;
+}
+
+#respensionNamecheck {
+  font-size: 17px;
+  font-weight: 900;
+  color: rgb(0, 110, 255);
 }

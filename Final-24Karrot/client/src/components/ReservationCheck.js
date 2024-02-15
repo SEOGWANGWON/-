@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
-import Header from "./Header";
-import axios from "axios";
-import Reservation from "./Reservation";
-import "../css/ReservationCheck.css";
-import list from "../img/목록.jpg";
-import reservationImg from "../img/펜션1.jpg";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
+import Header from './Header';
+import axios from 'axios';
+import Reservation from './Reservation';
+import '../css/ReservationCheck.css';
+import list from '../img/목록.jpg';
+import reservationImg from '../img/펜션1.jpg';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function ReservationCheck() {
   //  const [user,setUser] = useState([]);
@@ -15,7 +15,7 @@ function ReservationCheck() {
   const [loading, setLoading] = useState(true);
   const [editedUserInfo, setEditedUserInfo] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [id, setId] = useState([]);
   const [userPhoneNumber, setUserPhoneNumber] = useState([]);
 
@@ -52,7 +52,7 @@ function ReservationCheck() {
     // reservationId
     const selectedId = id;
 
-    navigate("/ReservationCheckDetail", {
+    navigate('/ReservationCheckDetail', {
       state: {
         selectedId,
       },
@@ -62,7 +62,7 @@ function ReservationCheck() {
   const handleOrderDetailPage = (id) => {
     const selectedId = id;
 
-    navigate("/FinishOrder", {
+    navigate('/FinishOrder', {
       state: {
         selectedId,
       },
@@ -72,7 +72,7 @@ function ReservationCheck() {
   const handleReservationId = (reservation) => {
     const selectedReservation = reservation;
 
-    navigate("/ReservationCheckDetail", {
+    navigate('/ReservationCheckDetail', {
       state: {
         selectedReservation,
       },
@@ -88,14 +88,14 @@ function ReservationCheck() {
     // 세션에 저장된 사용자 이름을 불러오기 위해 서버에 요청 (이메일 로그인)
     const fetchUserData = async () => {
       try {
-        const res = await axios.get("http://localhost:8282/userdata", {
+        const res = await axios.get('http://localhost:8282/userdata', {
           withCredentials: true,
         });
         setUserInfo(res.data);
         setEditedUserInfo(res.data);
         console.log(res.data);
       } catch (err) {
-        console.error("로그인 정보를 불러오지 못했습니다", err);
+        console.error('로그인 정보를 불러오지 못했습니다', err);
       } finally {
         setLoading(false);
       }
@@ -112,7 +112,7 @@ function ReservationCheck() {
       const fetchReservationData = async () => {
         try {
           const getReservation = await axios.get(
-            "http://localhost:8282/reservation/check",
+            'http://localhost:8282/reservation/check',
             {
               withCredentials: true,
               params: {
@@ -123,7 +123,7 @@ function ReservationCheck() {
           setReservation(getReservation.data);
           console.log(getReservation.data);
         } catch (error) {
-          console.log("예약을 불러오지 못했습니다.", error);
+          console.log('예약을 불러오지 못했습니다.', error);
         }
       };
       fetchReservationData();
@@ -131,51 +131,51 @@ function ReservationCheck() {
   }, [userInfo]);
 
   function searchRoom() {
-    window.location.href = "/pensionList";
+    window.location.href = '/pensionList';
   }
 
   function reservationDetail() {
-    window.location.href = "/reservationCheckDetail";
+    window.location.href = '/reservationCheckDetail';
   }
 
   return (
     <div>
-      <main id="myPage-layout">
+      <main id='myPage-layout'>
         <Header />
-        <div id="myPage-container">
-          <nav id="myPage-navigation">
-            <ul id="navigation-list">
-              <li id="nav-userInfo">
-                <a href="/mypage/userInfo">내 정보 관리</a>
+        <div id='myPage-container'>
+          <nav id='myPage-navigation'>
+            <ul id='navigation-list'>
+              <li id='nav-userInfo'>
+                <a href='/mypage/userInfo'>내 정보 관리</a>
               </li>
               <hr />
               <li>
-                <a href="/reservationCheck">예약내역</a>
+                <a href='/reservationCheck'>예약내역</a>
               </li>
               <hr />
               <li>
-                <a href="/mypage/userInfo">찜목록</a>
+                <a href='/mypage/userInfo'>찜목록</a>
               </li>
               <hr />
               <li>
-                <a href="/mypage/userInfo">문의내역</a>
+                <a href='/mypage/userInfo'>문의내역</a>
               </li>
               <hr />
-              <li id="nav-coupon">
-                <a href="/mypage/userInfo">쿠폰함</a>
+              <li id='nav-coupon'>
+                <a href='/mypage/userInfo'>쿠폰함</a>
               </li>
             </ul>
           </nav>
         </div>
-      </main>
-      <div className="reservationCheckDiv">
-        <div>
-          <div className="reservationDiv1">
-            <img src={list} className="listImg" alt="목록"></img>
-            <span> 예약 목록</span>
-          </div>
+
+        <div className='reservationCheckDiv'>
           <div>
-            {/* <section className='reservationCheckSection'>
+            <div className='reservationDiv1'>
+              <img src={list} className='listImg' alt='목록'></img>
+              <span> 예약 목록</span>
+            </div>
+            <div>
+              {/* <section className='reservationCheckSection'>
             <span>이메일 : {reservation.phoneNumber}</span><br /> 
             <ul className='reservationUl'>
                     {reservation.map((reservation) => (
@@ -189,59 +189,60 @@ function ReservationCheck() {
             <img src={reservationImg} className="reservationImg" alt="펜션"></img>
         </section>
         <br /> */}
-            <div className="nicknameSpace">
-              <span> {userInfo.nickname}님의 예약 정보</span>
-              <br />
-            </div>
-            <section className="reservationCheckSection">
-              <ul className="reservationUl">
-                {reservation.map((reservation) => (
-                  <li className="reservationLi" key={reservation.id}>
-                    <p>펜션 이름 : {reservation.pensions.name}</p>
-                    <p>예약자 번호 : {reservation.phoneNumber}</p>
-                    <p>예약 객실 : {reservation.roomType}</p>
-                    <img
-                      src={reservationImg}
-                      className="reservationImg"
-                      alt="펜션"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleSelectedId(reservation.id)}
-                      style={{ cursor: "pointer" }}
-                    >
-                      리뷰 작성하기
-                    </button>
-                    <button
-                      id="detailButton"
-                      onClick={() =>
-                        handleReservationCheckDetailPage(reservation.id)
-                      }
-                    >
-                      상세보기
-                    </button>
-                    <button
-                      id="detailButton"
-                      onClick={() => handleOrderDetailPage(reservation.id)}
-                    >
-                      프레쉬보기
-                    </button>
-                  </li>
-                ))}
-                ;
-              </ul>
-            </section>
-            <br />
-            <section>
-              <div>
-                <button className="addReservationButton" onClick={searchRoom}>
-                  새로운 방 찾아보기
-                </button>
+              <div className='nicknameSpace'>
+                <span> {userInfo.nickname}님의 예약 정보</span>
+                <br />
               </div>
-            </section>
+              <section className='reservationCheckSection'>
+                <ul className='reservationUl'>
+                  {reservation.map((reservation) => (
+                    <li className='reservationLi' key={reservation.id}>
+                      <p>펜션 이름 : {reservation.pensions.name}</p>
+                      <p>예약자 번호 : {reservation.phoneNumber}</p>
+                      <p>예약 객실 : {reservation.roomType}</p>
+                      <img
+                        src={reservationImg}
+                        className='reservationImg'
+                        alt='펜션'
+                      />
+                      <button
+                        type='button'
+                        onClick={() => handleSelectedId(reservation.id)}
+                        style={{ cursor: 'pointer' }}
+                      >
+                        리뷰 작성하기
+                      </button>
+                      <button
+                        id='detailButton'
+                        onClick={() =>
+                          handleReservationCheckDetailPage(reservation.id)
+                        }
+                      >
+                        상세보기
+                      </button>
+                      <button
+                        id='detailButton'
+                        onClick={() => handleOrderDetailPage(reservation.id)}
+                      >
+                        프레쉬보기
+                      </button>
+                    </li>
+                  ))}
+                  ;
+                </ul>
+              </section>
+              <br />
+              <section>
+                <div>
+                  <button className='addReservationButton' onClick={searchRoom}>
+                    새로운 방 찾아보기
+                  </button>
+                </div>
+              </section>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

@@ -65,7 +65,7 @@ public class ReservationController {
 	 
      //아이디값으로 조회
 	 @GetMapping("/checkId")
-	 public Optional<Reservation> getReservation(Long id){
+	 public Optional<Reservation> getReservation(@RequestParam Long id){
 		 return reservationService.getReservation(id);
 	 }
 	 

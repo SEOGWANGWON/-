@@ -33,12 +33,15 @@ function Review() {
   useEffect(() => {
     const handleGetId = async () => {
       try {
-        const res = await axios.get("http://localhost:8282/reservation/getId", {
-          withCredentials: true,
-          params: {
-            userId: seletedId,
-          },
-        });
+        const res = await axios.get(
+          "http://localhost:8282/reservation/checkId",
+          {
+            withCredentials: true,
+            params: {
+              id: seletedId,
+            },
+          }
+        );
         console.log("난 실행중이야");
         if (res.data !== null) {
           console.log(res.data);
@@ -82,31 +85,6 @@ function Review() {
     }
   });
 
-  // useEffect(() => {
-  //   handleInputUser();
-  // });
-
-  // const handleInputUser = () => {
-  //   if (userReservation !== null) {
-  //     console.log(userReservation);
-  //     console.log(userReservation.penpickUser);
-  //     setPenpickUser(userReservation.penpickUser);
-  //   }
-  // };
-
-  // const handleReviewAdd = async () => {
-  //   console.log(review);
-  //   try {
-  //     const res = await axios.post("http://localhost:8282/review/add", {
-  //       review,
-  //     });
-  //     console.log(review);
-  //     console.log("리뷰 작성 아오!!!!!!");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
   const handleReviewAdd = async () => {
     try {
       // userReservation과 penpickUser가 null이 아닌지 확인
@@ -137,6 +115,8 @@ function Review() {
     } catch (err) {
       console.log(err);
     }
+    alert("리뷰가 등록되었습니다.");
+    window.location.href = "/reservationCheck";
   };
 
   const handleTextInput = (e) => {

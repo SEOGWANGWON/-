@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,9 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/review")
+@CrossOrigin(origins="http://localhost:3000", 
+allowCredentials="true",
+allowedHeaders="*")
 public class ReviewController {
 
 	@Autowired
@@ -41,28 +45,15 @@ public class ReviewController {
 	
 	// 상세 페이지 리뷰 조회
 	@GetMapping("/detailReview")
-	public ResponseEntity<List<Review>> findByPensionsId(@RequestParam("pensionsId") Long id){
+	public List<Review> findByPensionsId(@RequestParam Long id){
 		System.out.println(id);
 		List<Review> detailReview = reviewService.findByPensionsId(id);
 		System.out.println("나 되고있냐?");
-		return ResponseEntity.ok(detailReview);
+		return detailReview;
 	}
 	
-	// 리뷰 작성
-//	@PostMapping("/add")
-//	public ResponseEntity<Void> addReview(@RequestBody Review review) {
-//		System.out.println(review);
-//	    reviewService.addReview(review);
-//	    return ResponseEntity.status(HttpStatus.CREATED).build();
-//	}
 	
-//	// 리뷰 작성
-//	@PostMapping("/add")
-//	public void addReview(@RequestBody Review review) {
-//		System.out.println(review);
-//	    reviewService.addReview(review);
-//	    
-//	}
+
 	
 	@PostMapping("/add")
     public ResponseEntity<String> addReview(@RequestBody Review review) {

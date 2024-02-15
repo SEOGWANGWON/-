@@ -46,16 +46,23 @@ export default function WriteQuestion() {
   return (
     <div>
       <Header />
-      <div id="QnA-container">
-        <div id="QnA-header">
-          <h4><strong>문의사항 보내기</strong></h4>
-          <p id="QnA-description">어려움이나 궁금한 점이 있으신가요?</p>
-        </div><br />
+      <div id="write-QnA-header">
+        <h2>
+          <strong>문의사항 보내기</strong>
+        </h2>
+        <p id="QnA-description">어려움이나 궁금한 점이 있으신가요?</p>
+      </div>
+      <br />
+      <div id="write-QnA-container">
         <div id="write-question-form">
-          <h4><b>문의하실 내용을 작성해주세요</b></h4><br />
+          <h4>
+            <b>문의하실 내용을 작성해주세요</b>
+          </h4>
+          <br />
           <form onSubmit={handleSubmit}>
             <div>
-              <label>제목</label><br />
+              <label>제목</label>
+              <br />
               <input
                 type="text"
                 value={title}
@@ -63,21 +70,24 @@ export default function WriteQuestion() {
                 required
                 className="form-control"
               />
-            </div><br />
+            </div>
+            <br />
             <div>
-              <label>내용</label><br />
+              <label>내용</label>
+              <br />
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 required
                 className="form-control"
-                style={{height:"250px"}}
+                style={{ height: "250px" }}
               />
-            </div><br />
-            <button 
+            </div>
+            <br />
+            <button
               type="submit"
               className="btn primary"
-              style={{float:"right"}}
+              style={{ float: "right" }}
             >
               저장
             </button>

@@ -43,7 +43,7 @@ public class Review {
 	@SequenceGenerator(name="review_add_seq", sequenceName="review_add_seq", allocationSize=1)
     private Long reviewId;
 	
-	@OneToOne(fetch = FetchType.LAZY) // , cascade = CascadeType.ALL 빼고 진행 테스트
+	@OneToOne(fetch = FetchType.EAGER) // , cascade = CascadeType.ALL 빼고 진행 테스트
 	private Reservation reservation;
 
 	@ManyToOne(fetch = FetchType.EAGER)
