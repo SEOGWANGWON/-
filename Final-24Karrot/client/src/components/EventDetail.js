@@ -41,6 +41,8 @@ function EventDetail() {
   const handleAddEvent = async () => {
     if (contentList.userId === '' || contentList.userId === null) {
       alert('로그인 후 댓글 등록이 가능합니다.');
+    } else if (contentList.comments === '') {
+      alert('댓글 내용을 입력해주세요.');
     } else {
       try {
         const response = await axios.post(
