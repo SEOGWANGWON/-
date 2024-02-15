@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.penpick.pension.model.PensionImg;
 import com.penpick.pension.model.Pensions;
 import com.penpick.pension.model.pimg;
+import com.penpick.pension.repository.PensionDetailsImgRepository;
 import com.penpick.pension.repository.PensionImgRepository;
 import com.penpick.pension.repository.PensionRepository;
 
@@ -17,6 +19,9 @@ public class PensionService {
 	private PensionRepository pensionRepository;
 	@Autowired 
 	private PensionImgRepository pensionImgRepository;
+	
+	@Autowired
+	private PensionDetailsImgRepository pensionDetailsImgRepository;
 	
 	
 	//============================================가을이 것=======================================
@@ -64,6 +69,10 @@ public class PensionService {
 	
 	public List<pimg> getAllImages(){
 		return pensionImgRepository.findAll();
+	}
+	
+	public List<PensionImg> getDetailImages(String name){
+		return pensionDetailsImgRepository.findByImageNameList(name);
 	}
 
 	

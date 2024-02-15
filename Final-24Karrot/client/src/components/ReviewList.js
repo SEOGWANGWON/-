@@ -53,8 +53,13 @@ function ReviewList() {
 
   return (
     <div>
+      <div>
+        {review.length}명 평가 ㆍ {review.length}개 리뷰
+      </div>
       {review.map((reviews) => (
         <div key={reviews.id}>
+          <div id="" />
+
           <div>{reviews.reviewText}</div>
         </div>
       ))}

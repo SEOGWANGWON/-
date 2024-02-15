@@ -12,11 +12,16 @@ import DetailGroupRoomModal from "./DetailPageModal/DetailGroupRoomModal";
 import DetailDoubleRoomModal from "./DetailPageModal/DetailDoubleRoomModal";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./Header";
+import NoImg from "../img/이미지없는 놈.png";
+import ReviewList from "./ReviewList";
 
 function DetailsPage() {
   // 로그인 상태
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   // const [isLoading, setIsLoading] = useState(true);
+
+  // 이미지 저장 배열
+  const [images, setImages] = useState([]);
 
   // 카카오 지도 모달
   const [mapModalBtn, setmapModalBtn] = useState(false);
@@ -69,11 +74,6 @@ function DetailsPage() {
   const [searchDetail, setSearchDetail] = useState("");
   // URLSearchParams : 주소창의 경로를 다룰 수 있는 [브라우저의 내장 객체] ( 모던 브라우저에서만 작동 ex.chrome)
 
-  // const getValue = location.state?.pensionId;
-  // console.log(getValue);
-
-  // const selectedId = urlParams.get("id");
-
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -117,7 +117,15 @@ function DetailsPage() {
   // 펜션 id
   const selectedId = location.state?.selectedId;
 
-  console.log(inputcheckinDate, inputcheckoutDate, peopleNumber, selectedId);
+  const pensionName = location.state?.pensionName;
+
+  console.log(
+    inputcheckinDate,
+    inputcheckoutDate,
+    peopleNumber,
+    selectedId,
+    pensionName
+  );
 
   ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -156,20 +164,8 @@ function DetailsPage() {
       console.log("for문 끄읏");
       console.log(Object.entries(res.data).length);
       console.log(res.data);
-      // console.log("1111" + res.data.checkInDay);
-      // console.log("2222" + res.data[0]);
-      // for (var item of reservation) {
-      //   const reservationCheckInDay = item.checkInDay;
-      //   console.log("11111" + reservationCheckInDay);
-      // }
     } catch (err) {
       console.log("에러입니다" + err);
-    }
-  };
-
-  const reservationCheck = () => {
-    for (var checkInDay of reservation) {
-      console.log(reservation[checkInDay]);
     }
   };
 
@@ -179,7 +175,6 @@ function DetailsPage() {
     setSearchDetail(selectedId);
     if (selectedId !== null) {
       handleDetail();
-      handleReservation();
 
       console.log(selectedId);
     } else {
@@ -270,7 +265,33 @@ function DetailsPage() {
   };
   useEffect(() => {
     loadKakaoMap(detailPension);
-  }, []);
+    handleReservation();
+    if (detailPension !== null) {
+      fetchImages();
+    }
+  }, [resCheckOutDate]);
+
+  const fetchImages = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8282/details?name=${encodeURIComponent(pensionName)}`,
+        {
+          withCredentials: true,
+        }
+      );
+      if (!response.ok) {
+        throw new Error("네트워크 연결되지 않습니다.");
+      }
+
+      const imagesData = await response.json();
+      setImages(imagesData);
+      console.log("아");
+      console.log(pensionName);
+      console.log(imagesData);
+    } catch (error) {
+      console.error("이미지 에러.:", error);
+    }
+  };
 
   const loadKakaoMap = (pension) => {
     const script = document.createElement("script");
@@ -429,20 +450,6 @@ function DetailsPage() {
     };
   };
 
-  // const handleCopyClipBoard = (text) => {
-  //   try {
-  //     navigator.clipboard.writeText(text);
-  //     alert("클립보드에 복사되었습니다.");
-  //   } catch (error) {
-  //     alert("클립보드 복사에 실패하였습니다.");
-  //   }
-  // };
-
-  // 초기 로딩 중에는 아무것도 반환X
-  // if (isLoading) {
-  //   return null;
-  // }
-
   return (
     <div>
       <Header />
@@ -454,44 +461,109 @@ function DetailsPage() {
               <div>
                 <a id="detail-img-container">
                   <div id="detail-main-img-grid">
-                    <img
-                      id="detail-main-img1"
-                      src={healingPension}
-                      alt="펜션이미지"
-                      onClick={handleShow}
-                    />
+                    {images[0] ? (
+                      <div id="detail-main-img1">
+                        {images.length > 0 && images[0].imageData && (
+                          <img
+                            id="detail-main-img1"
+                            src={`data:image/jpeg;base64,${images[0].imageData}`}
+                            alt={images[0].imageName}
+                            onClick={handleShow}
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <img
+                        id="detail-main-img1"
+                        src={NoImg}
+                        alt="펜픽 펜션입니다."
+                        onClick={handleShow}
+                      />
+                    )}
                   </div>
                   <div id="detail-sub-img-grid">
-                    <img
-                      id="detail-sub-img2"
-                      src={healingPension}
-                      alt="펜션이미지"
-                      onClick={handleShow}
-                    />
+                    {images[1] ? (
+                      <div id="detail-sub-img2">
+                        {images.length > 0 && images[1].imageData && (
+                          <img
+                            id="detail-sub-img2"
+                            src={`data:image/jpeg;base64,${images[1].imageData}`}
+                            alt={images[1].imageName}
+                            onClick={handleShow}
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <img
+                        id="detail-sub-img2"
+                        src={NoImg}
+                        alt="펜픽 펜션입니다."
+                        onClick={handleShow}
+                      />
+                    )}
                   </div>
                   <div id="detail-sub-img-grid">
-                    <img
-                      id="detail-sub-img3"
-                      src={healingPension}
-                      alt="펜션이미지"
-                      onClick={handleShow}
-                    />
+                    {images[2] ? (
+                      <div id="detail-sub-img3">
+                        {images.length > 0 && images[2].imageData && (
+                          <img
+                            id="detail-sub-img3"
+                            src={`data:image/jpeg;base64,${images[2].imageData}`}
+                            alt={images[2].imageName}
+                            onClick={handleShow}
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <img
+                        id="detail-sub-img3"
+                        src={NoImg}
+                        alt="펜픽 펜션입니다."
+                        onClick={handleShow}
+                      />
+                    )}
                   </div>
                   <div id="detail-sub-img-grid">
-                    <img
-                      id="detail-sub-img4"
-                      src={healingPension}
-                      alt="펜션이미지"
-                      onClick={handleShow}
-                    />
+                    {images[3] ? (
+                      <div id="detail-sub-img4">
+                        {images.length > 0 && images[3].imageData && (
+                          <img
+                            id="detail-sub-img4"
+                            src={`data:image/jpeg;base64,${images[3].imageData}`}
+                            alt={images[3].imageName}
+                            onClick={handleShow}
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <img
+                        id="detail-sub-img4"
+                        src={NoImg}
+                        alt="펜픽 펜션입니다."
+                        onClick={handleShow}
+                      />
+                    )}
                   </div>
                   <div id="detail-sub-img-grid">
-                    <img
-                      id="detail-sub-img5"
-                      src={healingPension}
-                      alt="펜션이미지"
-                      onClick={handleShow}
-                    />
+                    {images[4] ? (
+                      <div id="detail-sub-img5">
+                        {images.length > 0 && images[4].imageData && (
+                          <img
+                            id="detail-sub-img5"
+                            src={`data:image/jpeg;base64,${images[4].imageData}`}
+                            alt={images[4].imageName}
+                            onClick={handleShow}
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <img
+                        id="detail-sub-img5"
+                        src={NoImg}
+                        alt="펜픽 펜션입니다."
+                        onClick={handleShow}
+                      />
+                    )}
                     <div id="modal-btn">
                       <Button
                         className="btn"
@@ -521,14 +593,29 @@ function DetailsPage() {
                         </Modal.Header>
                         <Modal.Body id="modal-body-img">
                           <div id="modal-body-div">
-                            <img
-                              id="modal-main-img"
-                              src={healingPension}
-                              alt="펜션이미지"
-                            />
+                            {images.length > 0 && images[0].imageData && (
+                              <img
+                                id="modal-main-img"
+                                src={`data:image/jpeg;base64,${images[0].imageData}`}
+                                alt={images[0].imageName}
+                              />
+                            )}
                           </div>
                         </Modal.Body>
-                        <Modal.Footer></Modal.Footer>
+                        <Modal.Footer>
+                          {images.map(
+                            (image, index) =>
+                              image &&
+                              image.imageData && (
+                                <img
+                                  key={index}
+                                  id="detail-img-map"
+                                  src={`data:image/jpeg;base64,${image.imageData}`}
+                                  alt={image.imageName}
+                                />
+                              )
+                          )}
+                        </Modal.Footer>
                       </Modal>
                     </div>
                   </div>
@@ -574,6 +661,7 @@ function DetailsPage() {
                   onChange={(e) => setPeopleNumber(e.target.value)}
                   min={1}
                   max={8}
+                  onClick={handleReservation}
                 />
                 명
               </div>
@@ -1007,7 +1095,9 @@ function DetailsPage() {
                   </div>
                 </div>
                 <div id="detail-review-bottom-section">
-                  <div></div>
+                  <div>
+                    <ReviewList />
+                  </div>
                 </div>
               </section>
             </div>
